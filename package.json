@@ -1,0 +1,55 @@
+{
+    "name": "compgraph",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "lab3": "(npx parcel ./src/lab3/index.html) & (npx parcel watch ./src/lab3/index.html)",
+        "lab4": "(npx parcel ./src/lab4/index.html) & (npx parcel watch ./src/lab4/index.html)"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://gitlab.com/elia_morrison/comp-graph.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://gitlab.com/elia_morrison/compgraph/issues"
+    },
+    "homepage": "https://gitlab.com/elia_morrison/compgraph#readme",
+    "devDependencies": {
+        "@babel/polyfill": "^7.12.1",
+        "@parcel/transformer-inline-string": "^2.8.2",
+        "@types/node": "^18.8.2",
+        "parcel-bundler": "^1.12.5",
+        "parcel-plugin-svelte": "^4.0.9",
+        "parcel-reporter-static-files-copy": "^1.4.0",
+        "path-browserify": "^1.0.1",
+        "process": "^0.11.10",
+        "sass": "^1.56.1",
+        "svelte": "^3.53.1",
+        "typescript": "^4.8.4"
+    },
+    "dependencies": {
+        "@parcel/transformer-glsl": "^2.8.2",
+        "@parcel/transformer-raw": "^2.8.2",
+        "@types/polygon": "^1.0.0",
+        "@types/three": "^0.144.0",
+        "assets": "^3.0.1",
+        "bootstrap": "^5.2.2",
+        "bootstrap-icons": "^1.9.1",
+        "double-ended-queue": "^2.1.0-0",
+        "fs": "^0.0.1-security",
+        "gl": "^5.0.3",
+        "gl-matrix": "^3.4.3",
+        "jquery.terminal": "^2.34.0",
+        "mathjs": "^11.12.0",
+        "ml-matrix": "^6.10.2",
+        "node-gyp": "^9.1.0",
+        "parcel": "^2.8.2",
+        "parcel-plugin-static-files-copy": "^2.6.0",
+        "polygon": "^1.0.2",
+        "stream": "^0.0.2",
+        "three": "^0.146.0"
+    }
+}

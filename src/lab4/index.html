@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.terminal/js/jquery.terminal.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal/css/jquery.terminal.min.css" />
+</head>
+
+<body style="background-color: #222222" id="body">
+    <div class="main" style="display: flex; flex-direction: row;">
+        <div>
+            <canvas id="main_canvas" width="800px" height="600px" style="
+                background-color: rgb(255, 255, 255);
+                image-rendering: crisp-edges;
+                "></canvas>
+        </div>
+        <div id="term" style="width: 100%; height: 600px;">
+            <script src="./lab4.ts" type="module">
+            </script>
+
+            <img id="photo1" src="fon.png" width="0" height="0"></img>
+            <img id="photo2" src="cat.png" width="0" height="0"></img>
+            <p>
+        </div>
+</body>
+
+</html>
+<!-- 
+<style>
+    .main {
+      display: flex;
+      flex-direction: row;
+    }
+  
+   </style>
+   -->
