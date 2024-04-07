@@ -1,13 +1,8 @@
 #define NR_POINT_LIGHTS 4
 
 #pragma glslify: PointLight = require('./lighting/pointlight.glsl')
-#pragma glslify: pointLightCalculate = require('./lighting/pointlight_calculate.glsl')
-#pragma glslify: DirLight = require('./lighting/dirlight.glsl')
-#pragma glslify: dirLightCalculate = require('./lighting/dirlight_calculate.glsl')
 #pragma glslify: Material = require('./material.glsl')
-
-#pragma glslify: calculateToon = require('./lighting/toon.glsl')
-#pragma glslify: calculateRim = require('./lighting/rim.glsl')
+#pragma glslify: calculateLighting = require('./lighting/calculate_lighting.glsl', NR_POINT_LIGHTS=NR_POINT_LIGHTS)
 
 precision mediump float;
 
@@ -22,40 +17,9 @@ varying vec3 FragPos;
 uniform vec3 viewPos;
 
 uniform PointLight pointLights[NR_POINT_LIGHTS];
-uniform DirLight dirLight;
-
 
 void main()
 {
-    // properties
-    vec3 norm = normalize(normal);
-    vec3 viewDir = normalize(viewPos - FragPos);
-
-    // phase 1: Directional lighting
-    vec3 result = vec3(0, 0, 0);
-    
-    result += dirLightCalculate(dirLight, material, norm, viewDir);
-
-    for(int i = 0; i < NR_POINT_LIGHTS; i++)
-    {
-        result += pointLightCalculate(pointLights[i], material, norm, FragPos, viewDir);    
-    }
-
-    vec3 texture_color = vec3(0, 0, 0);
-    if (material.use_texture)
-    {
-        texture_color = vec3(texture2D(material.diffuse_map, textCoord));
-    }
-    else
-    {
-        texture_color = material.color;
-    }
-
-    result = (1. - material.tooniness) * result + material.tooniness * calculateToon(result, material);
-
-    result *= texture_color; 
-
-    result += calculateRim(material, norm, viewDir);
-    
-    gl_FragColor = vec4(result, 1.0);
+    vec3 lighting = calculateLighting(material, textCoord, FragPos, normal, viewPos, pointLights);
+    gl_FragColor = vec4(lighting, 1.0);
 }
