@@ -80,7 +80,7 @@ body.addEventListener('keydown', (e) => {
         rotatePedestal("pedestal", -0.05);
     }
 });
-console.log("hello from lab 3")
+console.log("hello from lab 4")
 
 
 $('#term').terminal({
@@ -111,10 +111,25 @@ $('#term').terminal({
         }
     },
     shading: function (shading: "phong" | "gouraud") {
-
-    },
-    illumination: function (shading: "lambertian" | "phong") {
         switch (shading) {
+            case "phong":
+                for (let x of pedestal_parts.values()) {
+                    x.material.use_fragment_shading = true;
+                }
+                break;
+            case "gouraud":
+                for (let x of pedestal_parts.values()) {
+                    x.material.use_fragment_shading = false;
+                }
+                break;
+
+            default:
+                this.echo("Wrong parameter!")
+                break;
+        }
+    },
+    illumination: function (illumination: "lambertian" | "phong") {
+        switch (illumination) {
             case "lambertian":
                 for (let x of pedestal_parts.values()) {
                     x.material.ambient = 0;

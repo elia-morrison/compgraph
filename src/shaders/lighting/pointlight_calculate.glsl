@@ -7,7 +7,7 @@ vec3 pointLightCalculate(PointLight light, Material material, vec3 normal, vec3 
     float distance = length(light.position - fragPos);
     float d = max(distance - light.radius, 0.);
     float falloff_power = 1.;
-    if (light.quadratic_falloff > 0.) {
+    if (light.quadratic_falloff) {
         falloff_power = 2.;
     }
     float denom = d/light.radius;

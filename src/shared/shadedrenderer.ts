@@ -201,7 +201,7 @@ export class ShadedRendererGL {
                 gl.uniform3fv(position_loc, ls._position);
 
                 let falloff_loc = gl.getUniformLocation(this.program, 'pointLights[' + pointlight_i + '].quadratic_falloff');
-                gl.uniform1f(falloff_loc, ls.quadraticFalloff ? 1. : 0.);
+                gl.uniform1i(falloff_loc, ls.quadraticFalloff ? 1 : 0);
 
                 pointlight_i += 1;
             }
@@ -247,6 +247,9 @@ export class ShadedRendererGL {
 
         let rim_color_loc = gl.getUniformLocation(this.program, 'material.rim_color');
         gl.uniform3fv(rim_color_loc, obj.material.rim_color);
+
+        let use_fragment_loc = gl.getUniformLocation(this.program, 'material.use_fragment_shading');
+        gl.uniform1i(use_fragment_loc, obj.material.use_fragment_shading ? 1 : 0);
     }
 
     public render() {

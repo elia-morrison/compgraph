@@ -2,6 +2,7 @@ precision mediump float;
 
 struct Material {
     bool use_texture;
+    bool use_fragment_shading;
     sampler2D diffuse_map;
     vec3 color;
 
