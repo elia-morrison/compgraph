@@ -158,7 +158,7 @@ export class RendererGL {
             gl.FLOAT, // Type of elements
             false,
             8 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
-            3 * Float32Array.BYTES_PER_ELEMENT // Offset from the beginning of a single vertex to this attribute
+            5 * Float32Array.BYTES_PER_ELEMENT // Offset from the beginning of a single vertex to this attribute
         );
 
         gl.enableVertexAttribArray(this.positionAttribLocation);
