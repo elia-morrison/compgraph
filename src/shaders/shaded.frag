@@ -1,3 +1,4 @@
+#pragma glslify: PointLight, SpotLight = require('./lightsources.glsl')
 precision mediump float;
 
 // material properties
@@ -24,21 +25,7 @@ varying vec3 fragColor;
 varying vec3 normal;
 varying vec2 textCoord;
 
-struct PointLight {    
-    vec3 position;
-    float radius;
-    vec3 color;
-};
 
-struct SpotLight {
-    vec3 position;
-    vec3 direction;
-    float cutOff;
-    float outerCutOff;
-    float radius;
-  
-    vec3 color;   
-};
 
 uniform SpotLight spotLight;
 

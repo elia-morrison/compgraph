@@ -74,7 +74,7 @@ export class Cube extends ObjectGL {
             ];
 
         this.faceIndices =// Top
-            [0, 1, 2,
+            [   0, 1, 2,
                 0, 2, 3,
 
                 // Left

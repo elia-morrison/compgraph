@@ -2,10 +2,13 @@ import { ObjectGL } from "./objectGL";
 
 import { glMatrix, mat4, ReadonlyVec3 } from "gl-matrix";
 import { Camera } from "./camera";
+import { Lightsource } from "./lightsource";
 
 export class Scene {
     public objects: ObjectGL[] = [];
+    public lightsources: Lightsource[] = [];
 }
+
 
 export class RendererGL {
     textarea = document.getElementById('body');

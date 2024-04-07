@@ -1,55 +1,21 @@
 {
-    "name": "compgraph",
-    "version": "1.0.0",
-    "description": "",
-    "scripts": {
-        "lab3": "(npx parcel ./src/lab3/index.html) & (npx parcel watch ./src/lab3/index.html)",
-        "lab4": "(npx parcel ./src/lab4/index.html) & (npx parcel watch ./src/lab4/index.html)"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://gitlab.com/elia_morrison/comp-graph.git"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://gitlab.com/elia_morrison/compgraph/issues"
-    },
-    "homepage": "https://gitlab.com/elia_morrison/compgraph#readme",
-    "devDependencies": {
-        "@babel/polyfill": "^7.12.1",
-        "@parcel/transformer-inline-string": "^2.12.0",
-        "@types/node": "^20.12.5",
-        "parcel-bundler": "^1.12.5",
-        "parcel-plugin-svelte": "^4.0.9",
-        "parcel-reporter-static-files-copy": "^1.5.3",
-        "path-browserify": "^1.0.1",
-        "process": "^0.11.10",
-        "sass": "^1.74.1",
-        "svelte": "^4.2.12",
-        "typescript": "^5.4.4"
-    },
-    "dependencies": {
-        "@parcel/transformer-glsl": "^2.12.0",
-        "@parcel/transformer-raw": "^2.12.0",
-        "@types/polygon": "^1.0.5",
-        "@types/three": "^0.163.0",
-        "assets": "^3.0.1",
-        "bootstrap": "^5.3.3",
-        "bootstrap-icons": "^1.11.3",
-        "double-ended-queue": "^2.1.0-0",
-        "fs": "^0.0.1-security",
-        "gl": "^8.0.2",
-        "gl-matrix": "^3.4.3",
-        "jquery.terminal": "^2.39.3",
-        "mathjs": "^12.4.1",
-        "ml-matrix": "^6.11.0",
-        "node-gyp": "^10.1.0",
-        "parcel": "^2.12.0",
-        "parcel-plugin-static-files-copy": "^2.6.0",
-        "polygon": "^1.0.2",
-        "stream": "^0.0.2",
-        "three": "^0.163.0"
-    }
+  "name": "compgraph",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lab3": "(npx parcel ./src/lab3/index.html) & (npx parcel watch ./src/lab3/index.html)",
+    "lab4": "(npx parcel ./src/lab4/index.html) & (npx parcel watch ./src/lab4/index.html)"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "gl-matrix": "^3.4.3",
+    "parcel": "^2.12.0",
+    "three": "^0.163.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-glsl": "^2.12.0",
+    "@types/three": "^0.163.0"
+  }
 }

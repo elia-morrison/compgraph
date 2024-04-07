@@ -3,7 +3,6 @@ import { Cube } from "../shared/primitives";
 import { RendererGL, Scene } from "../shared/rendererGL";
 import frag_shader from "../shaders/generic.frag";
 import vert_shader from "../shaders/generic.vert";
-import { getRandomFloat, matr_from_euler } from "../shared/utils";
 import { ReadonlyVec3, vec3 } from "gl-matrix";
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
@@ -11,10 +10,6 @@ let gl = cv.getContext("webgl") as WebGL2RenderingContext;
 let body: HTMLElement = document.getElementById('body') as HTMLElement;
 
 let scene = new Scene();
-
-let LOCAL_ROTATION = 0;
-let PEDESTAL_ROTATION = 0;
-let WORLD_ROTATION = 0;
 
 let pedestal_position = vec3.fromValues(0, -5, 20)
 

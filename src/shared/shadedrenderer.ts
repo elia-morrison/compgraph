@@ -4,11 +4,8 @@ import { glMatrix, mat4, ReadonlyVec3 } from "gl-matrix";
 import { Camera } from "./camera";
 import { Euler } from "three";
 import { DirectionalLight, Lightsource, PointLight, SpotLight } from "./lightsource";
+import { Scene } from "./rendererGL";
 
-export class Scene {
-    public objects: ObjectGL[] = [];
-    public lightsources: Lightsource[] = [];
-}
 
 export class ShadedRendererGL {
     textarea = document.getElementById('body');
@@ -153,7 +150,7 @@ export class ShadedRendererGL {
             3, // Number of elements per attribute
             gl.FLOAT, // Type of elements
             false,
-            8 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+            6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
             0 // Offset from the beginning of a single vertex to this attribute
         );
 
@@ -297,3 +294,4 @@ export class ShadedRendererGL {
         }
     }
 }
+
