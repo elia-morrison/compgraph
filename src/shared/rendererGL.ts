@@ -149,7 +149,7 @@ export class RendererGL {
             3, // Number of elements per attribute
             gl.FLOAT, // Type of elements
             false,
-            6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+            8 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
             0 // Offset from the beginning of a single vertex to this attribute
         );
         gl.vertexAttribPointer(
@@ -157,7 +157,7 @@ export class RendererGL {
             3, // Number of elements per attribute
             gl.FLOAT, // Type of elements
             false,
-            6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+            8 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
             3 * Float32Array.BYTES_PER_ELEMENT // Offset from the beginning of a single vertex to this attribute
         );
 
@@ -181,10 +181,9 @@ export class RendererGL {
             this.setup_basic_buffers(obj);
             gl.uniformMatrix4fv(this.matWorldUniformLocation, false, obj.worldMatrix);
             gl.drawElements(gl.TRIANGLES, obj.faceIndices.length, gl.UNSIGNED_SHORT, 0);
-            
+
             let errcode = gl.getError()
-            if (errcode != 0)
-            {
+            if (errcode != 0) {
                 console.error("WEBGL ERROR: " + errcode);
             }
         }
