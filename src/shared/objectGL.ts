@@ -1,6 +1,6 @@
 import { vec2, vec3 } from "gl-matrix";
 import { glMatrix, mat4, ReadonlyVec3, quat } from "gl-matrix";
-import { Euler, Quaternion, Vector3 } from "three";
+import { Euler, QuadraticBezierCurve, Quaternion, Vector3 } from "three";
 import { Material } from "./material";
 import { matr_from_euler } from "./utils";
 
@@ -103,25 +103,28 @@ export class ObjectGL {
         vec3.add(this._position, this._position, deltaPos);
     }
 
-    // public rotateAroundYAxis(angle: number, origin: ReadonlyVec3) {
-    //     let translatedPos = vec3.create();
-    //     vec3.sub(translatedPos, this._position, origin);
+    public rotate(deltaRot: Euler) {
+        // So bad these are not Quaternions. 
+        // There will be problems with using Euler.
+        this.rotation.x += deltaRot.x;
+        this.rotation.y += deltaRot.y;
+        this.rotation.z += deltaRot.z;
+    }
 
-    //     let rotation = Quaternion.setFromEuler(new Euler(0, angle, 0));
+    public rotateAroundYAxis(angle: number, origin: ReadonlyVec3) {
+        let translatedPos = vec3.create();
+        vec3.sub(translatedPos, this._position, origin);
+
+        let rotation = new Quaternion().setFromEuler(new Euler(0, angle, 0));
     
-    //     // Rotate the translated position
-    //     let rotatedPos = vec3.create();
-    //     vec3.transformQuat(rotatedPos, translatedPos, rotation);
+        let rotatedPos = vec3.create();
+        vec3.transformQuat(rotatedPos, translatedPos, [rotation.x, rotation.y, rotation.z, rotation.w]);
     
-    //     // Translate back
-    //     vec3.add(rotatedPos, rotatedPos, origin);
+        vec3.add(rotatedPos, rotatedPos, origin);
+        this.setPosition(rotatedPos);
     
-    //     // Set the new position
-    //     this.setPosition(rotatedPos);
-    
-    //     // Update rotation
-    //     let currentRotation = Quaternion.fromEuler(this._rotation.x, this._rotation.y, this._rotation.z);
-    //     let newRotation = Quaternion.multiply(currentRotation, rotation);
-    //     this.setRotation(newRotation);
-    // }
+        let currentRotation = new Quaternion().setFromEuler(this._rotation);
+        let newRotation = rotation.multiply(currentRotation);
+        this.setRotation(newRotation);
+    }
 }

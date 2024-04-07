@@ -37,11 +37,22 @@ pedestal_parts.set("third", makePedestalPart([3, -0.5, 0], [0.8, 0.5, 0.2], [1.5
 
 let renderer = new RendererGL(gl, vert_shader, frag_shader, scene);
 
-function update() {
+function rotatePedestal(how: string = "pedestal", amount: number){
+    let origin = how == "pedestal" ? pedestal_parts.get('ground')?.position! : vec3.fromValues(0., 0., 0.)
+
+    for (let x of pedestal_parts.values()) {
+        x?.rotateAroundYAxis(amount, origin);
+    }
+}
+
+function rotateObjectsLocally(amount: number) {
     for (let x of ["first", "second", "third"]) {
         let part = pedestal_parts.get(x);
-        part?.setRotation(new Euler(0, LOCAL_ROTATION, 0));
+        part?.rotateAroundYAxis(amount, part.position);
     }
+}
+
+function update() {
     renderer.render();
     requestAnimationFrame(() => { update() });
 }
@@ -49,22 +60,22 @@ function update() {
 update()
 body.addEventListener('keydown', (e) => {
     if (['a','A','ф','Ф'].includes(e.key)) {
-        LOCAL_ROTATION += 0.1;
+        rotateObjectsLocally(0.1);
     }
     if (['d','D','в','В'].includes(e.key)) {
-        LOCAL_ROTATION -= 0.1;
+        rotateObjectsLocally(-0.1);
     }
     if (['z','Z','я','Я'].includes(e.key)) {
-        console.log("Move left")
+        rotatePedestal("center", 0.05);
     }
     if (['c','C','с','С'].includes(e.key)) {
-        console.log("Move left")
+        rotatePedestal("center", -0.05);
     }
     if (['й','Й','q','Q'].includes(e.key)) {
-        console.log("Move left")
+        rotatePedestal("pedestal", 0.05);
     }
     if (['e','E','у','У'].includes(e.key)) {
-        console.log("Move left")
+        rotatePedestal("pedestal", -0.05);
     }
   });
 console.log("hello from lab 3")
