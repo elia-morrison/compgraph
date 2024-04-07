@@ -176,25 +176,21 @@ export class ShadedRendererGL {
         gl.enableVertexAttribArray(this.normalAttribLocation);
         gl.enableVertexAttribArray(this.uvAttribLocation);
 
-        if (obj.texture != null)
-        {
+        if (obj.texture != null) {
             gl.bindTexture(gl.TEXTURE_2D, obj.texture);
             gl.activeTexture(gl.TEXTURE0);
         }
     }
 
-    setup_light()
-    {
+    setup_light() {
         let gl = this.gl;
 
         let viewpos_loc = gl.getUniformLocation(this.program, 'viewPos');
         gl.uniform3fv(viewpos_loc, this.camera._position);
 
         let pointlight_i = 0;
-        for (let ls of this.scene.lightsources)
-        {
-            if (ls instanceof PointLight)
-            {
+        for (let ls of this.scene.lightsources) {
+            if (ls instanceof PointLight) {
                 let color_loc = gl.getUniformLocation(this.program, 'pointLights[' + pointlight_i + '].color');
                 gl.uniform3fv(color_loc, ls.color);
 
@@ -204,11 +200,12 @@ export class ShadedRendererGL {
                 let position_loc = gl.getUniformLocation(this.program, 'pointLights[' + pointlight_i + '].position');
                 gl.uniform3fv(position_loc, ls._position);
 
+                let falloff_loc = gl.getUniformLocation(this.program, 'pointLights[' + pointlight_i + '].quadratic_falloff');
+                gl.uniform1f(falloff_loc, ls.quadraticFalloff ? 1. : 0.);
 
                 pointlight_i += 1;
             }
-            else if (ls instanceof DirectionalLight)
-            {
+            else if (ls instanceof DirectionalLight) {
                 let color_loc = gl.getUniformLocation(this.program, 'dirLight.color');
                 gl.uniform3fv(color_loc, ls.color);
 
@@ -218,31 +215,10 @@ export class ShadedRendererGL {
                 let direction_loc = gl.getUniformLocation(this.program, 'dirLight.direction');
                 gl.uniform3fv(direction_loc, ls.direction);
             }
-            else if (ls instanceof SpotLight)
-            {
-                let color_loc = gl.getUniformLocation(this.program, 'spotLight.color');
-                gl.uniform3fv(color_loc, ls.color);
-
-                let linear_loc = gl.getUniformLocation(this.program, 'spotLight.radius');
-                gl.uniform1f(linear_loc, ls.radius);
-
-                let position_loc = gl.getUniformLocation(this.program, 'spotLight.position');
-                gl.uniform3fv(position_loc, ls._position);
-
-                let direction_loc = gl.getUniformLocation(this.program, 'spotLight.direction');
-                gl.uniform3fv(direction_loc, ls.direction);
-
-                let cutOff_loc = gl.getUniformLocation(this.program, 'spotLight.cutOff');
-                gl.uniform1f(cutOff_loc, ls.cutOff);
-
-                let outerCutOff_loc = gl.getUniformLocation(this.program, 'spotLight.outerCutOff');
-                gl.uniform1f(outerCutOff_loc, ls.outerCutOff);
-            }
         }
     }
 
-    setup_materials(obj: ObjectGL)
-    {
+    setup_materials(obj: ObjectGL) {
         let gl = this.gl;
 
         let use_texture_loc = gl.getUniformLocation(this.program, 'material.use_texture');
@@ -282,13 +258,12 @@ export class ShadedRendererGL {
         for (let obj of this.scene.objects) {
             this.setup_materials(obj);
             this.setup_basic_buffers(obj)
-            gl.uniformMatrix4fv(this.matWorldUniformLocation, false, obj.worldMatrix);    
-            gl.uniformMatrix4fv(this.matRotUniformLocation, false, obj.rotMatr);    
+            gl.uniformMatrix4fv(this.matWorldUniformLocation, false, obj.worldMatrix);
+            gl.uniformMatrix4fv(this.matRotUniformLocation, false, obj.rotMatr);
             gl.drawElements(gl.TRIANGLES, obj.faceIndices.length, gl.UNSIGNED_SHORT, 0);
-            
+
             let errcode = gl.getError()
-            if (errcode != 0)
-            {
+            if (errcode != 0) {
                 console.error("WEBGL ERROR: " + errcode);
             }
         }

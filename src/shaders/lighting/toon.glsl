@@ -10,7 +10,7 @@ float reduce_dynamic_range(float normalized_number, float steps, Material materi
 
 vec3 calculateToon(vec3 intensity, Material material)
 {
-    float steps = 3.;
+    float steps = 5.;
 
     return vec3(reduce_dynamic_range(intensity.x, steps, material), 
                 reduce_dynamic_range(intensity.y, steps, material),

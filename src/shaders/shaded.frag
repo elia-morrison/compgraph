@@ -1,8 +1,7 @@
 #define NR_POINT_LIGHTS 4
-#define LIGHT_CUTOFF 0.5
 
 #pragma glslify: PointLight = require('./lighting/pointlight.glsl')
-#pragma glslify: pointLightCalculate = require('./lighting/pointlight_calculate.glsl', LIGHT_CUTOFF=LIGHT_CUTOFF)
+#pragma glslify: pointLightCalculate = require('./lighting/pointlight_calculate.glsl')
 #pragma glslify: DirLight = require('./lighting/dirlight.glsl')
 #pragma glslify: dirLightCalculate = require('./lighting/dirlight_calculate.glsl')
 #pragma glslify: Material = require('./material.glsl')

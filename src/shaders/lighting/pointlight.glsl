@@ -1,11 +1,9 @@
 precision mediump float;
 
-#define LINEAR_FALLOF 1
-#define QUADRATIC_FALLOF 2
-
 struct PointLight {    
     vec3 position;
     float radius;
+    float quadratic_falloff;
     vec3 color;
 };
 

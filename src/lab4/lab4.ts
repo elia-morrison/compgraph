@@ -1,4 +1,4 @@
-import { Color, Euler, ToneMapping, Vector3 } from "three";
+import { Color, Euler, LineSegments, ToneMapping, Vector3 } from "three";
 import { Cube } from "../shared/primitives";
 import { Scene } from "../shared/rendererGL";
 import { ShadedRendererGL } from "../shared/shadedrenderer";
@@ -17,10 +17,10 @@ let scene = new Scene();
 let lightsource = new PointLight();
 lightsource.translate(pedestal_position);
 lightsource.translate([0, 5, 0]);
+lightsource.radius = 5;
 scene.lightsources.push(lightsource);
 
-function makePedestalPart(origin: ReadonlyVec3, color: ReadonlyVec3, scale: ReadonlyVec3): Cube
-{
+function makePedestalPart(origin: ReadonlyVec3, color: ReadonlyVec3, scale: ReadonlyVec3): Cube {
     let obj = new Cube(origin, new Euler());
     obj.translate(pedestal_position);
     obj.material.color = color
@@ -39,7 +39,7 @@ pedestal_parts.set("third", makePedestalPart([3, -0.5, 0], [0.8, 0.5, 0.2], [1.5
 
 let renderer = new ShadedRendererGL(gl, vert_shader, frag_shader, scene);
 
-function rotatePedestal(how: string = "pedestal", amount: number){
+function rotatePedestal(how: string = "pedestal", amount: number) {
     let origin = how == "pedestal" ? pedestal_parts.get('ground')?.position! : vec3.fromValues(0., 0., 0.)
 
     for (let x of pedestal_parts.values()) {
@@ -61,25 +61,25 @@ function update() {
 
 update()
 body.addEventListener('keydown', (e) => {
-    if (['a','A','ф','Ф'].includes(e.key)) {
+    if (['a', 'A', 'ф', 'Ф'].includes(e.key)) {
         rotateObjectsLocally(0.1);
     }
-    if (['d','D','в','В'].includes(e.key)) {
+    if (['d', 'D', 'в', 'В'].includes(e.key)) {
         rotateObjectsLocally(-0.1);
     }
-    if (['z','Z','я','Я'].includes(e.key)) {
+    if (['z', 'Z', 'я', 'Я'].includes(e.key)) {
         rotatePedestal("center", 0.05);
     }
-    if (['c','C','с','С'].includes(e.key)) {
+    if (['c', 'C', 'с', 'С'].includes(e.key)) {
         rotatePedestal("center", -0.05);
     }
-    if (['й','Й','q','Q'].includes(e.key)) {
+    if (['й', 'Й', 'q', 'Q'].includes(e.key)) {
         rotatePedestal("pedestal", 0.05);
     }
-    if (['e','E','у','У'].includes(e.key)) {
+    if (['e', 'E', 'у', 'У'].includes(e.key)) {
         rotatePedestal("pedestal", -0.05);
     }
-  });
+});
 console.log("hello from lab 3")
 
 
@@ -88,10 +88,51 @@ $('#term').terminal({
         this.echo('Hello, ' + what +
             '. Wellcome to this terminal.');
     },
-    task1: function () {
-        //
-        this.disable();
+    toon: function (how_much: number) {
+        for (let x of pedestal_parts.values()) {
+            x.material.tooniness = how_much;
+        }
     },
+    radius: function (radius: number) {
+        lightsource.radius = radius;
+    },
+    falloff: function (falloff: "quadratic" | "linear") {
+        switch (falloff) {
+            case "quadratic":
+                lightsource.quadraticFalloff = true;
+                break;
+            case "linear":
+                lightsource.quadraticFalloff = false;
+                break;
+
+            default:
+                this.echo("Wrong parameter!")
+                break;
+        }
+    },
+    shading: function (shading: "phong" | "gouraud") {
+
+    },
+    illumination: function (shading: "lambertian" | "phong") {
+        switch (shading) {
+            case "lambertian":
+                for (let x of pedestal_parts.values()) {
+                    x.material.ambient = 0;
+                    x.material.specular = 0;
+                }
+                break;
+            case "phong":
+                for (let x of pedestal_parts.values()) {
+                    x.material.ambient = 0.3;
+                    x.material.specular = 1;
+                }
+                break;
+
+            default:
+                this.echo("Wrong parameter!")
+                break;
+        }
+    }
 }, {
     greetings: 'WebGL / Lab4'
 });
