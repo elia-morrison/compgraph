@@ -6,7 +6,7 @@ export class Tetrahedron extends ObjectGL {
     constructor(position: ReadonlyVec3, rotation: Euler) {
         super();
 
-        this._position = position;
+        this.setPosition(position);
         this._rotation = rotation;
 
         this.flat_vertices = [
@@ -31,7 +31,7 @@ export class Cube extends ObjectGL {
     constructor(position: ReadonlyVec3, rotation: Euler) {
         super();
 
-        this._position = position;
+        this.setPosition(position);
         this._rotation = rotation;
 
         this.flat_vertices =

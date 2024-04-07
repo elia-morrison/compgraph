@@ -120,10 +120,10 @@ export class RendererGL {
         this._objects = objs;
     }
 
-    setup_view(eye: ReadonlyVec3 = [0, 20, -50]) {
+    setup_view(eye: ReadonlyVec3 = [0, 0, 50]) {
         let gl = this.gl;
         //mat4.lookAt(this.camera.viewMatrix, eye, [0, 0, 0], [0, 1, 0]);
-        this.camera.setPosition([0, 0, 50]);
+        this.camera.setPosition(eye);
         gl.enable(gl.DEPTH_TEST);
         gl.enable(gl.CULL_FACE);
         gl.frontFace(gl.CCW);
@@ -162,14 +162,21 @@ export class RendererGL {
         gl.enableVertexAttribArray(this.colorAttribLocation);
     }
 
+    setup_meterials(obj: ObjectGL) {
+        let gl = this.gl;
+        let color_loc = gl.getUniformLocation(this.program, 'materialColor');
+        gl.uniform3fv(color_loc, obj.material.color);
+    }
+
     public render() {
         let gl = this.gl;
 
         gl.clearColor(0.9, 0.9, 0.99, 1.0);
         gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
         for (let obj of this.scene.objects) {
-            this.setup_basic_buffers(obj)
-            gl.uniformMatrix4fv(this.matWorldUniformLocation, false, obj.worldMatrix);    
+            this.setup_meterials(obj);
+            this.setup_basic_buffers(obj);
+            gl.uniformMatrix4fv(this.matWorldUniformLocation, false, obj.worldMatrix);
             gl.drawElements(gl.TRIANGLES, obj.faceIndices.length, gl.UNSIGNED_SHORT, 0);
             
             let errcode = gl.getError()

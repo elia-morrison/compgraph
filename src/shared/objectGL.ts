@@ -11,9 +11,9 @@ export class ObjectGL {
     
     public material: Material = new Material();
 
-    public _position: ReadonlyVec3 = [0, 0, 0];
+    public _position: vec3 = [0, 0, 0];
     public _rotation: Euler = new Euler();
-    public _scale: ReadonlyVec3 = [1, 1, 1];
+    public _scale: vec3 = [1, 1, 1];
 
     public vertexbuffer: WebGLBuffer;
     public indexbuffer: WebGLBuffer;
@@ -77,7 +77,7 @@ export class ObjectGL {
     public get position() { return this._position; }
 
     public setPosition(pos: ReadonlyVec3) {
-        this._position = pos;
+        vec3.copy(this._position, pos);
         this.updateWorldMatrix();
     }
 
@@ -95,7 +95,33 @@ export class ObjectGL {
     public get scale() { return this._scale; }
 
     public setScale(scale: ReadonlyVec3) {
-        this._scale = scale;
+        vec3.copy(this._scale, scale);
         this.updateWorldMatrix();
     }
+
+    public translate(deltaPos : ReadonlyVec3) {
+        vec3.add(this._position, this._position, deltaPos);
+    }
+
+    // public rotateAroundYAxis(angle: number, origin: ReadonlyVec3) {
+    //     let translatedPos = vec3.create();
+    //     vec3.sub(translatedPos, this._position, origin);
+
+    //     let rotation = Quaternion.setFromEuler(new Euler(0, angle, 0));
+    
+    //     // Rotate the translated position
+    //     let rotatedPos = vec3.create();
+    //     vec3.transformQuat(rotatedPos, translatedPos, rotation);
+    
+    //     // Translate back
+    //     vec3.add(rotatedPos, rotatedPos, origin);
+    
+    //     // Set the new position
+    //     this.setPosition(rotatedPos);
+    
+    //     // Update rotation
+    //     let currentRotation = Quaternion.fromEuler(this._rotation.x, this._rotation.y, this._rotation.z);
+    //     let newRotation = Quaternion.multiply(currentRotation, rotation);
+    //     this.setRotation(newRotation);
+    // }
 }

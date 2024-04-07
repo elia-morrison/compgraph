@@ -4,7 +4,7 @@ import { RendererGL, Scene } from "../shared/rendererGL";
 import frag_shader from "../shaders/generic.frag";
 import vert_shader from "../shaders/generic.vert";
 import { getRandomFloat, matr_from_euler } from "../shared/utils";
-import { mat4, vec3 } from "gl-matrix";
+import { ReadonlyVec3, vec3 } from "gl-matrix";
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
 let gl = cv.getContext("webgl") as WebGL2RenderingContext;
@@ -16,15 +16,32 @@ let LOCAL_ROTATION = 0;
 let PEDESTAL_ROTATION = 0;
 let WORLD_ROTATION = 0;
 
+let pedestal_position = vec3.fromValues(0, -5, 20)
 
-let firstPlace = new Cube([0.5, 0, 0], new Euler())
-firstPlace.material.color = [1., 1., 0.]
-scene.objects.push(firstPlace);
+function makePedestalPart(origin: ReadonlyVec3, color: ReadonlyVec3, scale: ReadonlyVec3): Cube
+{
+    let obj = new Cube(origin, new Euler());
+    obj.translate(pedestal_position);
+    obj.material.color = color
+    obj.setScale(scale);
+    scene.objects.push(obj);
+    return obj
+}
 
+let pedestal_parts = new Map<string, Cube>();
+
+pedestal_parts.set("ground", makePedestalPart([0, -2, 0], [1, 1, 1], [10, 1, 10]));
+pedestal_parts.set("first", makePedestalPart([0, 0, 0], [1., 1., 0.], [1.5, 1.5, 1.5]));
+pedestal_parts.set("second", makePedestalPart([-3, -0.2, 0], [0.7, 0.7, 0.7], [1.5, 0.8, 1.5]));
+pedestal_parts.set("third", makePedestalPart([3, -0.5, 0], [0.8, 0.5, 0.2], [1.5, 0.5, 1.5]));
 
 let renderer = new RendererGL(gl, vert_shader, frag_shader, scene);
 
 function update() {
+    for (let x of ["first", "second", "third"]) {
+        let part = pedestal_parts.get(x);
+        part?.setRotation(new Euler(0, LOCAL_ROTATION, 0));
+    }
     renderer.render();
     requestAnimationFrame(() => { update() });
 }
@@ -32,15 +49,15 @@ function update() {
 update()
 body.addEventListener('keydown', (e) => {
     if (['a','A','ф','Ф'].includes(e.key)) {
-        console.log("Move left")
+        LOCAL_ROTATION += 0.1;
     }
     if (['d','D','в','В'].includes(e.key)) {
+        LOCAL_ROTATION -= 0.1;
+    }
+    if (['z','Z','я','Я'].includes(e.key)) {
         console.log("Move left")
     }
-    if (['w','W','ц','Ц'].includes(e.key)) {
-        console.log("Move left")
-    }
-    if (['s','S','ы','Ы'].includes(e.key)) {
+    if (['c','C','с','С'].includes(e.key)) {
         console.log("Move left")
     }
     if (['й','Й','q','Q'].includes(e.key)) {
