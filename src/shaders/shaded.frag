@@ -2,6 +2,7 @@
 
 #pragma glslify: PointLight = require('./lighting/pointlight.glsl')
 #pragma glslify: Material = require('./material.glsl')
+#pragma glslify: calculateDiffusion = require('./maps/calculate_diffusion.glsl')
 #pragma glslify: calculateLighting = require('./lighting/calculate_lighting.glsl', NR_POINT_LIGHTS=NR_POINT_LIGHTS)
 
 precision mediump float;
@@ -20,6 +21,7 @@ varying vec3 FragPos;
 
 void main()
 {
+    
     if (material.use_fragment_shading) {
         vec3 lighting = calculateLighting(material, textCoord, FragPos, normal, viewPos, pointLights);
         gl_FragColor = vec4(lighting, 1.0);
@@ -28,4 +30,5 @@ void main()
     {
         gl_FragColor = vec4(resultingColor, 1.0);
     }
+    gl_FragColor *= vec4(calculateDiffusion(material, textCoord), 1.0);
 }

@@ -34,6 +34,6 @@ void main()
   gl_Position = mProj * mView * world_homog;
 
   if (!material.use_fragment_shading) {
-    resultingColor = calculateLighting(material, textCoord, FragPos, normal, viewPos, pointLights);
+    resultingColor = calculateLighting(material, vertUV, FragPos, normal, viewPos, pointLights);
   }
 }

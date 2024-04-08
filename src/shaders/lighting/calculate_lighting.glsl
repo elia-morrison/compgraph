@@ -21,14 +21,7 @@ vec3 calculateLighting(Material material, vec2 textCoord,
         result += phong(material, lightDir, pointLights[i].color, attenuation, normal, where, viewDir);
     }
 
-    vec3 texture_color = vec3(0, 0, 0);
-    texture_color += material.diff_map_1_strength * vec3(texture2D(material.diff_map_1, textCoord));
-    texture_color += material.diff_map_2_strength * vec3(texture2D(material.diff_map_2, textCoord));
-    texture_color += material.color_strength * material.color;
-
     result = (1. - material.tooniness) * result + material.tooniness * calculateToon(result, material);
-
-    result *= texture_color; 
 
     result += calculateRim(material, norm, viewDir);
 
