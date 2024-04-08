@@ -17,5 +17,5 @@ export class Material {
 
     public tooniness: number = 0;
     public rim_strength: number = 0;
-    public rim_color: ReadonlyVec3 = [1, 0, 0];
+    public rim_color: ReadonlyVec3 = [1, 1, 1];
 }

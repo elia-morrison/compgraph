@@ -109,6 +109,12 @@ $('#term').terminal({
             x.material.tooniness = how_much;
         }
     },
+    rim: function (how_much: number) {
+        for (let x of pedestal_parts.values()) {
+            x.material.rim_strength = how_much;
+            x.material.diffusion = 1 - how_much;
+        }
+    },
     radius: function (radius: number) {
         lightsource.radius = radius;
     },

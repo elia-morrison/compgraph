@@ -21,14 +21,10 @@ varying vec3 FragPos;
 
 void main()
 {
-    
+    gl_FragColor = vec4(resultingColor, 1.0);
     if (material.use_fragment_shading) {
         vec3 lighting = calculateLighting(material, textCoord, FragPos, normal, viewPos, pointLights);
         gl_FragColor = vec4(lighting, 1.0);
-    }
-    else 
-    {
-        gl_FragColor = vec4(resultingColor, 1.0);
     }
     gl_FragColor *= vec4(calculateDiffusion(material, textCoord), 1.0);
 }
