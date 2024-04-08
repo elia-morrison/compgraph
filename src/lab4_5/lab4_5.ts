@@ -26,15 +26,7 @@ function makePedestalPart(origin: ReadonlyVec3, color: ReadonlyVec3, scale: Read
     obj.translate(pedestal_position);
     obj.material.color = color;
     obj.material.diff_map_1 = texture1 as HTMLImageElement;
-    if (obj.material.diff_map_1) {
-        obj.material.diff_map_1_strength = 0.3;
-        obj.material.color_strength -= 0.3;
-    }
     obj.material.diff_map_2 = texture2 as HTMLImageElement;
-    if (obj.material.diff_map_2) {
-        obj.material.diff_map_2_strength = 0.3;
-        obj.material.color_strength -= 0.3;
-    }
 
     obj.setScale(scale);
     scene.objects.push(obj);
@@ -47,10 +39,19 @@ pedestal_parts.set("ground", makePedestalPart([0, -2, 0], [1, 1, 1], [10, 1, 10]
 pedestal_parts.set("first",
     makePedestalPart(
         [0, 0.5, 0], [1., 1., 0.], [1.5, 1.5, 1.5],
-        document.getElementById("texture1"),
-        material_texture));
-pedestal_parts.set("second", makePedestalPart([-3, -0.2, 0], [0.7, 0.7, 0.7], [1.5, 0.8, 1.5]));
-pedestal_parts.set("third", makePedestalPart([3, -0.5, 0], [0.8, 0.5, 0.2], [1.5, 0.5, 1.5]));
+        document.getElementById("number1"),
+        material_texture
+    ));
+pedestal_parts.set("second",
+    makePedestalPart([-3, -0.2, 0], [0.7, 0.7, 0.7], [1.5, 0.8, 1.5],
+        document.getElementById("number2"),
+        material_texture
+    ));
+pedestal_parts.set("third",
+    makePedestalPart([3, -0.5, 0], [0.8, 0.5, 0.2], [1.5, 0.5, 1.5],
+        document.getElementById("number3"),
+        material_texture
+    ));
 
 let renderer = new ShadedRendererGL(gl, vert_shader, frag_shader, scene);
 
@@ -110,6 +111,14 @@ $('#term').terminal({
     },
     radius: function (radius: number) {
         lightsource.radius = radius;
+    },
+    blend: function (color: number, texture1: number, texture2: number) {
+        for (let x of ["first", "second", "third"]) {
+            let part = pedestal_parts.get(x);
+            part!.material.diff_map_1_strength = texture1;
+            part!.material.diff_map_2_strength = texture2;
+            part!.material.color_strength = color;
+        }
     },
     falloff: function (falloff: "quadratic" | "linear") {
         switch (falloff) {
