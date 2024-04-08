@@ -176,9 +176,14 @@ export class ShadedRendererGL {
         gl.enableVertexAttribArray(this.normalAttribLocation);
         gl.enableVertexAttribArray(this.uvAttribLocation);
 
-        if (obj.texture != null) {
-            gl.bindTexture(gl.TEXTURE_2D, obj.texture);
+        if (obj.texture1 != null) {
             gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, obj.texture1);
+        }
+
+        if (obj.texture2 != null) {
+            gl.activeTexture(gl.TEXTURE1);
+            gl.bindTexture(gl.TEXTURE_2D, obj.texture2);
         }
     }
 
@@ -221,14 +226,14 @@ export class ShadedRendererGL {
     setup_materials(obj: ObjectGL) {
         let gl = this.gl;
 
-        let use_texture_loc = gl.getUniformLocation(this.program, 'material.use_texture');
-        gl.uniform1i(use_texture_loc, +(obj.material.diffusion_map != null));
-
         let shineness_loc = gl.getUniformLocation(this.program, 'material.shininess');
         gl.uniform1f(shineness_loc, obj.material.shininess);
 
         let color_loc = gl.getUniformLocation(this.program, 'material.color');
         gl.uniform3fv(color_loc, obj.material.color);
+
+        let color_strength_loc = gl.getUniformLocation(this.program, 'material.color_strength');
+        gl.uniform1f(color_strength_loc, obj.material.color_strength);
 
         let ambient_loc = gl.getUniformLocation(this.program, 'material.ambient');
         gl.uniform1f(ambient_loc, obj.material.ambient);
@@ -248,8 +253,17 @@ export class ShadedRendererGL {
         let rim_color_loc = gl.getUniformLocation(this.program, 'material.rim_color');
         gl.uniform3fv(rim_color_loc, obj.material.rim_color);
 
-        let diffusion_map_loc = gl.getUniformLocation(this.program, 'material.diffuse_map');
-        // gl.uniform1i(diffusion_map_loc, obj);
+        let diff_map_1_loc = gl.getUniformLocation(this.program, 'material.diff_map_1');
+        gl.uniform1i(diff_map_1_loc, 0);
+
+        let diff_map_1_strength_loc = gl.getUniformLocation(this.program, 'material.diff_map_1_strength');
+        gl.uniform1f(diff_map_1_strength_loc, obj.material.diff_map_1_strength);
+
+        let diff_map_2_loc = gl.getUniformLocation(this.program, 'material.diff_map_2');
+        gl.uniform1i(diff_map_2_loc, 1);
+
+        let diff_map_2_strength_loc = gl.getUniformLocation(this.program, 'material.diff_map_2_strength');
+        gl.uniform1f(diff_map_2_strength_loc, obj.material.diff_map_2_strength);
 
         let use_fragment_loc = gl.getUniformLocation(this.program, 'material.use_fragment_shading');
         gl.uniform1i(use_fragment_loc, obj.material.use_fragment_shading ? 1 : 0);

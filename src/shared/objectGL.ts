@@ -18,7 +18,8 @@ export class ObjectGL {
     public vertexbuffer: WebGLBuffer;
     public indexbuffer: WebGLBuffer;
 
-    public texture: WebGLTexture;
+    public texture1: WebGLTexture;
+    public texture2: WebGLTexture;
 
     worldMatrix = new Float32Array(16);
     rotMatr = new Float32Array(16)
@@ -48,6 +49,18 @@ export class ObjectGL {
         //TODO заполнить соответствующие поля объекта используюя вызов import_obj
     }
 
+    public create_texture(gl: WebGL2RenderingContext, diff_map: HTMLImageElement, index: number): WebGLTexture {
+        let tex = gl.createTexture() as WebGLTexture;
+        gl.activeTexture(gl.TEXTURE0 + index);
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, diff_map);
+        return tex;
+    }
+
     public setup_buffers(gl: WebGL2RenderingContext) {
 
         var boxVertexBufferObject = gl.createBuffer();
@@ -62,14 +75,11 @@ export class ObjectGL {
 
         this.indexbuffer = boxIndexBufferObject as WebGLBuffer;
 
-        if (this.material.diffusion_map != null) {
-            this.texture = gl.createTexture() as WebGLTexture;
-            gl.bindTexture(gl.TEXTURE_2D, this.texture);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.material.diffusion_map);
+        if (this.material.diff_map_1 != null) {
+            this.texture1 = this.create_texture(gl, this.material.diff_map_1, 0);
+        }
+        if (this.material.diff_map_2 != null) {
+            this.texture2 = this.create_texture(gl, this.material.diff_map_2, 1);
         }
     }
 
