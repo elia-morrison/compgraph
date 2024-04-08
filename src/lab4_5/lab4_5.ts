@@ -20,10 +20,11 @@ lightsource.translate([0, 5, 0]);
 lightsource.radius = 5;
 scene.lightsources.push(lightsource);
 
-function makePedestalPart(origin: ReadonlyVec3, color: ReadonlyVec3, scale: ReadonlyVec3): Cube {
+function makePedestalPart(origin: ReadonlyVec3, color: ReadonlyVec3, scale: ReadonlyVec3, texture: HTMLElement | null = null): Cube {
     let obj = new Cube(origin, new Euler());
     obj.translate(pedestal_position);
-    obj.material.color = color
+    obj.material.color = color;
+    obj.material.diffusion_map = texture as HTMLImageElement;
 
     obj.setScale(scale);
     scene.objects.push(obj);
@@ -33,7 +34,7 @@ function makePedestalPart(origin: ReadonlyVec3, color: ReadonlyVec3, scale: Read
 let pedestal_parts = new Map<string, Cube>();
 
 pedestal_parts.set("ground", makePedestalPart([0, -2, 0], [1, 1, 1], [10, 1, 10]));
-pedestal_parts.set("first", makePedestalPart([0, 0, 0], [1., 1., 0.], [1.5, 1.5, 1.5]));
+pedestal_parts.set("first", makePedestalPart([0, 0.5, 0], [1., 1., 0.], [1.5, 1.5, 1.5], document.getElementById("texture1")));
 pedestal_parts.set("second", makePedestalPart([-3, -0.2, 0], [0.7, 0.7, 0.7], [1.5, 0.8, 1.5]));
 pedestal_parts.set("third", makePedestalPart([3, -0.5, 0], [0.8, 0.5, 0.2], [1.5, 0.5, 1.5]));
 

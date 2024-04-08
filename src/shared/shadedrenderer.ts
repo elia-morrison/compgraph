@@ -248,6 +248,9 @@ export class ShadedRendererGL {
         let rim_color_loc = gl.getUniformLocation(this.program, 'material.rim_color');
         gl.uniform3fv(rim_color_loc, obj.material.rim_color);
 
+        let diffusion_map_loc = gl.getUniformLocation(this.program, 'material.diffuse_map');
+        // gl.uniform1i(diffusion_map_loc, obj);
+
         let use_fragment_loc = gl.getUniformLocation(this.program, 'material.use_fragment_shading');
         gl.uniform1i(use_fragment_loc, obj.material.use_fragment_shading ? 1 : 0);
     }

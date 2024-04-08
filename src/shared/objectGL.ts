@@ -8,7 +8,7 @@ export class ObjectGL {
     vertices: ReadonlyVec3[];
     flat_vertices: number[];
     faceIndices: number[];
-    
+
     public material: Material = new Material();
 
     public _position: vec3 = [0, 0, 0];
@@ -62,14 +62,13 @@ export class ObjectGL {
 
         this.indexbuffer = boxIndexBufferObject as WebGLBuffer;
 
-        if (this.material.diffusion_map != null)
-        {
+        if (this.material.diffusion_map != null) {
             this.texture = gl.createTexture() as WebGLTexture;
             gl.bindTexture(gl.TEXTURE_2D, this.texture);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.material.diffusion_map);
         }
     }
@@ -99,7 +98,7 @@ export class ObjectGL {
         this.updateWorldMatrix();
     }
 
-    public translate(deltaPos : ReadonlyVec3) {
+    public translate(deltaPos: ReadonlyVec3) {
         vec3.add(this._position, this._position, deltaPos);
     }
 
@@ -116,13 +115,13 @@ export class ObjectGL {
         vec3.sub(translatedPos, this._position, origin);
 
         let rotation = new Quaternion().setFromEuler(new Euler(0, angle, 0));
-    
+
         let rotatedPos = vec3.create();
         vec3.transformQuat(rotatedPos, translatedPos, [rotation.x, rotation.y, rotation.z, rotation.w]);
-    
+
         vec3.add(rotatedPos, rotatedPos, origin);
         this.setPosition(rotatedPos);
-    
+
         let currentRotation = new Quaternion().setFromEuler(this._rotation);
         let newRotation = rotation.multiply(currentRotation);
         this.setRotation(newRotation);

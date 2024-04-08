@@ -21,7 +21,7 @@ vec3 calculateLighting(Material material, vec2 textCoord,
         result += phong(material, lightDir, pointLights[i].color, attenuation, normal, where, viewDir);
     }
 
-    vec3 texture_color = vec3(0, 0, 0);
+    vec3 texture_color = vec3(0.5, 0, 0.5);
     if (material.use_texture)
     {
         texture_color = vec3(texture2D(material.diffuse_map, textCoord));

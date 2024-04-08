@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lab3": "(npx parcel ./src/lab3/index.html) & (npx parcel watch ./src/lab3/index.html)",
-    "lab4": "(npx parcel ./src/lab4/index.html) & (npx parcel watch ./src/lab4/index.html)"
+    "lab4_5": "(npx parcel ./src/lab4_5/index.html) & (npx parcel watch ./src/lab4_5/index.html)"
   },
   "author": "",
   "license": "MIT",
