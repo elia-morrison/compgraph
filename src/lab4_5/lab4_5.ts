@@ -179,7 +179,7 @@ $('#term').terminal({
         }
     }
 }, {
-    greetings: 'WebGL / Lab4'
+    greetings: 'WebGL / Lab4 / Lab5'
 });
 
 

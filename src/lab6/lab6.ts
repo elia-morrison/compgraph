@@ -44,3 +44,11 @@ function update() {
 
 update();
 
+$('#term').terminal({
+    bumpiness: function (bumpiness: string) {
+        orange_obj.material.bumpiness = bumpiness;
+    },
+}, {
+    greetings: 'WebGL / Lab6'
+});
+
