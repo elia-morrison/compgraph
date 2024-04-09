@@ -267,6 +267,12 @@ export class ShadedRendererGL {
 
         let use_fragment_loc = gl.getUniformLocation(this.program, 'material.use_fragment_shading');
         gl.uniform1i(use_fragment_loc, obj.material.use_fragment_shading ? 1 : 0);
+
+        let normal_map_loc = gl.getUniformLocation(this.program, 'material.normal_map');
+        gl.uniform1i(normal_map_loc, 2);
+
+        let bumpiness_loc = gl.getUniformLocation(this.program, 'material.bumpiness');
+        gl.uniform1f(bumpiness_loc, obj.material.bumpiness);
     }
 
     public render() {

@@ -20,6 +20,7 @@ export class ObjectGL {
 
     public texture1: WebGLTexture;
     public texture2: WebGLTexture;
+    public normal_map: WebGLTexture;
 
     worldMatrix = new Float32Array(16);
     rotMatr = new Float32Array(16)
@@ -80,6 +81,9 @@ export class ObjectGL {
         }
         if (this.material.diff_map_2 != null) {
             this.texture2 = this.create_texture(gl, this.material.diff_map_2, 1);
+        }
+        if (this.material.normal_map != null) {
+            this.normal_map = this.create_texture(gl, this.material.normal_map, 2);
         }
     }
 

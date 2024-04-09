@@ -5,18 +5,23 @@
   "main": "index.js",
   "scripts": {
     "lab3": "(npx parcel ./src/lab3/index.html) & (npx parcel watch ./src/lab3/index.html)",
-    "lab4_5": "(npx parcel ./src/lab4_5/index.html) & (npx parcel watch ./src/lab4_5/index.html)"
+    "lab4_5": "(npx parcel ./src/lab4_5/index.html) & (npx parcel watch ./src/lab4_5/index.html)",
+    "lab6": "(npx parcel ./src/lab6/index.html) & (npx parcel watch ./src/lab6/index.html)"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@parcel/transformer-raw": "^2.12.0",
     "gl-matrix": "^3.4.3",
     "glslify": "^7.1.1",
     "parcel": "^2.12.0",
+    "parcel-plugin-static-files-copy": "^2.6.0",
     "three": "^0.163.0"
   },
   "devDependencies": {
     "@parcel/transformer-glsl": "^2.12.0",
-    "@types/three": "^0.163.0"
+    "@parcel/transformer-inline-string": "^2.12.0",
+    "@types/three": "^0.163.0",
+    "parcel-reporter-static-files-copy": "^1.5.3"
   }
 }

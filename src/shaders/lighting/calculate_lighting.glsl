@@ -18,7 +18,7 @@ vec3 calculateLighting(Material material, vec2 textCoord,
     {
         vec3 attenuation = pointLightCalculate(pointLights[i], material, norm, where, viewDir);    
         vec3 lightDir = normalize(pointLights[i].position - where);
-        result += phong(material, lightDir, pointLights[i].color, attenuation, normal, where, viewDir);
+        result += phong(material, lightDir, pointLights[i].color, attenuation, norm, where, viewDir);
     }
 
     result = (1. - material.tooniness) * result + material.tooniness * calculateToon(result, material);
