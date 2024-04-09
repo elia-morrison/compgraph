@@ -29,7 +29,7 @@ orange_obj.material.diff_map_1 = (document.getElementById("orange_texture")) as 
 orange_obj.material.color_strength = 0;
 orange_obj.material.diff_map_1_strength = 1.;
 orange_obj.material.normal_map = (document.getElementById("orange_normal")) as HTMLImageElement;
-orange_obj.material.bumpiness = 0.6;
+orange_obj.material.bumpiness = 1.;
 scene.objects.push(orange_obj);
 
 let renderer = new ShadedRendererGL(gl, vert_shader, frag_shader, scene);

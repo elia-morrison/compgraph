@@ -3,8 +3,8 @@
 #define NR_POINT_LIGHTS 4
 #pragma glslify: PointLight = require('./lighting/pointlight.glsl')
 #pragma glslify: Material = require('./material.glsl')
-#pragma glslify: calculateDiffusion = require('./maps/calculate_diffusion.glsl')
-#pragma glslify: calculateBumping = require('./maps/calculate_bumping.glsl')
+#pragma glslify: calculateDiffusion = require('./maps/calculate_diffusion.glsl', texture=texture)
+#pragma glslify: calculateBumping = require('./maps/calculate_bumping.glsl', texture=texture)
 #pragma glslify: calculateLighting = require('./lighting/calculate_lighting.glsl', NR_POINT_LIGHTS=NR_POINT_LIGHTS)
 
 precision mediump float;

@@ -36,6 +36,8 @@ export class ShadedRendererGL {
     constructor(gl: WebGL2RenderingContext, vSS: string, fSS: string, scene: Scene) {
         this.gl = gl;
         this.camera = new Camera(gl);
+        console.log(vSS);
+        console.log(fSS);
         this._vertexShader = this.createShader(gl.VERTEX_SHADER, vSS);
         this._fragShader = this.createShader(gl.FRAGMENT_SHADER, fSS);
 
