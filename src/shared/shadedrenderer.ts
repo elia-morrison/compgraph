@@ -103,7 +103,7 @@ export class ShadedRendererGL {
         let gl = this.gl;
 
         this.stop = true;
-        gl.clearColor(0.9, 0.9, 0.99, 1.0);
+        gl.clearColor(0, 0, 0, 1.0);
         gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
         //   cancelAnimationFrame();
     }
@@ -280,8 +280,7 @@ export class ShadedRendererGL {
     public render() {
         let gl = this.gl;
 
-        gl.clearColor(0.9, 0.9, 0.99, 1.0);
-        gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
+        this.clear();
         this.setup_light();
         for (let obj of this.scene.objects) {
             this.setup_materials(obj);

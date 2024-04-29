@@ -7,10 +7,13 @@ import vert_shader from "../shaders/shaded.vert";
 import { ReadonlyVec3, vec3 } from "gl-matrix";
 import { PointLight } from "../shared/lightsource";
 import { OBJLoaderGL } from "../shared/objloader";
+import { resizeCanvas } from "../shared/ui";
 
 import orange_file from "bundle-text:../../static/orange/Orange.obj"
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
+resizeCanvas(cv);
+window.addEventListener('resize', function (event) { resizeCanvas(cv); }, true);
 let gl = cv.getContext("webgl2") as WebGL2RenderingContext;
 
 let scene = new Scene();
@@ -29,7 +32,9 @@ orange_obj.material.diff_map_1 = (document.getElementById("orange_texture")) as 
 orange_obj.material.color_strength = 0;
 orange_obj.material.diff_map_1_strength = 1.;
 orange_obj.material.normal_map = (document.getElementById("orange_normal")) as HTMLImageElement;
-orange_obj.material.bumpiness = 1.;
+orange_obj.material.bumpiness = 1.5;
+orange_obj.material.shininess = 32;
+orange_obj.material.specular = 1;
 scene.objects.push(orange_obj);
 
 let renderer = new ShadedRendererGL(gl, vert_shader, frag_shader, scene);
@@ -43,12 +48,4 @@ function update() {
 }
 
 update();
-
-$('#term').terminal({
-    bumpiness: function (bumpiness: string) {
-        orange_obj.material.bumpiness = bumpiness;
-    },
-}, {
-    greetings: 'WebGL / Lab6'
-});
 
