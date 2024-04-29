@@ -7,8 +7,10 @@ export class Material {
     public diff_map_2: HTMLImageElement | null = null;
     public diff_map_2_strength: number = 0.;
 
-    public normal_map: HTMLImageElement | null = null;
+    public bump_map: HTMLImageElement | null = null;
     public bumpiness: number = 0.;
+    public normal_map: HTMLImageElement | null = null;
+    public normap_map_strength: number = 0.;
 
     public color: ReadonlyVec3 = [0.5, 0.5, 0.5];
     public color_strength: number = 1.;

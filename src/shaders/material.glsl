@@ -9,6 +9,8 @@ struct Material {
     float diff_map_2_strength;
 
     sampler2D normal_map;
+    float normal_map_strength;
+    sampler2D bump_map;
     float bumpiness;
 
     vec3 color;

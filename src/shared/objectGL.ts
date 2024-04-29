@@ -21,6 +21,7 @@ export class ObjectGL {
     public texture1: WebGLTexture;
     public texture2: WebGLTexture;
     public normal_map: WebGLTexture;
+    public bump_map: WebGLTexture;
 
     worldMatrix = new Float32Array(16);
     rotMatr = new Float32Array(16)
@@ -50,7 +51,10 @@ export class ObjectGL {
         //TODO заполнить соответствующие поля объекта используюя вызов import_obj
     }
 
-    public create_texture(gl: WebGL2RenderingContext, diff_map: HTMLImageElement, index: number): WebGLTexture {
+    public create_texture(gl: WebGL2RenderingContext,
+        diff_map: HTMLImageElement,
+        index: number,
+        grayscale: boolean = false): WebGLTexture {
         let tex = gl.createTexture() as WebGLTexture;
         gl.activeTexture(gl.TEXTURE0 + index);
         gl.bindTexture(gl.TEXTURE_2D, tex);
@@ -58,7 +62,29 @@ export class ObjectGL {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, diff_map);
+
+        if (grayscale) {
+            // All of this is to convert possibly RGB texture to grayscale
+            let canvas = document.createElement('canvas');
+            canvas.width = diff_map.width;
+            canvas.height = diff_map.height;
+            let ctx = canvas.getContext('2d')!;
+
+            ctx.drawImage(diff_map, 0, 0);
+
+            let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let pixels = imgData.data;
+
+            let grayscalePixels = new Uint8Array(canvas.width * canvas.height);
+            for (let i = 0; i < pixels.length; i += 4) {
+                let gray = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
+                grayscalePixels[i / 4] = gray;
+            }
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, canvas.width, canvas.height, 0, gl.RED, gl.UNSIGNED_BYTE, grayscalePixels);
+        }
+        else {
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, diff_map);
+        }
         return tex;
     }
 
@@ -84,6 +110,9 @@ export class ObjectGL {
         }
         if (this.material.normal_map != null) {
             this.normal_map = this.create_texture(gl, this.material.normal_map, 2);
+        }
+        if (this.material.bump_map != null) {
+            this.bump_map = this.create_texture(gl, this.material.bump_map, 3, true);
         }
     }
 

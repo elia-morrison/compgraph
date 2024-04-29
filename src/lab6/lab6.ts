@@ -32,7 +32,10 @@ orange_obj.material.diff_map_1 = (document.getElementById("orange_texture")) as 
 orange_obj.material.color_strength = 0;
 orange_obj.material.diff_map_1_strength = 1.;
 orange_obj.material.normal_map = (document.getElementById("orange_normal")) as HTMLImageElement;
-orange_obj.material.bumpiness = 1.5;
+orange_obj.material.normap_map_strength = 0.;
+orange_obj.material.bump_map = (document.getElementById("orange_bump")) as HTMLImageElement;
+orange_obj.material.bumpiness = 1.;
+
 orange_obj.material.shininess = 32;
 orange_obj.material.specular = 1;
 scene.objects.push(orange_obj);

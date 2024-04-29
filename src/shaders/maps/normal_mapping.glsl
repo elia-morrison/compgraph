@@ -3,15 +3,17 @@
 
 precision mediump float;
 
-vec3 calculateBumping(Material material, vec2 texCoord, vec3 normal, vec3 where) {
-    if (material.bumpiness == 0.0) {
+vec3 normalMapping(Material material, vec2 texCoord, vec3 normal, vec3 where) {
+    if (material.normal_map_strength == 0.0) {
         return normal;
     }
     vec3 tangentNormal = texture(material.normal_map, texCoord).xyz * 2.0 - 1.0;
+
     mat3 tbn = calculate_tbn(texCoord, normal, where);
-    vec3 bumpedNormal = mix(normalize(normal), normalize(tbn * tangentNormal), material.bumpiness);
+    
+    vec3 bumpedNormal = mix(normal, normalize(tbn * tangentNormal), material.bumpiness);
 
     return bumpedNormal;
 }
 
-#pragma glslify: export(calculateBumping)
+#pragma glslify: export(normalMapping)
