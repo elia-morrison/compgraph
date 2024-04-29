@@ -1,10 +1,13 @@
 #version 300 es
 
-#define NR_POINT_LIGHTS 4
-
 #pragma glslify: PointLight = require('./lighting/pointlight.glsl')
+#pragma glslify: SpotLight = require('./lighting/spotlight.glsl')
+#pragma glslify: DirLight = require('./lighting/dirlight.glsl')
 #pragma glslify: Material = require('./material.glsl')
-#pragma glslify: calculateLighting = require('./lighting/calculate_lighting.glsl', NR_POINT_LIGHTS=NR_POINT_LIGHTS)
+
+const int NR_POINTLIGHTS = 4;
+const int NR_SPOTLIGHTS = 8;
+const int NR_DIRLIGHTS = 2;
 
 precision mediump float;
 
@@ -23,7 +26,14 @@ uniform mat4 mProj;
 
 uniform Material material;
 uniform float ambient_strength;
-uniform PointLight pointLights[NR_POINT_LIGHTS];
+uniform PointLight pointLights[NR_POINTLIGHTS];
+uniform SpotLight spotLights[NR_SPOTLIGHTS];
+uniform DirLight dirLights[NR_DIRLIGHTS];
+
+#pragma glslify: calculateLighting = require('./lighting/calculate_lighting.glsl', \
+, NR_POINTLIGHTS=NR_POINTLIGHTS, NR_SPOTLIGHTS=NR_SPOTLIGHTS, NR_DIRLIGHTS=NR_DIRLIGHTS, \
+, pointLights=pointLights, spotLights=spotLights, dirLights=dirLights)
+
 uniform vec3 viewPos;
 
 void main()
@@ -36,6 +46,6 @@ void main()
   gl_Position = mProj * mView * world_homog;
 
   if (!material.use_fragment_shading) {
-    resultingColor = calculateLighting(material, vertUV, FragPos, normal, viewPos, pointLights);
+    resultingColor = calculateLighting(material, vertUV, FragPos, normal, viewPos);
   }
 }

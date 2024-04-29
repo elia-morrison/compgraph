@@ -195,7 +195,10 @@ export class ShadedRendererGL {
         let viewpos_loc = gl.getUniformLocation(this.program, 'viewPos');
         gl.uniform3fv(viewpos_loc, this.camera._position);
 
+        // TODO: refactor :(
         let pointlight_i = 0;
+        let dirlight_i = 0;
+        let spotlight_i = 0;
         for (let ls of this.scene.lightsources) {
             if (ls instanceof PointLight) {
                 let color_loc = gl.getUniformLocation(this.program, 'pointLights[' + pointlight_i + '].color');
@@ -213,14 +216,36 @@ export class ShadedRendererGL {
                 pointlight_i += 1;
             }
             else if (ls instanceof DirectionalLight) {
-                let color_loc = gl.getUniformLocation(this.program, 'dirLight.color');
+                let color_loc = gl.getUniformLocation(this.program, 'dirLights[' + dirlight_i + '].color');
                 gl.uniform3fv(color_loc, ls.color);
 
-                let intensity_loc = gl.getUniformLocation(this.program, 'dirLight.intensity');
+                let intensity_loc = gl.getUniformLocation(this.program, 'dirLights[' + dirlight_i + '].intensity');
                 gl.uniform1f(intensity_loc, ls.intensity);
 
-                let direction_loc = gl.getUniformLocation(this.program, 'dirLight.direction');
+                let direction_loc = gl.getUniformLocation(this.program, 'dirLights[' + dirlight_i + '].direction');
                 gl.uniform3fv(direction_loc, ls.direction);
+                dirlight_i += 1;
+            }
+            else if (ls instanceof SpotLight) {
+                let color_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].color');
+                gl.uniform3fv(color_loc, ls.color);
+
+                let linear_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].radius');
+                gl.uniform1f(linear_loc, ls.radius);
+
+                let position_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].position');
+                gl.uniform3fv(position_loc, ls._position);
+
+                let direction_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].direction');
+                gl.uniform3fv(direction_loc, ls.direction);
+
+                let cutOff_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].cutOff');
+                gl.uniform1f(cutOff_loc, ls.cutOff);
+
+                let outerCutOff_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].outerCutOff');
+                gl.uniform1f(outerCutOff_loc, ls.outerCutOff);
+
+                spotlight_i += 1;
             }
         }
     }
