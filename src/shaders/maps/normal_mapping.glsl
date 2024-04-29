@@ -11,7 +11,7 @@ vec3 normalMapping(Material material, vec2 texCoord, vec3 normal, vec3 where) {
 
     mat3 tbn = calculate_tbn(texCoord, normal, where);
     
-    vec3 bumpedNormal = mix(normal, normalize(tbn * tangentNormal), material.bumpiness);
+    vec3 bumpedNormal = mix(normal, normalize(tbn * tangentNormal), material.normal_map_strength);
 
     return bumpedNormal;
 }

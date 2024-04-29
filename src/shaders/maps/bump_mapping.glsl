@@ -7,17 +7,19 @@ vec3 bumpMapping(Material material, vec2 texCoord, vec3 normal, vec3 where) {
     if (material.bumpiness == 0.0) {
         return normal;
     }
+    float height = texture(material.normal_map, texCoord).r;
+    float delta = 0.001;
+    float heightRight = texture(material.normal_map, texCoord + vec2(delta, 0.0)).r;
+    float heightUp = texture(material.normal_map, texCoord + vec2(0.0, delta)).r;
 
-    float height = texture(material.bump_map, texCoord).r;
-    vec2 dTexCoord = vec2(0.01, 0.0);
-    float heightRight = texture(material.bump_map, texCoord + dTexCoord).r;
-    float heightUp = texture(material.bump_map, texCoord + dTexCoord.yx).r;
+    vec3 gradient = normalize(vec3(heightRight - height, heightUp - height, delta));
 
-    vec3 tangent = normalize(where - dTexCoord.x * heightRight);
-    vec3 bitangent = normalize(where - dTexCoord.y * heightUp);
-    vec3 bumpedNormal = height * normal + material.bumpiness * (tangent + bitangent);
+    mat3 tbn = calculate_tbn(texCoord, normal, where);
 
-    return normalize(bumpedNormal);
+
+    vec3 bumpedNormal = mix(normal, normalize(tbn * gradient), material.bumpiness);
+
+    return bumpedNormal;
 }
 
 #pragma glslify: export(bumpMapping)

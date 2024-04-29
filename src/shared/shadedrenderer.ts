@@ -274,13 +274,16 @@ export class ShadedRendererGL {
         gl.uniform1i(normal_map_loc, 2);
 
         let normal_map_strength_loc = gl.getUniformLocation(this.program, 'material.normal_map_strength');
-        gl.uniform1f(normal_map_strength_loc, obj.material.normap_map_strength);
+        gl.uniform1f(normal_map_strength_loc, obj.material.normal_map_strength);
 
         let bump_map_loc = gl.getUniformLocation(this.program, 'material.bump_map');
         gl.uniform1i(bump_map_loc, 3);
 
         let bumpiness_loc = gl.getUniformLocation(this.program, 'material.bumpiness');
         gl.uniform1f(bumpiness_loc, obj.material.bumpiness);
+
+        let normal_bump_mix_loc = gl.getUniformLocation(this.program, 'material.normal_bump_mix');
+        gl.uniform1f(normal_bump_mix_loc, obj.material.normal_bump_mix);
     }
 
     public render() {
