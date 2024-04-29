@@ -13,8 +13,7 @@ let scene = new Scene();
 
 let pedestal_position = vec3.fromValues(0, -5, 20)
 
-function makePedestalPart(origin: ReadonlyVec3, color: ReadonlyVec3, scale: ReadonlyVec3): Cube
-{
+function makePedestalPart(origin: ReadonlyVec3, color: ReadonlyVec3, scale: ReadonlyVec3): Cube {
     let obj = new Cube(origin, new Euler());
     obj.translate(pedestal_position);
     obj.material.color = color
@@ -32,7 +31,7 @@ pedestal_parts.set("third", makePedestalPart([3, -0.5, 0], [0.8, 0.5, 0.2], [1.5
 
 let renderer = new RendererGL(gl, vert_shader, frag_shader, scene);
 
-function rotatePedestal(how: string = "pedestal", amount: number){
+function rotatePedestal(how: string = "pedestal", amount: number) {
     let origin = how == "pedestal" ? pedestal_parts.get('ground')?.position! : vec3.fromValues(0., 0., 0.)
 
     for (let x of pedestal_parts.values()) {
@@ -54,23 +53,23 @@ function update() {
 
 update()
 body.addEventListener('keydown', (e) => {
-    if (['a','A','ф','Ф'].includes(e.key)) {
+    if (['a', 'A', 'ф', 'Ф'].includes(e.key)) {
         rotateObjectsLocally(0.1);
     }
-    if (['d','D','в','В'].includes(e.key)) {
+    if (['d', 'D', 'в', 'В'].includes(e.key)) {
         rotateObjectsLocally(-0.1);
     }
-    if (['z','Z','я','Я'].includes(e.key)) {
+    if (['z', 'Z', 'я', 'Я'].includes(e.key)) {
         rotatePedestal("center", 0.05);
     }
-    if (['c','C','с','С'].includes(e.key)) {
+    if (['c', 'C', 'с', 'С'].includes(e.key)) {
         rotatePedestal("center", -0.05);
     }
-    if (['й','Й','q','Q'].includes(e.key)) {
+    if (['й', 'Й', 'q', 'Q'].includes(e.key)) {
         rotatePedestal("pedestal", 0.05);
     }
-    if (['e','E','у','У'].includes(e.key)) {
+    if (['e', 'E', 'у', 'У'].includes(e.key)) {
         rotatePedestal("pedestal", -0.05);
     }
-  });
+});
 console.log("hello from lab 3")

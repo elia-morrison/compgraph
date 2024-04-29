@@ -36,6 +36,8 @@ export class ShadedRendererGL {
     constructor(gl: WebGL2RenderingContext, vSS: string, fSS: string, scene: Scene) {
         this.gl = gl;
         this.camera = new Camera(gl);
+        // console.log(vSS);
+        // console.log(fSS);
         this._vertexShader = this.createShader(gl.VERTEX_SHADER, vSS);
         this._fragShader = this.createShader(gl.FRAGMENT_SHADER, fSS);
 
@@ -101,7 +103,7 @@ export class ShadedRendererGL {
         let gl = this.gl;
 
         this.stop = true;
-        gl.clearColor(0.9, 0.9, 0.99, 1.0);
+        gl.clearColor(0, 0, 0, 1.0);
         gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
         //   cancelAnimationFrame();
     }
@@ -267,13 +269,27 @@ export class ShadedRendererGL {
 
         let use_fragment_loc = gl.getUniformLocation(this.program, 'material.use_fragment_shading');
         gl.uniform1i(use_fragment_loc, obj.material.use_fragment_shading ? 1 : 0);
+
+        let normal_map_loc = gl.getUniformLocation(this.program, 'material.normal_map');
+        gl.uniform1i(normal_map_loc, 2);
+
+        let normal_map_strength_loc = gl.getUniformLocation(this.program, 'material.normal_map_strength');
+        gl.uniform1f(normal_map_strength_loc, obj.material.normal_map_strength);
+
+        let bump_map_loc = gl.getUniformLocation(this.program, 'material.bump_map');
+        gl.uniform1i(bump_map_loc, 3);
+
+        let bumpiness_loc = gl.getUniformLocation(this.program, 'material.bumpiness');
+        gl.uniform1f(bumpiness_loc, obj.material.bumpiness);
+
+        let normal_bump_mix_loc = gl.getUniformLocation(this.program, 'material.normal_bump_mix');
+        gl.uniform1f(normal_bump_mix_loc, obj.material.normal_bump_mix);
     }
 
     public render() {
         let gl = this.gl;
 
-        gl.clearColor(0.9, 0.9, 0.99, 1.0);
-        gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
+        this.clear();
         this.setup_light();
         for (let obj of this.scene.objects) {
             this.setup_materials(obj);

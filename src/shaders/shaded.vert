@@ -1,3 +1,5 @@
+#version 300 es
+
 #define NR_POINT_LIGHTS 4
 
 #pragma glslify: PointLight = require('./lighting/pointlight.glsl')
@@ -6,13 +8,13 @@
 
 precision mediump float;
 
-attribute vec3 vertPosition;
-attribute vec3 vertNormal;
-attribute vec2 vertUV;
-varying vec2 textCoord;
-varying vec3 normal;
-varying vec3 FragPos;
-varying vec3 resultingColor;
+in vec3 vertPosition;
+in vec3 vertNormal;
+in vec2 vertUV;
+out vec2 textCoord;
+out vec3 normal;
+out vec3 FragPos;
+out vec3 resultingColor;
 
 uniform mat4 mWorld;
 uniform mat4 mView;

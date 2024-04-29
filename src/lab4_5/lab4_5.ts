@@ -1,14 +1,14 @@
-import { Color, Euler, LineSegments, ToneMapping, Vector3 } from "three";
+import { Euler } from "three";
 import { Cube } from "../shared/primitives";
 import { Scene } from "../shared/rendererGL";
 import { ShadedRendererGL } from "../shared/shadedrenderer";
 import frag_shader from "../shaders/shaded.frag";
 import vert_shader from "../shaders/shaded.vert";
 import { ReadonlyVec3, vec3 } from "gl-matrix";
-import { Lightsource, PointLight } from "../shared/lightsource";
+import { PointLight } from "../shared/lightsource";
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
-let gl = cv.getContext("webgl") as WebGL2RenderingContext;
+let gl = cv.getContext("webgl2") as WebGL2RenderingContext;
 let body: HTMLElement = document.getElementById('body') as HTMLElement;
 
 let pedestal_position = vec3.fromValues(0, -5, 20)
@@ -179,7 +179,7 @@ $('#term').terminal({
         }
     }
 }, {
-    greetings: 'WebGL / Lab4'
+    greetings: 'WebGL / Lab4 / Lab5'
 });
 
 
