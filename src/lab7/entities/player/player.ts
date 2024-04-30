@@ -3,8 +3,8 @@ import { ObjectGL } from "../../../shared/objectGL";
 import { Euler } from "three";
 
 export class Player {
-    position: vec3 = [0, 0, 0];
-    rotation= new Euler(0, 0, 0);
+    position: vec3 = [0.0, 0.0, 0.0];
+    rotation= new Euler(0.0, 0.0, 0.0);
     mesh: ObjectGL;
 
 
