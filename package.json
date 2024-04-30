@@ -2,11 +2,11 @@
   "name": "compgraph",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "lab3": "(npx parcel ./src/lab3/index.html) & (npx parcel watch ./src/lab3/index.html)",
     "lab4_5": "(npx parcel ./src/lab4_5/index.html) & (npx parcel watch ./src/lab4_5/index.html)",
-    "lab6": "(npx parcel ./src/lab6/index.html) & (npx parcel watch ./src/lab6/index.html)"
+    "lab6": "(npx parcel ./src/lab6/index.html) & (npx parcel watch ./src/lab6/index.html)",
+    "lab7": "parcel serve src/lab7/index.html"
   },
   "author": "",
   "license": "MIT",
