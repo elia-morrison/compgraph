@@ -1,5 +1,5 @@
 import { MovementManager } from "./movement-manager";
-import { Player } from "../player";
+import { Movable } from "../index";
 import { Timer } from "../../../../shared/timer";
 import { vec3 } from "gl-matrix";
 import { KeyboardListener } from "../../../../shared/keyboard-listener";
@@ -11,8 +11,8 @@ export class StrafeMovement extends MovementManager {
         this.#keyboardListener.removeListener();
     };
 
-    velocity = 0.005;
-    turnVelocity = 0.005;
+    #velocity = 0.008;
+    #turnVelocity = 0.01;
 
     #front: vec3 = [-1, 0, 0];
     #right: vec3 = [0, 0, -1];
@@ -42,23 +42,41 @@ export class StrafeMovement extends MovementManager {
     }
 
     // todo: place vec3.add there
-    #updatePlayerPosition(player: Player, timer: Timer, forwards= true) {
+    #updatePlayerPosition(player: Movable, timer: Timer, forwards= true) {
         const sign = forwards? 1.0 : - 1.0;
         vec3.add(
             player.position,
             player.position,
             vec3.scale(
-                [0.0, 0.0, 0.0], this.#front, sign * this.velocity * timer.timeDelta
+                [0.0, 0.0, 0.0], this.#front, sign * this.#velocity * timer.timeDelta
             )
         );
     }
 
-    #updatePlayerRotation(player: Player) {
+    #updatePlayerRotation(player: Movable) {
         player.rotation.set(this.#pitch, this.#yaw, this.#roll);
     }
 
-    attachToPlayer(player: Player, timer: Timer) {
-        this.#keyboardListener.setListener([
+    #velocityStep = 0.005;
+    #turnVelocityStep = 0.005;
+
+    #incVelocity() {
+        this.#velocity +=  this.#velocityStep;
+        this.#turnVelocity += this.#turnVelocityStep;
+    }
+
+    #decVelocity() {
+        const newVelocity = this.#velocity - this.#velocityStep;
+        const newTurnVelocity = this.#velocity - this.#turnVelocityStep;
+        if(newVelocity< 0 || newTurnVelocity <0) return;
+        this.#velocity = newVelocity;
+        this.#turnVelocity = newTurnVelocity;
+    }
+
+    // well, we could listen for different keys in different listeners,
+    // but this may cause messing with
+    attachToPlayer(player: Movable, timer: Timer) {
+       this.#keyboardListener.setListener([
             {
                 keys: ['W', 'w'],
                 callback: () => {
@@ -66,9 +84,9 @@ export class StrafeMovement extends MovementManager {
                 }
             },
             {
-                keys: ['A', 'a'],
+                keys: ['Q', 'q'],
                 callback: () => {
-                    this.#yaw += this.turnVelocity * timer.timeDelta;
+                    this.#yaw += this.#turnVelocity * timer.timeDelta;
                     this.#updateVectors();
                     this.#updatePlayerRotation(player);
                 }
@@ -80,11 +98,23 @@ export class StrafeMovement extends MovementManager {
                 }
             },
             {
-                keys: ['D', 'd'],
+                keys: ['E', 'e'],
                 callback: () => {
-                    this.#yaw -= this.turnVelocity * timer.timeDelta;
+                    this.#yaw -= this.#turnVelocity * timer.timeDelta;
                     this.#updateVectors();
                     this.#updatePlayerRotation(player);
+                }
+            },
+            {
+                keys: ['ArrowUp'],
+                callback: () => {
+                    this.#incVelocity();
+                }
+            },
+            {
+                keys: ['ArrowDown'],
+                callback: () => {
+                    this.#decVelocity();
                 }
             },
         ]);

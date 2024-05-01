@@ -1,5 +1,5 @@
 import { MovementManager } from "./movement-manager";
-import { Player } from "../player";
+import { Movable } from "../index";
 import { Timer } from "../../../../shared/timer";
 import { KeyboardListener } from "../../../../shared/keyboard-listener";
 
@@ -13,7 +13,7 @@ export class BaseMovement extends MovementManager {
 
     velocity = 0.005;
 
-    attachToPlayer(player: Player, timer: Timer) {
+    attachToPlayer(player: Movable, timer: Timer) {
         this.#keyboardListener.setListener([
             {
                 keys: ['W', 'w'],

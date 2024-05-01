@@ -2,7 +2,7 @@ import { vec3 } from "gl-matrix";
 import { ObjectGL } from "../../../shared/objectGL";
 import { Euler } from "three";
 
-export class Player {
+export class Movable {
     position: vec3 = [0.0, 0.0, 0.0];
     rotation= new Euler(0.0, 0.0, 0.0);
     mesh: ObjectGL;

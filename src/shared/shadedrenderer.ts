@@ -311,10 +311,15 @@ export class ShadedRendererGL {
         gl.uniform1f(normal_bump_mix_loc, obj.material.normal_bump_mix);
     }
 
-    public render() {
+    public render(clear=true) {
         let gl = this.gl;
 
-        this.clear();
+        gl.useProgram(this.program);
+
+        if (clear) {
+            this.clear();
+        }
+
         this.setup_light();
         for (let obj of this.scene.objects) {
             this.setup_materials(obj);
