@@ -4,24 +4,40 @@ import { Timer } from "../../../../shared/timer";
 import { vec3 } from "gl-matrix";
 import { KeyboardListener } from "../../../../shared/keyboard-listener";
 
+const initialOrientation = {
+    yaw: Math.PI * 0.5,
+    pitch: 0.0,
+    roll: 0.0,
+}
+
 export class StrafeMovement extends MovementManager {
     #keyboardListener = new KeyboardListener();
 
-    detachFromPlayer() {
-        this.#keyboardListener.removeListener();
-    };
-
     #velocity = 0.008;
     #turnVelocity = 0.01;
+    #velocityStep = 0.005;
+    #turnVelocityStep = 0.005;
 
-    #front: vec3 = [-1, 0, 0];
-    #right: vec3 = [0, 0, -1];
-    #up: vec3 = [0, 1, 0];
-    #worldUp: vec3 = [0, 1, 0];
+    #front: vec3 = [0, 0, 0];
+    #right: vec3 = [0, 0, 0];
+    #up: vec3 = [0, 0, 0];
+    readonly #worldUp: vec3 = [0, 1, 0];
 
     #yaw = 0.0;
     #pitch = 0.0;
     #roll = 0.0;
+
+    constructor({
+            yaw= initialOrientation.yaw,
+            pitch= initialOrientation.pitch,
+            roll= initialOrientation.roll,
+        } = initialOrientation
+    ) {
+        super();
+        this.#yaw = yaw;
+        this.#pitch = pitch;
+        this.#roll = roll;
+    }
 
     #updateVectors() {
         vec3.normalize(this.#front, [
@@ -41,7 +57,6 @@ export class StrafeMovement extends MovementManager {
         );
     }
 
-    // todo: place vec3.add there
     #updatePlayerPosition(player: Movable, timer: Timer, forwards= true) {
         const sign = forwards? 1.0 : - 1.0;
         vec3.add(
@@ -56,9 +71,6 @@ export class StrafeMovement extends MovementManager {
     #updatePlayerRotation(player: Movable) {
         player.rotation.set(this.#pitch, this.#yaw, this.#roll);
     }
-
-    #velocityStep = 0.005;
-    #turnVelocityStep = 0.005;
 
     #incVelocity() {
         this.#velocity +=  this.#velocityStep;
@@ -76,6 +88,8 @@ export class StrafeMovement extends MovementManager {
     // well, we could listen for different keys in different listeners,
     // but this may cause messing with
     attachToPlayer(player: Movable, timer: Timer) {
+       this.#updateVectors();
+       this.#updatePlayerRotation(player);
        this.#keyboardListener.setListener([
             {
                 keys: ['W', 'w'],
@@ -119,4 +133,8 @@ export class StrafeMovement extends MovementManager {
             },
         ]);
     }
+
+    detachFromPlayer() {
+        this.#keyboardListener.removeListener();
+    };
 }

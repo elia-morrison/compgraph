@@ -5,15 +5,14 @@ import vert_shader from "../shaders/shaded.vert";
 import skyboxVertShader from "../shared/scenery/skybox/shaders/cubemap.vert";
 import skyboxFragShader from "../shared/scenery/skybox/shaders/cubemap.frag";
 import { PointLight } from "../shared/lightsource";
-import { OBJLoaderGL } from "../shared/objloader";
 import { resizeCanvas } from "../shared/ui";
-import orange_file from "bundle-text:../../static/orange/Orange.obj"
 import { Timer } from "../shared/timer";
-import { orangeMtl } from "./resources/orange-mtl";
 import { StrafeMovement } from "./utils/movable/managers/strafe-movement";
 import { Movable } from "./utils/movable";
 import { Skybox } from "../shared/scenery/skybox";
 import { SkyboxRendererGL } from "../shared/scenery/skybox/renderer";
+import { useDorimeRatModel } from "./resources/dorime-rat";
+import { useOrangeModel } from "./resources/orange";
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
 resizeCanvas(cv);
@@ -26,13 +25,16 @@ let light1 = new PointLight();
 light1.setPosition([-5, 10, -5]);
 light1.radius = 50;
 scene.lightsources.push(light1);
-let obj_loader = new OBJLoaderGL();
 
-let orange_obj = obj_loader.load(orange_file);
-orange_obj.setScale([0.01, 0.01, 0.01]);
-orange_obj.material = orangeMtl;
-scene.objects.push(orange_obj);
+const {
+    dorimeRat: playerMesh
+} = useDorimeRatModel();
 
+/*const {
+    orange
+} = useOrangeModel();*/
+
+scene.objects.push(playerMesh);
 
 let renderer = new ShadedRendererGL(gl, vert_shader as string, frag_shader as string, scene);
 const skybox = new Skybox(gl, 60, [
@@ -50,7 +52,7 @@ const skyboxRenderer = new SkyboxRendererGL(
 
 const movementManager = new StrafeMovement();
 const timer = new Timer();
-const player = new Movable({ mesh: orange_obj });
+const player = new Movable({ mesh: playerMesh });
 movementManager.attachToPlayer(player, timer);
 
 timer.reset();
