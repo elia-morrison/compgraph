@@ -23,8 +23,8 @@ let gl = cv.getContext("webgl2") as WebGL2RenderingContext;
 let scene = new Scene();
 
 let light1 = new PointLight();
-light1.setPosition([5, 10, -5]);
-light1.radius = 15;
+light1.setPosition([-5, 10, -5]);
+light1.radius = 50;
 scene.lightsources.push(light1);
 let obj_loader = new OBJLoaderGL();
 
