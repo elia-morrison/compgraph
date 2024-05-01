@@ -1,4 +1,4 @@
-import { MovementManager } from "./movement-manager";
+import { BaseMovement } from "./base-movement";
 import { Movable } from "../index";
 import { Timer } from "../../../../shared/timer";
 import { vec3 } from "gl-matrix";
@@ -10,7 +10,7 @@ const initialOrientation = {
     roll: 0.0,
 }
 
-export class StrafeMovement extends MovementManager {
+export class StrafeMovement extends BaseMovement {
     #keyboardListener = new KeyboardListener();
 
     #velocity = 0.008;
@@ -70,6 +70,7 @@ export class StrafeMovement extends MovementManager {
 
     #updatePlayerRotation(player: Movable) {
         player.rotation.set(this.#pitch, this.#yaw, this.#roll);
+        player.direction = this.#front;
     }
 
     #incVelocity() {
@@ -85,9 +86,8 @@ export class StrafeMovement extends MovementManager {
         this.#turnVelocity = newTurnVelocity;
     }
 
-    // well, we could listen for different keys in different listeners,
-    // but this may cause messing with
-    attachToPlayer(player: Movable, timer: Timer) {
+    // todo: move keyboard listening to some manager, leave only movement logic here
+    attachToMovable(player: Movable, timer: Timer) {
        this.#updateVectors();
        this.#updatePlayerRotation(player);
        this.#keyboardListener.setListener([
@@ -122,19 +122,35 @@ export class StrafeMovement extends MovementManager {
             {
                 keys: ['ArrowUp'],
                 callback: () => {
-                    this.#incVelocity();
+                    this.#pitch += this.#turnVelocity * timer.timeDelta;
+                    this.#updateVectors();
+                    this.#updatePlayerRotation(player);
                 }
             },
             {
                 keys: ['ArrowDown'],
                 callback: () => {
+                    this.#pitch -= this.#turnVelocity * timer.timeDelta;
+                    this.#updateVectors();
+                    this.#updatePlayerRotation(player);
+                }
+            },
+            {
+                keys: ['R', 'r'],
+                callback: () => {
                     this.#decVelocity();
+                }
+            },
+            {
+                keys: ['T', 't'],
+                callback: () => {
+                    this.#incVelocity();
                 }
             },
         ]);
     }
 
-    detachFromPlayer() {
+    detachFromMovable() {
         this.#keyboardListener.removeListener();
     };
 }

@@ -4,9 +4,11 @@ import { Euler } from "three";
 
 export class Movable {
     position: vec3 = [0.0, 0.0, 0.0];
+    direction: vec3 = [0.0, 0.0, 0.0];
     rotation= new Euler(0.0, 0.0, 0.0);
     mesh: ObjectGL;
 
+    // todo: place movement manager in this class
 
     constructor({ mesh } : { mesh: ObjectGL }){
         this.mesh = mesh;

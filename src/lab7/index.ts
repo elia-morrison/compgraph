@@ -13,6 +13,9 @@ import { Skybox } from "../shared/scenery/skybox";
 import { SkyboxRendererGL } from "../shared/scenery/skybox/renderer";
 import { useDorimeRatModel } from "./resources/dorime-rat";
 import { useOrangeModel } from "./resources/orange";
+import { LinearMovement } from "./utils/movable/managers/linear-movement";
+import { Mag } from "./utils/mag";
+import { MagManager } from "./utils/mag/mag-manager";
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
 resizeCanvas(cv);
@@ -30,9 +33,9 @@ const {
     dorimeRat: playerMesh
 } = useDorimeRatModel();
 
-/*const {
+const {
     orange
-} = useOrangeModel();*/
+} = useOrangeModel();
 
 scene.objects.push(playerMesh);
 
@@ -50,16 +53,21 @@ const skyboxRenderer = new SkyboxRendererGL(
     gl,
     skyboxVertShader as string, skyboxFragShader as string, renderer.camera, skybox);
 
-const movementManager = new StrafeMovement();
+const strafeMovement = new StrafeMovement();
+const linearMovement = new LinearMovement({});
 const timer = new Timer();
 const player = new Movable({ mesh: playerMesh });
-movementManager.attachToPlayer(player, timer);
+const mag = new MagManager();
+mag.attachToMovable(player, timer, scene);
+
+strafeMovement.attachToMovable(player, timer);
 
 timer.reset();
 
 const update = () => {
     timer.update();
     player.move();
+    mag.moveBullets(timer);
     gl.clearColor(0, 0, 0, 1.0);
     gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
     skyboxRenderer.render();
