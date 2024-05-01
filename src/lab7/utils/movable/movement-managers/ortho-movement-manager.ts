@@ -1,45 +1,42 @@
-import { BaseMovement } from "./base-movement";
+import { KeyboardListener } from "../../../../shared/keyboard-listener";
 import { Movable } from "../index";
 import { Timer } from "../../../../shared/timer";
-import { KeyboardListener } from "../../../../shared/keyboard-listener";
+import { OrthoMovement } from "../movement-types/ortho-movement";
 
-export class OrthoMovement extends BaseMovement {
+export class OrthoMovementManager {
     #keyboardListener = new KeyboardListener();
+    #movement = new OrthoMovement();
 
-
-    detachFromMovable() {
-        this.#keyboardListener.removeListener();
-    };
-
-    velocity = 0.005;
-
-    // todo: move keyboard listening to some manager, leave only movement logic here
     attachToMovable(player: Movable, timer: Timer) {
         this.#keyboardListener.setListener([
             {
                 keys: ['W', 'w'],
                 callback: () => {
-                    player.position[2] += this.velocity * timer.timeDelta;
+                    this.#movement.moveAlongDirection(player, timer,  true);
                 }
             },
             {
                 keys: ['A', 'a'],
                 callback: () => {
-                    player.position[0] += this.velocity * timer.timeDelta;
+                    this.#movement.moveCrossDirection(player, timer,  true);
                 }
             },
             {
                 keys: ['S', 's'],
                 callback: () => {
-                    player.position[2] -= this.velocity * timer.timeDelta;
+                    this.#movement.moveAlongDirection(player, timer,  false);
                 }
             },
             {
                 keys: ['D', 'd'],
                 callback: () => {
-                    player.position[0] -= this.velocity * timer.timeDelta;
+                    this.#movement.moveCrossDirection(player, timer,  false);
                 }
             },
         ]);
     }
+
+    detachFromMovable() {
+        this.#keyboardListener.removeListener();
+    };
 }

@@ -1,27 +1,30 @@
 import { Movable } from "../movable";
 import { ObjectGL } from "../../../shared/objectGL";
 import { Euler } from "three";
-import { LinearMovement } from "../movable/managers/linear-movement";
+import { LinearMovement } from "../movable/movement-types/linear-movement";
+import { BaseMovement } from "../movable/movement-types/base-movement";
+import { vec3 } from "gl-matrix";
 
 export class Mag {
 
-    // todo: share single objectgl between all bullets!!!
+    // todo: share single objectGL between all bullets!!!
     bullets: Array<{
         movable: Movable,
         movement: LinearMovement // maybe add other types?
     }> = [];
 
-    constructor(
-        readonly origin: Movable
-    ) {}
+    constructor(readonly origin: Movable) {}
 
-    addBullet(mesh: ObjectGL) {
+    addBullet(
+        mesh: ObjectGL,
+        movement: BaseMovement,
+    ) {
         const newBullet = new Movable({ mesh });
-        newBullet.position = this.origin.position;
+        newBullet.position = vec3.clone(this.origin.position);
         newBullet.rotation = (new Euler).copy(this.origin.rotation);
-        const bulletMovement = new LinearMovement({
-            direction: this.origin.direction,
-            movable: newBullet
+        this.bullets.push({
+            movable: newBullet,
+            movement
         });
     }
 }

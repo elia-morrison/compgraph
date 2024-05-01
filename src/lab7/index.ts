@@ -7,15 +7,13 @@ import skyboxFragShader from "../shared/scenery/skybox/shaders/cubemap.frag";
 import { PointLight } from "../shared/lightsource";
 import { resizeCanvas } from "../shared/ui";
 import { Timer } from "../shared/timer";
-import { StrafeMovement } from "./utils/movable/managers/strafe-movement";
 import { Movable } from "./utils/movable";
 import { Skybox } from "../shared/scenery/skybox";
 import { SkyboxRendererGL } from "../shared/scenery/skybox/renderer";
 import { useDorimeRatModel } from "./resources/dorime-rat";
 import { useOrangeModel } from "./resources/orange";
-import { LinearMovement } from "./utils/movable/managers/linear-movement";
-import { Mag } from "./utils/mag";
 import { MagManager } from "./utils/mag/mag-manager";
+import { PlayerMovementManager } from "./utils/movable/movement-managers/strafe-movement-manager";
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
 resizeCanvas(cv);
@@ -53,21 +51,22 @@ const skyboxRenderer = new SkyboxRendererGL(
     gl,
     skyboxVertShader as string, skyboxFragShader as string, renderer.camera, skybox);
 
-const strafeMovement = new StrafeMovement();
-const linearMovement = new LinearMovement({});
 const timer = new Timer();
-const player = new Movable({ mesh: playerMesh });
-const mag = new MagManager();
-mag.attachToMovable(player, timer, scene);
 
-strafeMovement.attachToMovable(player, timer);
+const player = new Movable({ mesh: playerMesh });
+
+const playerMovementManager = new PlayerMovementManager();
+playerMovementManager.attachToMovable(player, timer);
+
+const magManager = new MagManager();
+magManager.attachToMovable(player, timer, scene);
 
 timer.reset();
 
 const update = () => {
     timer.update();
-    player.move();
-    mag.moveBullets(timer);
+    player.move(timer);
+    magManager.moveBullets(timer);
     gl.clearColor(0, 0, 0, 1.0);
     gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
     skyboxRenderer.render();

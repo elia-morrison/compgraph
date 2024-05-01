@@ -4,23 +4,25 @@ import { Movable } from "../movable";
 import { Timer } from "../../../shared/timer";
 import { useOrangeModel } from "../../resources/orange";
 import { Scene } from "../../../shared/rendererGL";
+import { LinearMovement } from "../movable/movement-types/linear-movement";
 
 export class MagManager {
-    mag: Mag;
+    #mag: Mag | undefined;
     #keyboardListener = new KeyboardListener();
+    #linearMovement = new LinearMovement();
 
     addBullet = () => {
         console.log('adding bullet');
         const {
             orange
         } = useOrangeModel();
-        this.mag.addBullet(orange);
+        this.#mag?.addBullet(orange, this.#linearMovement);
         return orange;
     }
 
     moveBullets(timer: Timer) {
-        this.mag.bullets.forEach(({ movement}) => {
-            movement.move(timer);
+        this.#mag?.bullets.forEach(({ movement, movable}) => {
+            movement.moveEntity(movable, timer);
         })
     }
 
@@ -29,7 +31,7 @@ export class MagManager {
         timer: Timer,
         scene: Scene
     ) {
-        this.mag = new Mag(player);
+        this.#mag = new Mag(player);
         this.#keyboardListener.setListener([
             {
                 keys: ['F', 'f'],
