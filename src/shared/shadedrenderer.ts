@@ -128,7 +128,7 @@ export class ShadedRendererGL {
 
     setup_view(eye: ReadonlyVec3 = [0, 5, -10]) {
         let gl = this.gl;
-        mat4.lookAt(this.camera.viewMatrix, eye, [0, 0, 4], [0, 1, 0]);
+        mat4.lookAt(this.camera.viewMatrix, eye, [0, 3, 4], [0, 1, 0]);
         //this.camera.setPosition([0, 0, 50]);
         gl.enable(gl.DEPTH_TEST);
         gl.enable(gl.CULL_FACE);
