@@ -1,9 +1,9 @@
 import { Movable } from "../movable";
-import { ObjectGL } from "../../../shared/objectGL";
 import { Euler } from "three";
 import { LinearMovement } from "../movable/movement-types/linear-movement";
 import { BaseMovement } from "../movable/movement-types/base-movement";
 import { vec3 } from "gl-matrix";
+import { ObjectGL } from "../../../shared/mesh/objectGL";
 
 export class Mag {
 

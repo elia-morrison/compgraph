@@ -1,5 +1,5 @@
-import { ObjectGL } from "./objectGL";
 import { mat4, glMatrix } from "gl-matrix";
+import { ObjectGL } from "src/shared/mesh/objectGL";
 
 export class Camera extends ObjectGL
 {

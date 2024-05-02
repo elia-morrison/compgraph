@@ -1,8 +1,7 @@
-import { vec2, vec3 } from "gl-matrix";
-import { glMatrix, mat4, ReadonlyVec3, quat } from "gl-matrix";
-import { Euler, QuadraticBezierCurve, Quaternion, Vector3 } from "three";
-import { Material } from "./material";
-import { matr_from_euler } from "./utils";
+import { glMatrix, mat4, ReadonlyVec3, vec3 } from "gl-matrix";
+import { Euler,  Quaternion } from "three";
+import { matr_from_euler } from "src/shared/utils";
+import { Material } from "src/shared/mesh/material";
 
 export class ObjectGL {
     vertices: ReadonlyVec3[];

@@ -1,7 +1,7 @@
-import { KeyboardListener } from "../../../../shared/keyboard-listener";
 import { Movable } from "../index";
-import { Timer } from "../../../../shared/timer";
 import { StrafeMovement } from "../movement-types/strafe-movement";
+import { KeyboardListener } from "../../../../shared/ui/keyboard-listener";
+import { Timer } from "../../../../shared/runtime/timer";
 
 export class PlayerMovementManager {
     #keyboardListener = new KeyboardListener();

@@ -1,7 +1,7 @@
 import { BaseMovement } from "./base-movement";
 import { Movable } from "../index";
-import { Timer } from "../../../../shared/timer";
-import { KeyboardListener } from "../../../../shared/keyboard-listener";
+import { KeyboardListener } from "../../../../shared/ui/keyboard-listener";
+import { Timer } from "../../../../shared/runtime/timer";
 
 export class OrthoMovement extends BaseMovement {
     #keyboardListener = new KeyboardListener();

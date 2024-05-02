@@ -1,10 +1,9 @@
-import { ObjectGL } from "./objectGL";
 
-import { glMatrix, mat4, ReadonlyVec3 } from "gl-matrix";
-import { Camera } from "./camera";
-import { Euler } from "three";
-import { DirectionalLight, Lightsource, PointLight, SpotLight } from "./lightsource";
-import { Scene } from "./rendererGL";
+import {  mat4, ReadonlyVec3 } from "gl-matrix";
+import { ObjectGL } from "src/shared/mesh/objectGL";
+import { Scene } from "src/shared/renderers/rendererGL";
+import { Camera } from "src/shared/scenery/camera";
+import { DirectionalLight, PointLight, SpotLight } from "src/shared/scenery/light/lightsource";
 
 
 export class ShadedRendererGL {

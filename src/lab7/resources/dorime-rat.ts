@@ -1,6 +1,7 @@
-import { Material } from "../../shared/material";
 import dorimeObj from "bundle-text:../../../static/dorime/rat_main.obj"
-import { OBJLoaderGL } from "../../shared/objloader";
+import { Material } from "../../shared/mesh/material";
+import { OBJLoaderGL } from "../../shared/obj-loader/objloader";
+
 
 export const useDorimeRatModel = () => {
 

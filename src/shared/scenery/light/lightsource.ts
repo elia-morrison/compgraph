@@ -1,5 +1,5 @@
 import { ReadonlyVec3 } from "gl-matrix";
-import { ObjectGL } from "./objectGL";
+import { ObjectGL } from "src/shared/mesh/objectGL";
 
 export class Lightsource extends ObjectGL {
     public color: ReadonlyVec3 = [1, 1, 1];

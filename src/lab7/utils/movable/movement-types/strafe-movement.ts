@@ -1,8 +1,8 @@
 import { BaseMovement } from "./base-movement";
 import { Movable } from "../index";
-import { Timer } from "../../../../shared/timer";
 import { vec3 } from "gl-matrix";
-import { KeyboardListener } from "../../../../shared/keyboard-listener";
+import { KeyboardListener } from "../../../../shared/ui/keyboard-listener";
+import { Timer } from "../../../../shared/runtime/timer";
 
 const initialOrientation = {
     yaw: Math.PI * 0.5,

@@ -1,12 +1,7 @@
-import { Scene } from "../shared/rendererGL";
-import { ShadedRendererGL } from "../shared/shadedrenderer";
 import frag_shader from "../shaders/shaded.frag";
 import vert_shader from "../shaders/shaded.vert";
 import skyboxVertShader from "../shared/scenery/skybox/shaders/cubemap.vert";
 import skyboxFragShader from "../shared/scenery/skybox/shaders/cubemap.frag";
-import { PointLight } from "../shared/lightsource";
-import { resizeCanvas } from "../shared/ui";
-import { Timer } from "../shared/timer";
 import { Movable } from "./utils/movable";
 import { Skybox } from "../shared/scenery/skybox";
 import { SkyboxRendererGL } from "../shared/scenery/skybox/renderer";
@@ -14,6 +9,11 @@ import { useDorimeRatModel } from "./resources/dorime-rat";
 import { useOrangeModel } from "./resources/orange";
 import { MagManager } from "./utils/mag/mag-manager";
 import { PlayerMovementManager } from "./utils/movable/movement-managers/strafe-movement-manager";
+import { resizeCanvas } from "../shared/ui/ui";
+import { Scene } from "../shared/renderers/rendererGL";
+import { PointLight } from "../shared/scenery/light/lightsource";
+import { ShadedRendererGL } from "../shared/renderers/shadedrenderer";
+import { Timer } from "../shared/runtime/timer";
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
 resizeCanvas(cv);

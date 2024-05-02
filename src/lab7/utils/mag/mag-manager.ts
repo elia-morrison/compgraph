@@ -1,10 +1,10 @@
 import { Mag } from "./index";
-import { KeyboardListener } from "../../../shared/keyboard-listener";
 import { Movable } from "../movable";
-import { Timer } from "../../../shared/timer";
 import { useOrangeModel } from "../../resources/orange";
-import { Scene } from "../../../shared/rendererGL";
 import { LinearMovement } from "../movable/movement-types/linear-movement";
+import { KeyboardListener } from "../../../shared/ui/keyboard-listener";
+import { Timer } from "../../../shared/runtime/timer";
+import { Scene } from "../../../shared/renderers/rendererGL";
 
 export class MagManager {
     #mag: Mag | undefined;

@@ -1,7 +1,8 @@
 import { BufferAttribute, Mesh } from "three";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils.js";
-import { ObjectGL } from "./objectGL";
+import { ObjectGL } from "../mesh/objectGL";
+
 
 export class OBJLoaderGL {
     loader: OBJLoader = new OBJLoader()

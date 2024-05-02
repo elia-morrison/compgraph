@@ -1,8 +1,8 @@
 import { vec3 } from "gl-matrix";
-import { ObjectGL } from "../../../shared/objectGL";
 import { Euler } from "three";
-import { BaseMovement } from "././movement-types/base-movement";
-import { Timer } from "../../../shared/timer";
+import { BaseMovement } from "./movement-types/base-movement";
+import { ObjectGL } from "../../../shared/mesh/objectGL";
+import { Timer } from "../../../shared/runtime/timer";
 
 export class Movable {
     position: vec3 = [0.0, 0.0, 0.0];

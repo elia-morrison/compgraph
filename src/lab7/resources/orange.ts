@@ -1,6 +1,6 @@
-import { Material } from "../../shared/material";
-import { OBJLoaderGL } from "../../shared/objloader";
 import orangeFile from "bundle-text:../../../static/orange/Orange.obj"
+import { Material } from "../../shared/mesh/material";
+import { OBJLoaderGL } from "../../shared/obj-loader/objloader";
 
 export const useOrangeModel = () => {
     const texture = document.getElementById("orange_texture");

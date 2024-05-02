@@ -1,8 +1,8 @@
-import { ObjectGL } from "./objectGL";
+import { ReadonlyVec3 } from "gl-matrix";
+import { ObjectGL } from "../mesh/objectGL";
+import { Lightsource } from "../scenery/light/lightsource";
+import { Camera } from "../scenery/camera";
 
-import { glMatrix, mat4, ReadonlyVec3 } from "gl-matrix";
-import { Camera } from "./camera";
-import { Lightsource } from "./lightsource";
 
 export class Scene {
     public objects: ObjectGL[] = [];
