@@ -1,6 +1,5 @@
 import dorimeObj from "bundle-text:../../../static/dorime/rat_main.obj"
-import { Material } from "../../shared/mesh/material";
-import { OBJLoaderGL } from "src/shared/resource-loaders/objloader";
+import { Material } from "src/shared/mesh/material";
 import { MeshLoader } from "src/shared/resource-loaders/mesh-loader";
 
 

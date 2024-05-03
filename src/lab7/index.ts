@@ -29,7 +29,10 @@ light1.radius = 50;
 scene.lightsources.push(light1);
 
 const dorimeMesh = useDorimeRatModel();
+dorimeMesh.setup_buffers(gl);
+
 const orangeMesh = useOrangeModel();
+orangeMesh.setup_buffers(gl);
 
 const player = new Body3D(dorimeMesh);
 player.setScale([0.5, 0.5, 0.5]);

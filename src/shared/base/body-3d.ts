@@ -22,7 +22,7 @@ export class Body3D {
     }
 
     get direction() {
-        return vec3.normalize([0, 0, 0], [
+        return vec3.normalize(vec3.create(), [
             -Math.cos(this.rotation.y), // yaw
             Math.sin(this.rotation.x), // pitch
             Math.sin(this.rotation.y) // yaw

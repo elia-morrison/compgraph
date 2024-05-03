@@ -52,10 +52,6 @@ export class BaseRenderer {
         this.camera.setPosition([0, 0, -50]);
         this.setup_view();
 
-        for (let obj of scene.objects) {
-            obj.setup_buffers(this.gl);
-        }
-
         this.positionAttribLocation = gl.getAttribLocation(this.program, 'vertPosition');
         this.normalAttribLocation = gl.getAttribLocation(this.program, 'vertNormal');
         this.uvAttribLocation = gl.getAttribLocation(this.program, 'vertUV');
