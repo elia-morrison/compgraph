@@ -1,43 +1,55 @@
-import frag_shader from "../shaders/shaded.frag";
-import vert_shader from "../shaders/shaded.vert";
-import skyboxVertShader from "../shared/scenery/skybox/shaders/cubemap.vert";
-import skyboxFragShader from "../shared/scenery/skybox/shaders/cubemap.frag";
-import { Movable } from "./utils/movable";
-import { Skybox } from "../shared/scenery/skybox";
-import { SkyboxRendererGL } from "../shared/scenery/skybox/renderer";
-import { useDorimeRatModel } from "./resources/dorime-rat";
-import { useOrangeModel } from "./resources/orange";
-import { MagManager } from "./utils/mag/mag-manager";
-import { PlayerMovementManager } from "./utils/movable/movement-managers/strafe-movement-manager";
-import { resizeCanvas } from "../shared/ui/ui";
-import { Scene } from "../shared/renderers/rendererGL";
-import { PointLight } from "../shared/scenery/light/lightsource";
-import { ShadedRendererGL } from "../shared/renderers/shadedrenderer";
-import { Timer } from "../shared/runtime/timer";
+import { resizeCanvas } from "src/shared/ui/ui";
+import { PointLight } from "src/shared/scenery/light/lightsource";
+import { useDorimeRatModel } from "src/lab7/resources/dorime-rat";
+import { useOrangeModel } from "src/lab7/resources/orange";
+import { Skybox } from "src/shared/scenery/skybox";
+import frag_shader from "src/shaders/shaded.frag";
+import vert_shader from "src/shaders/shaded.vert";
+import skyboxVertShader from "src/shared/scenery/skybox/shaders/cubemap.vert";
+import skyboxFragShader from "src/shared/scenery/skybox/shaders/cubemap.frag";
+import { SkyboxRendererGL } from "src/shared/scenery/skybox/renderer";
+import { Timer } from "src/shared/runtime/timer";
+import { Body3D } from "src/shared/body-3d";
+import { PlayerMovementManager } from "src/shared/body-3d/movement/movement-managers/strafe-movement-manager";
+import { BaseRendererGL, BaseScene } from "src/shared/renderers/base-renderer";
+import { BaseShaderProgram } from "src/shared/webgl/base-shader-program";
+import { Camera } from "src/shared/scenery/camera";
+
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
 resizeCanvas(cv);
 window.addEventListener('resize', function (event) { resizeCanvas(cv); }, true);
 let gl = cv.getContext("webgl2") as WebGL2RenderingContext;
 
-let scene = new Scene();
+const scene = new BaseScene();
 
 let light1 = new PointLight();
 light1.setPosition([-5, 10, -5]);
 light1.radius = 50;
 scene.lightsources.push(light1);
 
-const {
-    dorimeRat: playerMesh
-} = useDorimeRatModel();
+const timer = new Timer();
 
-const {
-    orange
-} = useOrangeModel();
+const dorimeRat = useDorimeRatModel();
+const orangeMesh = useOrangeModel();
 
-scene.objects.push(playerMesh);
+const orange = new Body3D(orangeMesh);
+orange.setScale([0.01, 0.01, 0.01]);
 
-let renderer = new ShadedRendererGL(gl, vert_shader as string, frag_shader as string, scene);
+/*const player = new Body3D(dorimeRat);
+player.setScale([0.5, 0.5, 0.5]);
+
+const playerMovementManager = new PlayerMovementManager();
+playerMovementManager.attachToBody3D(player, timer);*/
+
+/* const magManager = new MagManager();
+magManager.attachToBody3D(player, timer, scene); */
+
+scene.objects.push(orange);
+
+const camera = new Camera(gl);
+const shaderProgram = new BaseShaderProgram(vert_shader as string, frag_shader as string, gl);
+
 const skybox = new Skybox(gl, 60, [
     document.getElementById("skybox-right"),
     document.getElementById("skybox-left"),
@@ -49,28 +61,25 @@ const skybox = new Skybox(gl, 60, [
 
 const skyboxRenderer = new SkyboxRendererGL(
     gl,
-    skyboxVertShader as string, skyboxFragShader as string, renderer.camera, skybox);
+    skyboxVertShader as string,
+    skyboxFragShader as string,
+    camera,
+    skybox
+);
 
-const timer = new Timer();
-
-const player = new Movable({ mesh: playerMesh });
-
-const playerMovementManager = new PlayerMovementManager();
-playerMovementManager.attachToMovable(player, timer);
-
-const magManager = new MagManager();
-magManager.attachToMovable(player, timer, scene);
+const renderer = new BaseRendererGL(shaderProgram, scene, camera);
 
 timer.reset();
 
 const update = () => {
     timer.update();
-    player.move(timer);
-    magManager.moveBullets(timer);
-    gl.clearColor(0, 0, 0, 1.0);
-    gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
-    skyboxRenderer.render();
-    renderer.render(false);
+    // player.move(timer);
+    // magManager.moveBullets(timer);
+
+    renderer.clear();
+
+    // skyboxRenderer.render();
+    renderer.render();
     requestAnimationFrame(update);
 }
 

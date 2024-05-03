@@ -1,6 +1,6 @@
-import { ReadonlyVec3, mat4, quat2 } from "gl-matrix";
+import { ReadonlyVec3 } from "gl-matrix";
 import { Euler } from "three";
-import { ObjectGL } from "./objectGL";
+import { ObjectGL } from "src/shared/mesh/objectGL";
 
 export class Cube extends ObjectGL {
     constructor(position: ReadonlyVec3, rotation: Euler) {

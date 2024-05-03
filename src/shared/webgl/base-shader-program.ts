@@ -115,16 +115,19 @@ class BaseShaderProgram {
     setWorldMat = (val: Float32Array, name = 'mWorld') => {
         const location = this.#getUniformLocation(name);
         this.glContext.uniformMatrix4fv(this.#matWorldUniformLocation, false, val);
+        return location;
     }
 
     setViewMat = (val: Float32Array, name = 'mView') => {
         const location = this.#getUniformLocation(name);
         this.glContext.uniformMatrix4fv(this.#matViewUniformLocation, false, val);
+        return location;
     }
 
     setProjMat = (val: Float32Array, name = 'mProj') => {
         const location = this.#getUniformLocation(name);
         this.glContext.uniformMatrix4fv(this.#matProjUniformLocation, false, val);
+        return location;
     }
 
     get program() {

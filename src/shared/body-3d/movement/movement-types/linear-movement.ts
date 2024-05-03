@@ -1,10 +1,10 @@
 import { BaseMovement } from "./base-movement";
-import { Movable } from "../index";
 import { vec3 } from "gl-matrix";
-import { Timer } from "../../../../shared/runtime/timer";
+import { Timer } from "src/shared/runtime/timer";
+import { Body3D } from "src/shared/body-3d";
 
 export class LinearMovement extends BaseMovement {
-    moveEntity(movable: Movable, timer: Timer) {
+    moveEntity(movable: Body3D, timer: Timer) {
         vec3.add(
             movable.position,
             movable.position,

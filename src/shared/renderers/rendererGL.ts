@@ -52,7 +52,7 @@ export class RendererGL {
         this.setup_view();
 
         for (let obj of scene.objects) {
-            obj.setup_buffers(this.gl);
+            obj.setupBuffers(this.gl);
         }
 
         this.scene = scene;

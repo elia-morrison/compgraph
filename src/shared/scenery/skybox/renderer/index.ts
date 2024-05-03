@@ -1,6 +1,6 @@
 import { mat4 } from "gl-matrix";
-import { Camera } from "../../../camera";
 import { Skybox } from "../index";
+import { Camera } from "src/shared/scenery/camera";
 
 
 export class SkyboxRendererGL {
@@ -94,7 +94,6 @@ export class SkyboxRendererGL {
 
         gl.depthFunc(gl.LEQUAL);
         gl.drawArrays(gl.TRIANGLES, 0, 36);
-        // gl.bindVertexArray(0);
         gl.depthFunc(gl.LESS); // set depth function back to default
 
         let errcode = gl.getError()

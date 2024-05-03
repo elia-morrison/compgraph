@@ -1,4 +1,3 @@
-
 import {  mat4, ReadonlyVec3 } from "gl-matrix";
 import { ObjectGL } from "src/shared/mesh/objectGL";
 import { Scene } from "src/shared/renderers/rendererGL";
@@ -53,7 +52,7 @@ export class ShadedRendererGL {
         this.setup_view();
 
         for (let obj of scene.objects) {
-            obj.setup_buffers(this.gl);
+            obj.setupBuffers(this.gl);
         }
 
         this.scene = scene;

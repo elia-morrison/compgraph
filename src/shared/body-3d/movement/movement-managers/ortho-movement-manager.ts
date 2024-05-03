@@ -1,13 +1,13 @@
-import { Movable } from "../index";
-import { OrthoMovement } from "../movement-types/ortho-movement";
-import { Timer } from "../../../../shared/runtime/timer";
-import { KeyboardListener } from "../../../../shared/ui/keyboard-listener";
+import { KeyboardListener } from "src/shared/ui/keyboard-listener";
+import { OrthoMovement } from "src/shared/body-3d/movement/movement-types/ortho-movement";
+import { Timer } from "src/shared/runtime/timer";
+import { Body3D } from "src/shared/body-3d";
 
 export class OrthoMovementManager {
     #keyboardListener = new KeyboardListener();
     #movement = new OrthoMovement();
 
-    attachToMovable(player: Movable, timer: Timer) {
+    attachToBody3D(player: Body3D, timer: Timer) {
         this.#keyboardListener.setListener([
             {
                 keys: ['W', 'w'],
@@ -36,7 +36,7 @@ export class OrthoMovementManager {
         ]);
     }
 
-    detachFromMovable() {
+    detachFromBody3D() {
         this.#keyboardListener.removeListener();
     };
 }

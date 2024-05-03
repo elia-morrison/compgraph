@@ -1,8 +1,8 @@
 import { BaseMovement } from "./base-movement";
-import { Movable } from "../index";
 import { vec3 } from "gl-matrix";
-import { KeyboardListener } from "../../../../shared/ui/keyboard-listener";
-import { Timer } from "../../../../shared/runtime/timer";
+import { KeyboardListener } from "src/shared/ui/keyboard-listener";
+import { Timer } from "src/shared/runtime/timer";
+import { Body3D } from "src/shared/body-3d";
 
 const initialOrientation = {
     yaw: Math.PI * 0.5,
@@ -39,13 +39,13 @@ export class StrafeMovement extends BaseMovement {
         this.#roll = roll;
     }
 
-    moveEntity(movable: Movable, timer: Timer) { }
+    moveEntity(movable: Body3D, timer: Timer) { }
 
-    updatePlayerRotation(player: Movable) {
+    updatePlayerRotation(player: Body3D) {
         player.rotation.set(this.#pitch, this.#yaw, this.#roll);
     }
 
-    updateVectors(player: Movable) {
+    updateVectors(player: Body3D) {
         this.updatePlayerRotation(player);
         this.#front = vec3.clone(player.direction);
         vec3.normalize(
@@ -60,7 +60,7 @@ export class StrafeMovement extends BaseMovement {
         );
     }
 
-    moveAlongDirection(player: Movable, timer: Timer, forwards = true) {
+    moveAlongDirection(player: Body3D, timer: Timer, forwards = true) {
         const sign = forwards? 1.0 : - 1.0;
         vec3.add(
             player.position,
@@ -71,13 +71,13 @@ export class StrafeMovement extends BaseMovement {
         );
     }
 
-    turnAroundX(player: Movable, timer: Timer, clockwise = true) {
+    turnAroundX(player: Body3D, timer: Timer, clockwise = true) {
         const sign = clockwise? -1.0 : 1.0;
         this.#pitch += sign * this.#turnVelocity * timer.timeDelta;
         this.updateVectors(player);
     }
 
-    turnAroundY(player: Movable, timer: Timer, clockwise = true) {
+    turnAroundY(player: Body3D, timer: Timer, clockwise = true) {
         const sign = clockwise? -1.0 : 1.0;
         this.#yaw += sign * this.#turnVelocity * timer.timeDelta;
         this.updateVectors(player);

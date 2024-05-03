@@ -1,13 +1,13 @@
-import { Movable } from "../index";
-import { StrafeMovement } from "../movement-types/strafe-movement";
-import { KeyboardListener } from "../../../../shared/ui/keyboard-listener";
-import { Timer } from "../../../../shared/runtime/timer";
+import { KeyboardListener } from "src/shared/ui/keyboard-listener";
+import { StrafeMovement } from "src/shared/body-3d/movement/movement-types/strafe-movement";
+import { Body3D } from "src/shared/body-3d";
+import { Timer } from "src/shared/runtime/timer";
 
 export class PlayerMovementManager {
     #keyboardListener = new KeyboardListener();
     #movement = new StrafeMovement();
 
-    attachToMovable(player: Movable, timer: Timer) {
+    attachToBody3D(player: Body3D, timer: Timer) {
         player.movement = this.#movement;
         this.#movement.updateVectors(player);
         this.#keyboardListener.setListener([
@@ -62,7 +62,7 @@ export class PlayerMovementManager {
         ]);
     }
 
-    detachFromMovable() {
+    detachFromBody3D() {
         this.#keyboardListener.removeListener();
     };
 }
