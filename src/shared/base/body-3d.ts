@@ -2,8 +2,8 @@ import { mat4, ReadonlyVec3, vec3 } from "gl-matrix";
 import { Euler, Quaternion } from "three";
 import { matr_from_euler } from "src/shared/utils";
 import { BaseMesh } from "src/shared/base/base-mesh";
-import { BaseMovement } from "src/lab7/utils/movable/movement-types/base-movement";
 import { Timer } from "src/shared/runtime/timer";
+import { BaseMovement } from "src/shared/base/movable/movement-types/base-movement";
 
 export class Body3D {
     public _position: vec3 = [0, 0, 0];
@@ -17,6 +17,7 @@ export class Body3D {
     rotMatr = new Float32Array(16)
 
     constructor(public mesh: BaseMesh) {
+        this.setScale([1, 1, 1]);
         this.updateWorldMatrix();
     }
 

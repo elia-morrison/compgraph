@@ -1,49 +1,46 @@
 import { Mag } from "./index";
-import { Movable } from "../movable";
-import { useOrangeModel } from "../../resources/orange";
-import { LinearMovement } from "../movable/movement-types/linear-movement";
-import { KeyboardListener } from "../../../shared/ui/keyboard-listener";
-import { Timer } from "../../../shared/runtime/timer";
-import { Scene } from "../../../shared/renderers/rendererGL";
+import { KeyboardListener } from "src/shared/ui/keyboard-listener";
+import { Timer } from "src/shared/runtime/timer";
+import { LinearMovement } from "src/shared/base/movable/movement-types/linear-movement";
+import { BaseMesh } from "src/shared/base/base-mesh";
+import { Body3D } from "src/shared/base/body-3d";
+import { BaseScene } from "src/shared/base/base-scene";
 
 export class MagManager {
-    #mag: Mag | undefined;
+    #mag: Mag;
     #keyboardListener = new KeyboardListener();
     #linearMovement = new LinearMovement();
 
-    addBullet = () => {
-        console.log('adding bullet');
-        const {
-            orange
-        } = useOrangeModel();
-        this.#mag?.addBullet(orange, this.#linearMovement);
-        return orange;
+    constructor(
+        origin: Body3D,
+        readonly bulletMesh: BaseMesh,
+    ) {
+        this.#mag = new Mag(origin);
+    }
+
+    addBullet = (mesh: BaseMesh) => {
+        return this.#mag.addBullet(mesh, this.#linearMovement);
     }
 
     moveBullets(timer: Timer) {
-        this.#mag?.bullets.forEach(({ movement, movable}) => {
-            movement.moveEntity(movable, timer);
+        this.#mag.bullets.forEach((bullet) => {
+            bullet.movement.moveEntity(bullet, timer);
         })
     }
 
-    attachToMovable(
-        player: Movable,
-        timer: Timer,
-        scene: Scene
-    ) {
-        this.#mag = new Mag(player);
+    attachToKeyboard(scene: BaseScene) {
         this.#keyboardListener.setListener([
             {
                 keys: ['F', 'f'],
                 callback: () => {
-                    const newBullet = this.addBullet();
+                    const newBullet = this.addBullet(this.bulletMesh);
                     scene.objects.push(newBullet);
                 }
             },
         ]);
     }
 
-    detachFromMovable() {
+    detachFromKeyboard() {
         this.#keyboardListener.removeListener();
     };
 }

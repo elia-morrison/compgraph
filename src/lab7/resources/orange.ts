@@ -1,6 +1,5 @@
 import orangeFile from "bundle-text:../../../static/orange/Orange.obj"
 import { Material } from "src/shared/mesh/material";
-import { OBJLoaderGL } from "src/shared/resource-loaders/objloader";
 import { MeshLoader } from "src/shared/resource-loaders/mesh-loader";
 
 export const useOrangeModel = () => {

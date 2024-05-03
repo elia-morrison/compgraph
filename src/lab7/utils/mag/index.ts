@@ -1,30 +1,26 @@
-import { Movable } from "../movable";
 import { Euler } from "three";
-import { LinearMovement } from "../movable/movement-types/linear-movement";
-import { BaseMovement } from "../movable/movement-types/base-movement";
 import { vec3 } from "gl-matrix";
-import { ObjectGL } from "../../../shared/mesh/objectGL";
+import { Body3D } from "src/shared/base/body-3d";
+import { Movable } from "src/shared/base/movable";
+import { BaseMovement } from "src/shared/base/movable/movement-types/base-movement";
+import { BaseMesh } from "src/shared/base/base-mesh";
 
 export class Mag {
 
-    // todo: share single objectGL between all bullets!!!
-    bullets: Array<{
-        movable: Movable,
-        movement: LinearMovement // maybe add other types?
-    }> = [];
+    bullets: Array<Body3D> = [];
 
     constructor(readonly origin: Movable) {}
 
     addBullet(
-        mesh: ObjectGL,
+        mesh: BaseMesh,
         movement: BaseMovement,
     ) {
-        const newBullet = new Movable({ mesh });
-        newBullet.position = vec3.clone(this.origin.position);
-        newBullet.rotation = (new Euler).copy(this.origin.rotation);
-        this.bullets.push({
-            movable: newBullet,
-            movement
-        });
+        const newBullet = new Body3D(mesh);
+        newBullet.movement = movement;
+        newBullet.setScale([0.01, 0.01, 0.01]);
+        newBullet.setPosition(vec3.clone(this.origin.position))
+        newBullet.setRotation((new Euler).copy(this.origin.rotation))
+        this.bullets.push(newBullet);
+        return newBullet;
     }
 }

@@ -6,7 +6,6 @@ import { Skybox } from "../shared/scenery/skybox";
 import { SkyboxRendererGL } from "../shared/scenery/skybox/renderer";
 import { useDorimeRatModel } from "./resources/dorime-rat";
 import { useOrangeModel } from "./resources/orange";
-import { PlayerMovementManager } from "./utils/movable/movement-managers/strafe-movement-manager";
 import { resizeCanvas } from "../shared/ui/ui";
 import { PointLight } from "../shared/scenery/light/lightsource";
 import { Timer } from "../shared/runtime/timer";
@@ -14,6 +13,8 @@ import { Camera } from "src/shared/scenery/camera";
 import { BaseRenderer } from "src/shared/base/base-renderer";
 import { BaseScene } from "src/shared/base/base-scene";
 import { Body3D } from "src/shared/base/body-3d";
+import { MagManager } from "src/lab7/utils/mag/mag-manager";
+import { PlayerMovementManager } from "src/shared/base/movable/movement-managers/strafe-movement-manager";
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
 resizeCanvas(cv);
@@ -30,13 +31,10 @@ scene.lightsources.push(light1);
 const dorimeMesh = useDorimeRatModel();
 const orangeMesh = useOrangeModel();
 
-const orange = new Body3D(orangeMesh);
-orange.setScale([0.01, 0.01, 0.01]);
-
 const player = new Body3D(dorimeMesh);
 player.setScale([0.5, 0.5, 0.5]);
 
-scene.objects.push(player, orange);
+scene.objects.push(player);
 
 const camera = new Camera(gl);
 const renderer = new BaseRenderer(gl, vert_shader as string, frag_shader as string, scene, camera);
@@ -58,17 +56,15 @@ const timer = new Timer();
 const playerMovementManager = new PlayerMovementManager();
 playerMovementManager.attachToMovable(player, timer);
 
-/*
-const magManager = new MagManager();
-magManager.attachToMovable(player, timer, scene);
-*/
+const magManager = new MagManager(player, orangeMesh);
+magManager.attachToKeyboard(scene);
 
 timer.reset();
 
 const update = () => {
     timer.update();
     player.move(timer);
-    // magManager.moveBullets(timer);
+    magManager.moveBullets(timer);
     gl.clearColor(0, 0, 0, 1.0);
     gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
     skyboxRenderer.render();
