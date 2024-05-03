@@ -35,6 +35,8 @@ export class BaseRendererGL {
 
         this.matWorldUniformLocation = this.gl.getUniformLocation(this.shaderProgram.program, 'mWorld') as WebGLUniformLocation;
         this.matRotUniformLocation = this.gl.getUniformLocation(this.shaderProgram.program, 'rotMatr') as WebGLUniformLocation;
+
+        console.log(this.matWorldUniformLocation, this.matRotUniformLocation);
         if (this.matWorldUniformLocation == null) {
             throw Error('wrong world uniform');
         }
@@ -139,16 +141,16 @@ export class BaseRendererGL {
 
         this.setupLight();
         for (let obj of this.scene.objects) {
-            obj.mesh.enableMaterials(this.shaderProgram);
             obj.mesh.enableBuffers(this.gl, {
                 normal: this.normalAttribLocation,
                 uv: this.uvAttribLocation,
                 position: this.positionAttribLocation
             });
             obj.mesh.enableTextures(this.gl);
+            obj.mesh.enableMaterials(this.shaderProgram);
 
-     /*       this.gl.uniformMatrix4fv(this.matWorldUniformLocation, false, obj.worldMatrix);
-            this.gl.uniformMatrix4fv(this.matRotUniformLocation, false, obj.rotMatr);*/
+            this.gl.uniformMatrix4fv(this.matWorldUniformLocation, false, obj.worldMatrix);
+            this.gl.uniformMatrix4fv(this.matRotUniformLocation, false, obj.rotMatr);
 
             this.gl.drawElements(
                 this.gl.TRIANGLES,

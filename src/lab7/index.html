@@ -17,7 +17,13 @@
                 image-rendering: crisp-edges; 
                 position: absolute;"></canvas>
     </div>
-<!--    <script src="https://greggman.github.io/webgl-lint/webgl-lint.js"></script>-->
+    <script src="https://greggman.github.io/webgl-lint/webgl-lint.js"
+            data-gman-debug-helper='
+    {
+      "failUnsetUniforms": false
+    }
+  '
+    ></script>
     <script src="index.ts" type="module">
     </script>
     <img id="orange_texture" src="../../static/orange/orange.png" hidden alt="orange_texture"/>

@@ -49,6 +49,7 @@ scene.objects.push(orange);
 
 const camera = new Camera(gl);
 const shaderProgram = new BaseShaderProgram(vert_shader as string, frag_shader as string, gl);
+shaderProgram.use();
 
 const skybox = new Skybox(gl, 60, [
     document.getElementById("skybox-right"),

@@ -15,7 +15,9 @@ export const useOrangeModel = () => {
     orangeMtl.diff_map_1_strength = 1.;
     orangeMtl.normal_map = normal as HTMLImageElement;
     orangeMtl.normal_map_strength = 1.;
-    orangeMtl.bump_map = bump as HTMLImageElement;
+
+    // orangeMtl.bump_map = bump as HTMLImageElement;
+
     orangeMtl.bumpiness = 0.05;
     orangeMtl.shininess = 32;
     orangeMtl.specular = 1;

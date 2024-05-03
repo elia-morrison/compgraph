@@ -78,7 +78,7 @@ class BaseShaderProgram {
     #getUniformLocation = (name: string) => {
         if (!this.#program) throw new Error('Shader program not defined');
         const location = this.glContext.getUniformLocation(this.#program, name);
-        if (location === -1) throw new Error(`Uniform '${name}' not defined`);
+        if (location === -1 || location === null) throw new Error(`Uniform '${name}' not defined`);
         return location;
     }
 

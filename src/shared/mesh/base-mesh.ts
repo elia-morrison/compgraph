@@ -136,14 +136,16 @@ export class BaseMesh {
 
         program.setInteger('material.use_fragment_shading', this.material.use_fragment_shading ? 1 : 0);
 
-        program.setInteger('material.normal_map', 2);
+        if (this.normal_map) {
+            program.setInteger('material.normal_map', 2);
+            program.setFloat('material.normal_map_strength', this.material.normal_map_strength);
+        }
 
-        program.setFloat('material.normal_map_strength', this.material.normal_map_strength);
-
-        program.setInteger('material.bump_map', 3);
+        if (this.material.bump_map) {
+            program.setInteger('material.bump_map', 3);
+        }
 
         program.setFloat('material.bumpiness', this.material.bumpiness);
-
         program.setFloat('material.normal_bump_mix', this.material.normal_bump_mix);
     }
 }

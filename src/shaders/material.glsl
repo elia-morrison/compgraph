@@ -10,6 +10,7 @@ struct Material {
 
     sampler2D normal_map;
     float normal_map_strength;
+
     sampler2D bump_map;
     float bumpiness;
     float normal_bump_mix;
