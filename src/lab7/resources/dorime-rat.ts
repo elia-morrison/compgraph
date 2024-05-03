@@ -1,6 +1,7 @@
 import dorimeObj from "bundle-text:../../../static/dorime/rat_main.obj"
 import { Material } from "../../shared/mesh/material";
-import { OBJLoaderGL } from "../../shared/obj-loader/objloader";
+import { OBJLoaderGL } from "src/shared/resource-loaders/objloader";
+import { MeshLoader } from "src/shared/resource-loaders/mesh-loader";
 
 
 export const useDorimeRatModel = () => {
@@ -15,9 +16,8 @@ export const useDorimeRatModel = () => {
     dorimeMtl.shininess = 32;
     dorimeMtl.specular = 1;
 
-    const objLoader = new OBJLoaderGL();
+    const objLoader = new MeshLoader();
     const dorimeRat = objLoader.load(dorimeObj);
-    dorimeRat.setScale([0.5, 0.5, 0.5]);
     dorimeRat.material = dorimeMtl;
 
     return { dorimeRat }
