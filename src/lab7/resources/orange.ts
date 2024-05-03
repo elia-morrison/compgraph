@@ -1,6 +1,7 @@
 import orangeFile from "bundle-text:../../../static/orange/Orange.obj"
-import { Material } from "../../shared/mesh/material";
+import { Material } from "src/shared/mesh/material";
 import { OBJLoaderGL } from "src/shared/resource-loaders/objloader";
+import { MeshLoader } from "src/shared/resource-loaders/mesh-loader";
 
 export const useOrangeModel = () => {
     const texture = document.getElementById("orange_texture");
@@ -21,12 +22,9 @@ export const useOrangeModel = () => {
     orangeMtl.specular = 1;
 
 
-    let objLoader = new OBJLoaderGL();
+    const objLoader = new MeshLoader();
     let orange = objLoader.load(orangeFile);
-    orange.setScale([0.01, 0.01, 0.01]);
     orange.material = orangeMtl;
 
-    return {
-        orange
-    }
+    return orange;
 }

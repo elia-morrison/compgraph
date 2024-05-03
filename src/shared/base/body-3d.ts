@@ -16,7 +16,9 @@ export class Body3D {
     worldMatrix = new Float32Array(16);
     rotMatr = new Float32Array(16)
 
-    constructor(public mesh: BaseMesh) {}
+    constructor(public mesh: BaseMesh) {
+        this.updateWorldMatrix();
+    }
 
     get direction() {
         return vec3.normalize([0, 0, 0], [

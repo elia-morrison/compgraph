@@ -1,5 +1,5 @@
-import { vec3 } from "gl-matrix";
-import { Euler } from "three";
+import { ReadonlyVec3, vec3 } from "gl-matrix";
+import { Euler, Quaternion } from "three";
 import { BaseMovement } from "./movement-types/base-movement";
 import { Timer } from "src/shared/runtime/timer";
 
@@ -9,4 +9,9 @@ export interface Movable {
     velocity: number;
     movement: BaseMovement | undefined;
     move(timer: Timer): void;
+
+    direction: vec3;
+
+    setPosition(pos: ReadonlyVec3): void;
+    setRotation(rot: Quaternion | Euler): void;
 }

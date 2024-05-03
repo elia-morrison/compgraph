@@ -27,14 +27,16 @@ light1.setPosition([-5, 10, -5]);
 light1.radius = 50;
 scene.lightsources.push(light1);
 
-const { dorimeRat } = useDorimeRatModel();
-const { orange } = useOrangeModel();
+const dorimeMesh = useDorimeRatModel();
+const orangeMesh = useOrangeModel();
 
-const player = new Body3D(dorimeRat);
+const orange = new Body3D(orangeMesh);
+orange.setScale([0.01, 0.01, 0.01]);
+
+const player = new Body3D(dorimeMesh);
 player.setScale([0.5, 0.5, 0.5]);
-player.updateWorldMatrix();
 
-scene.objects.push(player);
+scene.objects.push(player, orange);
 
 const camera = new Camera(gl);
 const renderer = new BaseRenderer(gl, vert_shader as string, frag_shader as string, scene, camera);

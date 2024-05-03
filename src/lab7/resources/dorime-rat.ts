@@ -20,5 +20,5 @@ export const useDorimeRatModel = () => {
     const dorimeRat = objLoader.load(dorimeObj);
     dorimeRat.material = dorimeMtl;
 
-    return { dorimeRat }
+    return dorimeRat;
 }

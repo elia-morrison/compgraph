@@ -1,8 +1,9 @@
 import { BaseMovement } from "./base-movement";
 import { Movable } from "../index";
 import { vec3 } from "gl-matrix";
-import { KeyboardListener } from "../../../../shared/ui/keyboard-listener";
-import { Timer } from "../../../../shared/runtime/timer";
+import { KeyboardListener } from "src/shared/ui/keyboard-listener";
+import { Timer } from "src/shared/runtime/timer";
+import { Euler } from "three";
 
 const initialOrientation = {
     yaw: Math.PI * 0.5,
@@ -42,7 +43,7 @@ export class StrafeMovement extends BaseMovement {
     moveEntity(movable: Movable, timer: Timer) { }
 
     updatePlayerRotation(player: Movable) {
-        player.rotation.set(this.#pitch, this.#yaw, this.#roll);
+        player.setRotation(new Euler(this.#pitch, this.#yaw, this.#roll));
     }
 
     updateVectors(player: Movable) {
@@ -62,13 +63,14 @@ export class StrafeMovement extends BaseMovement {
 
     moveAlongDirection(player: Movable, timer: Timer, forwards = true) {
         const sign = forwards? 1.0 : - 1.0;
-        vec3.add(
-            player.position,
+        const newPosition = vec3.add(
+            vec3.create(),
             player.position,
             vec3.scale(
                 [0.0, 0.0, 0.0], this.#front, sign * this.#velocity * timer.timeDelta
             )
         );
+        player.setPosition(newPosition);
     }
 
     turnAroundX(player: Movable, timer: Timer, clockwise = true) {
