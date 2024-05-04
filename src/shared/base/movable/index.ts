@@ -16,5 +16,6 @@ export interface Movable {
     right: vec3;
 
     setPosition(pos: ReadonlyVec3): void;
+    setRotation(pos: Quaternion | Euler): void;
     setPitchYawRoll(rot: Quaternion | Euler): void;
 }

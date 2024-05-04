@@ -1,4 +1,4 @@
-import { ReadonlyVec3 } from "gl-matrix";
+import { ReadonlyVec3, vec3 } from "gl-matrix";
 import { ObjectGL } from "src/shared/mesh/objectGL";
 
 export class Lightsource extends ObjectGL {
@@ -13,12 +13,12 @@ export class PointLight extends Lightsource {
 export class DirectionalLight extends Lightsource {
     public intensity = 0.8;
     public color: ReadonlyVec3 = [1, 1, 0.5];
-    public direction: ReadonlyVec3 = [-0.5, -0.5, -0.5];
+    public direction: vec3 = [-0.5, -0.5, -0.5];
 }
 
 export class SpotLight extends Lightsource {
     public radius = 6;
     public cutOff = 0.82;
     public outerCutOff = 0.91;
-    public direction: ReadonlyVec3 = [-0, -1, -0];
+    public direction: vec3 = [-0, -1, -0];
 }

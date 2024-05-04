@@ -85,6 +85,7 @@ export class Body3D {
     }
 
     public get rotation() { return this._rotation; }
+    public get pitchYawRoll() { return this._rotation; }
 
     public setRotation(rot: Quaternion | Euler) {
         if (rot instanceof Quaternion)

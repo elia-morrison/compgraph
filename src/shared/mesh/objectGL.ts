@@ -3,11 +3,26 @@ import { Euler,  Quaternion } from "three";
 import { matr_from_euler } from "src/shared/utils";
 import { Material } from "src/shared/mesh/material";
 import { create_texture } from "src/shared/resource-loaders/texture-loader";
+import { BaseMovement } from "src/shared/base/movable/movement-types/base-movement";
+import { Timer } from "src/shared/runtime/timer";
 
 export class ObjectGL {
     vertices: ReadonlyVec3[];
     flat_vertices: number[];
     faceIndices: number[];
+
+    velocity = 0.005;
+    movement?: BaseMovement;
+    direction: vec3 = vec3.create();
+
+    move(timer: Timer) {
+        this.movement?.moveEntity(this, timer);
+    }
+
+    public setPitchYawRoll(rot: Quaternion | Euler) {
+        // todo: add pitch yaw roll mutation or rotation mutation or something
+        this.setRotation(rot);
+    }
 
     public material: Material = new Material();
 

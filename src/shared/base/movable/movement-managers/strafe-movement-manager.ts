@@ -7,7 +7,10 @@ export class PlayerMovementManager {
     #keyboardListener = new KeyboardListener();
     #movement = new StrafeMovement();
 
-    attachToMovable(player: Movable, timer: Timer) {
+    attachToMovable(
+        player: Movable,
+        timer: Timer,
+    ) {
         this.#movement.attachToMovable(player);
         this.#keyboardListener.setListener([
             {

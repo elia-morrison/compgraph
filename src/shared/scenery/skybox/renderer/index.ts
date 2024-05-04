@@ -1,6 +1,6 @@
 import { mat4 } from "gl-matrix";
-import { Camera } from "../../../camera";
 import { Skybox } from "../index";
+import { Camera } from "src/shared/scenery/camera";
 
 
 export class SkyboxRendererGL {

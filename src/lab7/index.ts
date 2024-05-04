@@ -16,6 +16,8 @@ import { Body3D } from "src/shared/base/body-3d";
 import { MagManager } from "src/lab7/utils/mag/mag-manager";
 import { PlayerMovementManager } from "src/shared/base/movable/movement-managers/strafe-movement-manager";
 import { useLab7Scenery } from "src/lab7/utils/use-lab7-scenery";
+import { FollowMovement } from "src/shared/base/movable/movement-types/follow-movement";
+import { vec3 } from "gl-matrix";
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
 resizeCanvas(cv);
@@ -24,19 +26,38 @@ let gl = cv.getContext("webgl2") as WebGL2RenderingContext;
 
 let scene = new BaseScene();
 
-let light1 = new PointLight();
-light1.setPosition([-5, 10, -5]);
-light1.radius = 50;
-scene.lightsources.push(light1);
-
 const {
-    orangeMesh, dorimeMesh
+    meshes: {
+        dorimeMesh,
+        orangeMesh
+    },
+    lightsources: {
+        lanternLight,
+        sun,
+        firstHeadlight,
+        secondHeadlight
+    },
+    bodies: {
+        hugeDorime,
+        lanternBody,
+        hugeOrange,
+        firstHeadlightBody,
+        secondHeadlightBody
+    }
 } = useLab7Scenery(scene, gl);
 
 const player = new Body3D(dorimeMesh);
 player.setScale([0.5, 0.5, 0.5]);
 
 scene.objects.push(player);
+
+const firstHLMovement = new FollowMovement(player, vec3.fromValues(0.4, 2.75, 0.75));
+firstHLMovement.attachToMovable(firstHeadlightBody);
+firstHLMovement.attachToMovable(firstHeadlight);
+
+const secondHLMovement = new FollowMovement(player, vec3.fromValues(-0.4, 2.75, 0.75));
+secondHLMovement.attachToMovable(secondHeadlightBody);
+secondHLMovement.attachToMovable(secondHeadlight);
 
 const camera = new Camera(gl);
 const renderer = new BaseRenderer(gl, vert_shader as string, frag_shader as string, scene, camera);
@@ -65,6 +86,9 @@ timer.reset();
 
 const update = () => {
     timer.update();
+
+    firstHeadlight.move(timer);
+    secondHeadlight.move(timer);
 
     scene.objects.forEach((obj) => {
         obj.move(timer);

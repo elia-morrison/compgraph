@@ -4,7 +4,7 @@ import { useOrangeModel } from "src/lab7/resources/orange";
 import { UncannyRotatingMovement } from "src/shared/base/movable/movement-types/uncanny-rotating-movement";
 import { Body3D } from "src/shared/base/body-3d";
 import { Euler } from "three";
-import { PointLight } from "src/shared/scenery/light/lightsource";
+import { DirectionalLight, PointLight, SpotLight } from "src/shared/scenery/light/lightsource";
 import { vec3 } from "gl-matrix";
 import { useLanternModel } from "src/lab7/resources/lantern-body";
 
@@ -25,16 +25,24 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     hugeDorime.setRotation(new Euler(0,-Math.PI / 3,0));
     uncannyRotate.attachToMovable(hugeDorime);
 
+    // headlights begin
+    const firstHeadlightBody = new Body3D(lanternMesh);
+    firstHeadlightBody.setScale([0.25, 0.25, 0.25]);
+    const firstHeadlight = new PointLight();
+    firstHeadlight.color = [1, 0, 0];
+    firstHeadlight.radius = 1;
+
+    const secondHeadlightBody = new Body3D(lanternMesh);
+    secondHeadlightBody.setScale([0.25, 0.25, 0.25]);
+    const secondHeadlight = new PointLight();
+    secondHeadlight.color = [1, 0, 0];
+    firstHeadlight.radius = 1;
+    // end
+
     const lanternBody = new Body3D(lanternMesh);
     lanternBody.setScale([1, 1, 1]);
     lanternBody.setPosition([-7, 7, 10]);
     lanternBody.setRotation(new Euler(0,-2 * Math.PI / 3,0));
-
-    const lanternLight = new PointLight();
-    const nimbusLightPos = vec3.clone(lanternBody.position);
-    lanternLight.setPosition(nimbusLightPos);
-    lanternLight.radius = 10;
-    scene.lightsources.push(lanternLight);
 
     const hugeOrange = new Body3D(orangeMesh);
     hugeOrange.setScale([0.05, 0.05, 0.05]);
@@ -42,9 +50,39 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     hugeOrange.setRotation(new Euler(0,-Math.PI / 3,0));
     uncannyRotate.attachToMovable(hugeOrange);
 
-    scene.objects.push(hugeDorime, lanternBody, hugeOrange);
+    const sun = new PointLight();
+    sun.setPosition([-5, 10, -5]);
+    sun.radius = 50;
+
+    const lanternLight = new PointLight();
+    const lanternLightPos = vec3.clone(lanternBody.position);
+    lanternLight.setPosition(lanternLightPos);
+    lanternLight.radius = 10;
+
+    scene.lightsources.push(
+        // sun,
+        /*lanternLight,*/
+        firstHeadlight,
+        secondHeadlight
+    );
+
+    scene.objects.push(
+        hugeDorime,
+        // lanternBody,
+        hugeOrange,
+        firstHeadlightBody,
+        secondHeadlightBody
+    );
 
     return {
-        dorimeMesh, orangeMesh
+        meshes: {
+            dorimeMesh, orangeMesh
+        },
+        lightsources: {
+            lanternLight, sun, firstHeadlight, secondHeadlight
+        },
+        bodies: {
+            hugeDorime, lanternBody, hugeOrange, firstHeadlightBody, secondHeadlightBody
+        }
     }
 }
