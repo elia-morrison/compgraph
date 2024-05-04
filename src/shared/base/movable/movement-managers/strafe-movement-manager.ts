@@ -8,8 +8,7 @@ export class PlayerMovementManager {
     #movement = new StrafeMovement();
 
     attachToMovable(player: Movable, timer: Timer) {
-        player.movement = this.#movement;
-        this.#movement.updateVectors(player);
+        this.#movement.attachToMovable(player);
         this.#keyboardListener.setListener([
             {
                 keys: ['W', 'w'],
@@ -35,7 +34,8 @@ export class PlayerMovementManager {
                     this.#movement.turnAroundY(player, timer, true)
                 }
             },
-            {
+            // todo: add when pitch yaw roll enabled in body3d class
+          /*  {
                 keys: ['ArrowUp'],
                 callback: () => {
                     this.#movement.turnAroundX(player, timer, false)
@@ -46,7 +46,7 @@ export class PlayerMovementManager {
                 callback: () => {
                     this.#movement.turnAroundX(player, timer, true)
                 }
-            },
+            },*/
             {
                 keys: ['R', 'r'],
                 callback: () => {

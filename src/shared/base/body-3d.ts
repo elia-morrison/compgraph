@@ -4,6 +4,7 @@ import { matr_from_euler } from "src/shared/utils";
 import { BaseMesh } from "src/shared/base/base-mesh";
 import { Timer } from "src/shared/runtime/timer";
 import { BaseMovement } from "src/shared/base/movable/movement-types/base-movement";
+import { worldConfig } from "src/shared/resources/worldConfig";
 
 export class Body3D {
     public _position: vec3 = [0, 0, 0];
@@ -16,17 +17,39 @@ export class Body3D {
     worldMatrix = new Float32Array(16);
     rotMatr = new Float32Array(16)
 
+    // rotation in local sustem
+    // todo: consider pitch yaw roll when calculating world matrix
+    public _pitchYawRoll: Euler = new Euler();
+
     constructor(public mesh: BaseMesh) {
         this.setScale([1, 1, 1]);
         this.updateWorldMatrix();
     }
 
-    get direction() {
-        return vec3.normalize(vec3.create(), [
-            -Math.cos(this.rotation.y), // yaw
-            Math.sin(this.rotation.x), // pitch
-            Math.sin(this.rotation.y) // yaw
+    #front: vec3 = [0, 0, 0];
+    #right: vec3 = [0, 0, 0];
+    #up: vec3 = [0, 0, 0];
+
+    get direction() { return this.#front; }
+    get right() { return this.#right; }
+    get up() { return this.#up; }
+
+    updateVectors() {
+        vec3.normalize(this.#front, [
+            -Math.cos(this.rotation.y),
+            Math.sin(this.rotation.x),
+            Math.sin(this.rotation.y)
         ]);
+        vec3.normalize(
+            this.#right,
+            vec3.cross(
+                [0, 0, 0], this.#front, worldConfig.UP
+            )
+        );
+        vec3.normalize(
+            this.#up,
+            vec3.cross([0, 0, 0], this.#right, this.#front)
+        );
     }
 
     move(timer: Timer) {
@@ -70,6 +93,7 @@ export class Body3D {
         else if (rot instanceof Euler)
             this._rotation = rot;
 
+        this.updateVectors();
         this.updateWorldMatrix();
     }
 

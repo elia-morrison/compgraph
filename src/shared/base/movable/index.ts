@@ -3,6 +3,7 @@ import { Euler, Quaternion } from "three";
 import { BaseMovement } from "./movement-types/base-movement";
 import { Timer } from "src/shared/runtime/timer";
 
+// todo: remove
 export interface Movable {
     position: vec3;
     rotation: Euler;

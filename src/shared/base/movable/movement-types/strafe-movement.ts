@@ -19,14 +19,16 @@ export class StrafeMovement extends BaseMovement {
     #velocityStep = 0.005;
     #turnVelocityStep = 0.005;
 
-    #front: vec3 = [0, 0, 0];
-    #right: vec3 = [0, 0, 0];
-    #up: vec3 = [0, 0, 0];
     readonly #worldUp: vec3 = [0, 1, 0];
 
     #yaw = 0.0;
     #pitch = 0.0;
     #roll = 0.0;
+
+    attachToMovable(player: Movable) {
+        player.movement = this;
+        this.updatePlayerRotation(player);
+    }
 
     constructor({
             yaw= initialOrientation.yaw,
@@ -46,28 +48,13 @@ export class StrafeMovement extends BaseMovement {
         player.setRotation(new Euler(this.#pitch, this.#yaw, this.#roll));
     }
 
-    updateVectors(player: Movable) {
-        this.updatePlayerRotation(player);
-        this.#front = vec3.clone(player.direction);
-        vec3.normalize(
-            this.#right,
-            vec3.cross(
-                [0, 0, 0], this.#front, this.#worldUp
-            )
-        );
-        vec3.normalize(
-            this.#up,
-            vec3.cross([0, 0, 0], this.#right, this.#front)
-        );
-    }
-
     moveAlongDirection(player: Movable, timer: Timer, forwards = true) {
         const sign = forwards? 1.0 : - 1.0;
         const newPosition = vec3.add(
             vec3.create(),
             player.position,
             vec3.scale(
-                [0.0, 0.0, 0.0], this.#front, sign * this.#velocity * timer.timeDelta
+                [0.0, 0.0, 0.0], player.direction, sign * this.#velocity * timer.timeDelta
             )
         );
         player.setPosition(newPosition);
@@ -76,13 +63,13 @@ export class StrafeMovement extends BaseMovement {
     turnAroundX(player: Movable, timer: Timer, clockwise = true) {
         const sign = clockwise? -1.0 : 1.0;
         this.#pitch += sign * this.#turnVelocity * timer.timeDelta;
-        this.updateVectors(player);
+        this.updatePlayerRotation(player);
     }
 
     turnAroundY(player: Movable, timer: Timer, clockwise = true) {
         const sign = clockwise? -1.0 : 1.0;
         this.#yaw += sign * this.#turnVelocity * timer.timeDelta;
-        this.updateVectors(player);
+        this.updatePlayerRotation(player);
     }
 
     incVelocity() {
