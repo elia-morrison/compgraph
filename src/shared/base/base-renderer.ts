@@ -220,22 +220,28 @@ export class BaseRenderer {
                 dirlight_i += 1;
             }
             else if (ls instanceof SpotLight) {
-                let color_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].color');
+                let color_loc = gl.getUniformLocation(this.program, 'spotLights[' + spotlight_i + '].color');
+                if (color_loc === null) throw new Error('color_loc');
                 gl.uniform3fv(color_loc, ls.color);
 
-                let linear_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].radius');
+                let linear_loc = gl.getUniformLocation(this.program, 'spotLights[' + spotlight_i + '].radius');
+                if (linear_loc === null) throw new Error('linear_loc');
                 gl.uniform1f(linear_loc, ls.radius);
 
-                let position_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].position');
+                let position_loc = gl.getUniformLocation(this.program, 'spotLights[' + spotlight_i + '].position');
+                if (position_loc === null) throw new Error('position_loc');
                 gl.uniform3fv(position_loc, ls._position);
 
-                let direction_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].direction');
+                let direction_loc = gl.getUniformLocation(this.program, 'spotLights[' + spotlight_i + '].direction');
+                if (direction_loc === null) throw new Error('direction_loc');
                 gl.uniform3fv(direction_loc, ls.direction);
 
-                let cutOff_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].cutOff');
+                let cutOff_loc = gl.getUniformLocation(this.program, 'spotLights[' + spotlight_i + '].cutOff');
+                if (cutOff_loc === null) throw new Error('cutOff_loc');
                 gl.uniform1f(cutOff_loc, ls.cutOff);
 
-                let outerCutOff_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].outerCutOff');
+                let outerCutOff_loc = gl.getUniformLocation(this.program, 'spotLights[' + spotlight_i + '].outerCutOff');
+                if (outerCutOff_loc === null) throw new Error('outerCutOff_loc');
                 gl.uniform1f(outerCutOff_loc, ls.outerCutOff);
 
                 spotlight_i += 1;
@@ -295,13 +301,13 @@ export class BaseRenderer {
         gl.uniform1f(normal_map_strength_loc, obj.mesh.material.normal_map_strength);
 
         let bump_map_loc = gl.getUniformLocation(this.program, 'material.bump_map');
-        gl.uniform1i(bump_map_loc, 3);
+        if (bump_map_loc !== null) gl.uniform1i(bump_map_loc, 3);
 
         let bumpiness_loc = gl.getUniformLocation(this.program, 'material.bumpiness');
-        gl.uniform1f(bumpiness_loc, obj.mesh.material.bumpiness);
+        if (bumpiness_loc !== null) gl.uniform1f(bumpiness_loc, obj.mesh.material.bumpiness);
 
         let normal_bump_mix_loc = gl.getUniformLocation(this.program, 'material.normal_bump_mix');
-        gl.uniform1f(normal_bump_mix_loc, obj.mesh.material.normal_bump_mix);
+        if (normal_bump_mix_loc !== null) gl.uniform1f(normal_bump_mix_loc, obj.mesh.material.normal_bump_mix);
     }
 
     public render(clear=true) {

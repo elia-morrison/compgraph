@@ -28,13 +28,13 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     // headlights begin
     const firstHeadlightBody = new Body3D(lanternMesh);
     firstHeadlightBody.setScale([0.25, 0.25, 0.25]);
-    const firstHeadlight = new PointLight();
+    const firstHeadlight = new SpotLight();
     firstHeadlight.color = [1, 0, 0];
     firstHeadlight.radius = 1;
 
     const secondHeadlightBody = new Body3D(lanternMesh);
     secondHeadlightBody.setScale([0.25, 0.25, 0.25]);
-    const secondHeadlight = new PointLight();
+    const secondHeadlight = new SpotLight();
     secondHeadlight.color = [1, 0, 0];
     firstHeadlight.radius = 1;
     // end

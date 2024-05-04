@@ -23,4 +23,8 @@ export class OrthoMovement extends BaseMovement {
     moveEntity(movable: Movable, timer: Timer) {
 
     }
+
+    attachToMovable(player: Movable) {
+        player.movement = this;
+    }
 }

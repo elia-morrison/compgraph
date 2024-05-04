@@ -17,9 +17,14 @@
                 image-rendering: crisp-edges; 
                 position: absolute;"></canvas>
     </div>
-<!--    <script src="https://greggman.github.io/webgl-lint/webgl-lint.js"></script>-->
-    <script src="index.ts" type="module">
-    </script>
+<!--    <script
+        src="https://greggman.github.io/webgl-lint/webgl-lint.js"
+        data-gman-debug-helper='{
+            "failUnsetUniforms": false,
+            "warnUndefinedUniforms": false
+        }'
+    ></script>-->
+    <script src="index.ts" type="module"></script>
     <img id="orange_texture" src="../../static/orange/orange.png" hidden alt="orange_texture"/>
     <img id="orange_normal" src="../../static/orange/orange_normal.png" hidden alt="orange_normal"/>
     <img id="orange_bump" src="../../static/orange/orange_bump.png" hidden alt="orange_bump"/>
@@ -32,6 +37,10 @@
     <img id="skybox-back" src="../../static/skyboxes/floating-across-water/back.jpg" hidden alt="skybox-back"/>
 
     <img id="dorime" src="../../static/dorime/dorime.jpg" hidden alt="dorime"/>
+    <audio
+        id="audio-player"
+        src="/static/sfx/videoplayback.wav" preload="auto" loop
+    ></audio>
 </body>
 
 </html>

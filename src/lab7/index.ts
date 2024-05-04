@@ -4,10 +4,7 @@ import skyboxVertShader from "../shared/scenery/skybox/shaders/cubemap.vert";
 import skyboxFragShader from "../shared/scenery/skybox/shaders/cubemap.frag";
 import { Skybox } from "../shared/scenery/skybox";
 import { SkyboxRendererGL } from "../shared/scenery/skybox/renderer";
-import { useDorimeRatModel } from "./resources/dorime-rat";
-import { useOrangeModel } from "./resources/orange";
 import { resizeCanvas } from "../shared/ui/ui";
-import { PointLight } from "../shared/scenery/light/lightsource";
 import { Timer } from "../shared/runtime/timer";
 import { Camera } from "src/shared/scenery/camera";
 import { BaseRenderer } from "src/shared/base/base-renderer";
@@ -19,12 +16,20 @@ import { useLab7Scenery } from "src/lab7/utils/use-lab7-scenery";
 import { FollowMovement } from "src/shared/base/movable/movement-types/follow-movement";
 import { vec3 } from "gl-matrix";
 
-let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
+try {
+    const audio = document.querySelector("#audio-player") as HTMLAudioElement;
+    audio.loop = true;
+    audio.play();
+} catch (e) {
+    console.log(e)
+}
+
+const cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
 resizeCanvas(cv);
 window.addEventListener('resize', function (event) { resizeCanvas(cv); }, true);
-let gl = cv.getContext("webgl2") as WebGL2RenderingContext;
+const gl = cv.getContext("webgl2") as WebGL2RenderingContext;
 
-let scene = new BaseScene();
+const scene = new BaseScene();
 
 const {
     meshes: {
