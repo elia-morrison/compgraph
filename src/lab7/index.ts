@@ -17,6 +17,7 @@ import { MagManager } from "src/lab7/utils/mag/mag-manager";
 import { PlayerMovementManager } from "src/shared/base/movable/movement-managers/strafe-movement-manager";
 import { Euler } from "three";
 import { UncannyRotatingMovement } from "src/shared/base/movable/movement-types/uncanny-rotating-movement";
+import { useLab7Scenery } from "src/lab7/utils/use-lab7-scenery";
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
 resizeCanvas(cv);
@@ -30,29 +31,14 @@ light1.setPosition([-5, 10, -5]);
 light1.radius = 50;
 scene.lightsources.push(light1);
 
-const dorimeMesh = useDorimeRatModel();
-dorimeMesh.setup_buffers(gl);
-
-const orangeMesh = useOrangeModel();
-orangeMesh.setup_buffers(gl);
+const {
+    orangeMesh, dorimeMesh
+} = useLab7Scenery(scene, gl);
 
 const player = new Body3D(dorimeMesh);
 player.setScale([0.5, 0.5, 0.5]);
 
-const uncannyRotate = new UncannyRotatingMovement();
-const hugeDorime = new Body3D(dorimeMesh);
-hugeDorime.setScale([1, 1, 1]);
-hugeDorime.setPosition([3, 0, 10]);
-hugeDorime.setRotation(new Euler(0,-Math.PI / 3,0));
-uncannyRotate.attachToMovable(hugeDorime);
-const hugeOrange = new Body3D(orangeMesh);
-
-hugeOrange.setScale([0.05, 0.05, 0.05]);
-hugeOrange.setPosition([-3, 0, 10]);
-hugeOrange.setRotation(new Euler(0,-Math.PI / 3,0));
-uncannyRotate.attachToMovable(hugeOrange);
-
-scene.objects.push(player, hugeDorime, hugeOrange);
+scene.objects.push(player);
 
 const camera = new Camera(gl);
 const renderer = new BaseRenderer(gl, vert_shader as string, frag_shader as string, scene, camera);
