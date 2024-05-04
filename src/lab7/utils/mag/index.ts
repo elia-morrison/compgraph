@@ -27,6 +27,7 @@ export class Mag {
             )
         )
         newBullet.setRotation((new Euler).copy(this.origin.rotation))
+        newBullet.velocity = 0.05;
         this.bullets.push(newBullet);
         return newBullet;
     }

@@ -15,8 +15,6 @@ import { BaseScene } from "src/shared/base/base-scene";
 import { Body3D } from "src/shared/base/body-3d";
 import { MagManager } from "src/lab7/utils/mag/mag-manager";
 import { PlayerMovementManager } from "src/shared/base/movable/movement-managers/strafe-movement-manager";
-import { Euler } from "three";
-import { UncannyRotatingMovement } from "src/shared/base/movable/movement-types/uncanny-rotating-movement";
 import { useLab7Scenery } from "src/lab7/utils/use-lab7-scenery";
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;

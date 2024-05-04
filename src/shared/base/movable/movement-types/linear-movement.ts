@@ -14,4 +14,8 @@ export class LinearMovement extends BaseMovement {
         );
         movable.setPosition(newPosition);
     }
+
+    attachToMovable(player: Movable) {
+        player.movement = this;
+    }
 }
