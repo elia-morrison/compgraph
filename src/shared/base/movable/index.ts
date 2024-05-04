@@ -12,7 +12,9 @@ export interface Movable {
     move(timer: Timer): void;
 
     direction: vec3;
+    up: vec3;
+    right: vec3;
 
     setPosition(pos: ReadonlyVec3): void;
-    setRotation(rot: Quaternion | Euler): void;
+    setPitchYawRoll(rot: Quaternion | Euler): void;
 }

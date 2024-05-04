@@ -19,8 +19,6 @@ export class StrafeMovement extends BaseMovement {
     #velocityStep = 0.005;
     #turnVelocityStep = 0.005;
 
-    readonly #worldUp: vec3 = [0, 1, 0];
-
     #yaw = 0.0;
     #pitch = 0.0;
     #roll = 0.0;
@@ -45,7 +43,7 @@ export class StrafeMovement extends BaseMovement {
     moveEntity(movable: Movable, timer: Timer) { }
 
     updatePlayerRotation(player: Movable) {
-        player.setRotation(new Euler(this.#pitch, this.#yaw, this.#roll));
+        player.setPitchYawRoll(new Euler(this.#pitch, this.#yaw, this.#roll));
     }
 
     moveAlongDirection(player: Movable, timer: Timer, forwards = true) {

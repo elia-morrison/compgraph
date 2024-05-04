@@ -97,6 +97,11 @@ export class Body3D {
         this.updateWorldMatrix();
     }
 
+    public setPitchYawRoll(rot: Quaternion | Euler) {
+        // todo: add pitch yaw roll mutation or rotation mutation or something
+        this.setRotation(rot);
+    }
+
     public get scale() { return this._scale; }
 
     public setScale(scale: ReadonlyVec3) {

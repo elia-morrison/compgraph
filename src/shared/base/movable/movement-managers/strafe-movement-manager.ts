@@ -35,7 +35,7 @@ export class PlayerMovementManager {
                 }
             },
             // todo: add when pitch yaw roll enabled in body3d class
-          /*  {
+            {
                 keys: ['ArrowUp'],
                 callback: () => {
                     this.#movement.turnAroundX(player, timer, false)
@@ -46,7 +46,7 @@ export class PlayerMovementManager {
                 callback: () => {
                     this.#movement.turnAroundX(player, timer, true)
                 }
-            },*/
+            },
             {
                 keys: ['R', 'r'],
                 callback: () => {

@@ -14,11 +14,18 @@ export class Mag {
     addBullet(
         mesh: BaseMesh,
         movement: BaseMovement,
+        offsetFromOrigin: vec3 = vec3.create()
     ) {
         const newBullet = new Body3D(mesh);
         newBullet.movement = movement;
         newBullet.setScale([0.01, 0.01, 0.01]);
-        newBullet.setPosition(vec3.clone(this.origin.position))
+        newBullet.setPosition(
+            vec3.add(
+                vec3.create(),
+                this.origin.position,
+                offsetFromOrigin,
+            )
+        )
         newBullet.setRotation((new Euler).copy(this.origin.rotation))
         this.bullets.push(newBullet);
         return newBullet;

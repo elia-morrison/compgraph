@@ -5,6 +5,7 @@ import { LinearMovement } from "src/shared/base/movable/movement-types/linear-mo
 import { BaseMesh } from "src/shared/base/base-mesh";
 import { Body3D } from "src/shared/base/body-3d";
 import { BaseScene } from "src/shared/base/base-scene";
+import { vec3 } from "gl-matrix";
 
 export class MagManager {
     #mag: Mag;
@@ -19,7 +20,14 @@ export class MagManager {
     }
 
     addBullet = (mesh: BaseMesh) => {
-        return this.#mag.addBullet(mesh, this.#linearMovement);
+        const offsetFromOrigin = vec3.create();
+        vec3.scale(offsetFromOrigin, this.#mag.origin.up, 1.5);
+        vec3.add(
+            offsetFromOrigin,
+            offsetFromOrigin,
+            vec3.scale(vec3.create(), this.#mag.origin.direction, 1)
+        );
+        return this.#mag.addBullet(mesh, this.#linearMovement, offsetFromOrigin);
     }
 
     moveBullets(timer: Timer) {
