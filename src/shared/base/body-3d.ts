@@ -23,7 +23,6 @@ export class Body3D {
 
     constructor(public mesh: BaseMesh) {
         this.setScale([1, 1, 1]);
-        this.updateWorldMatrix();
     }
 
     #front: vec3 = [0, 0, 0];

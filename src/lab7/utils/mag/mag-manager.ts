@@ -30,12 +30,6 @@ export class MagManager {
         return this.#mag.addBullet(mesh, this.#linearMovement, offsetFromOrigin);
     }
 
-    moveBullets(timer: Timer) {
-        this.#mag.bullets.forEach((bullet) => {
-            bullet.movement.moveEntity(bullet, timer);
-        })
-    }
-
     attachToKeyboard(scene: BaseScene) {
         this.#keyboardListener.setListener([
             {

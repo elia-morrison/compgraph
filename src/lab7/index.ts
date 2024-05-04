@@ -15,6 +15,8 @@ import { BaseScene } from "src/shared/base/base-scene";
 import { Body3D } from "src/shared/base/body-3d";
 import { MagManager } from "src/lab7/utils/mag/mag-manager";
 import { PlayerMovementManager } from "src/shared/base/movable/movement-managers/strafe-movement-manager";
+import { Euler } from "three";
+import { UncannyRotatingMovement } from "src/shared/base/movable/movement-types/uncanny-rotating-movement";
 
 let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
 resizeCanvas(cv);
@@ -37,7 +39,20 @@ orangeMesh.setup_buffers(gl);
 const player = new Body3D(dorimeMesh);
 player.setScale([0.5, 0.5, 0.5]);
 
-scene.objects.push(player);
+const uncannyRotate = new UncannyRotatingMovement();
+const hugeDorime = new Body3D(dorimeMesh);
+hugeDorime.setScale([1, 1, 1]);
+hugeDorime.setPosition([3, 0, 10]);
+hugeDorime.setRotation(new Euler(0,-Math.PI / 3,0));
+uncannyRotate.attachToMovable(hugeDorime);
+const hugeOrange = new Body3D(orangeMesh);
+
+hugeOrange.setScale([0.05, 0.05, 0.05]);
+hugeOrange.setPosition([-3, 0, 10]);
+hugeOrange.setRotation(new Euler(0,-Math.PI / 3,0));
+uncannyRotate.attachToMovable(hugeOrange);
+
+scene.objects.push(player, hugeDorime, hugeOrange);
 
 const camera = new Camera(gl);
 const renderer = new BaseRenderer(gl, vert_shader as string, frag_shader as string, scene, camera);
@@ -66,8 +81,11 @@ timer.reset();
 
 const update = () => {
     timer.update();
-    player.move(timer);
-    magManager.moveBullets(timer);
+
+    scene.objects.forEach((obj) => {
+        obj.move(timer);
+    })
+
     gl.clearColor(0, 0, 0, 1.0);
     gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
     skyboxRenderer.render();
