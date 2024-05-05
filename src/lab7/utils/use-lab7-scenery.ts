@@ -60,15 +60,15 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     lanternLight.radius = 10;
 
     scene.lightsources.push(
-        // sun,
-        /*lanternLight,*/
+        sun,
+        lanternLight,
         firstHeadlight,
         secondHeadlight
     );
 
     scene.objects.push(
         hugeDorime,
-        // lanternBody,
+        lanternBody,
         hugeOrange,
         firstHeadlightBody,
         secondHeadlightBody

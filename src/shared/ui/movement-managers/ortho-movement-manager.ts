@@ -1,7 +1,7 @@
-import { Movable } from "../index";
-import { OrthoMovement } from "../movement-types/ortho-movement";
 import { Timer } from "src/shared/runtime/timer";
 import { KeyboardListener } from "src/shared/ui/keyboard-listener";
+import { OrthoMovement } from "src/shared/base/movable/movement-types/ortho-movement";
+import { Movable } from "src/shared/base/movable";
 
 export class OrthoMovementManager {
     #keyboardListener = new KeyboardListener();

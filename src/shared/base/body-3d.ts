@@ -5,11 +5,16 @@ import { BaseMesh } from "src/shared/base/base-mesh";
 import { Timer } from "src/shared/runtime/timer";
 import { BaseMovement } from "src/shared/base/movable/movement-types/base-movement";
 import { worldConfig } from "src/shared/resources/worldConfig";
+import { generateUUID } from "three/src/math/MathUtils";
 
 export class Body3D {
+    id = generateUUID();
+    hidden = false;
+
     public _position: vec3 = [0, 0, 0];
     public _rotation: Euler = new Euler();
     public _scale: vec3 = [1, 1, 1];
+
 
     velocity = 0.005;
     movement: BaseMovement | undefined;

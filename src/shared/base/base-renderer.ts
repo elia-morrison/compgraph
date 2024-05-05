@@ -321,6 +321,8 @@ export class BaseRenderer {
 
         this.setup_light();
         for (let obj of this.scene.objects) {
+            if (obj.hidden) continue;
+
             this.setup_materials(obj);
             this.setup_basic_buffers(obj)
             gl.uniformMatrix4fv(this.matWorldUniformLocation, false, obj.worldMatrix);
