@@ -50,9 +50,8 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     hugeOrange.setRotation(new Euler(0, -Math.PI / 3, 0));
     uncannyRotate.attachToMovable(hugeOrange);
 
-    const sun = new PointLight();
-    sun.setPosition([-5, 10, -5]);
-    sun.radius = 50;
+    const sun = new DirectionalLight();
+    sun.direction = vec3.fromValues(-1, -1, 1);
 
     const lanternLight = new PointLight();
     const lanternLightPos = vec3.clone(lanternBody.position);
@@ -60,7 +59,7 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     lanternLight.radius = 10;
 
     scene.lightsources.push(
-        // sun,
+        sun,
         lanternLight,
         firstHeadlight,
         secondHeadlight
