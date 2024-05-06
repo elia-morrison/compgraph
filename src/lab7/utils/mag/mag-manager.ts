@@ -36,7 +36,7 @@ export class MagManager {
                 keys: ['F', 'f'],
                 callback: () => {
                     const newBullet = this.addBullet(this.bulletMesh);
-                    scene.objects.push(newBullet);
+                    scene.addObjects([newBullet]);
                 }
             },
         ]);

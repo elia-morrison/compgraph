@@ -53,10 +53,10 @@ const {
     }
 } = useLab7Scenery(scene, gl);
 
-const player = new Body3D(dorimeMesh);
+const player = new Body3D(dorimeMesh, true, true);
 player.setScale([0.5, 0.5, 0.5]);
 
-scene.objects.push(player);
+scene.addObjects([player]);
 
 const firstHLMovement = new FollowMovement(player, vec3.fromValues(0.4, 2.75, 0.75));
 firstHLMovement.attachToMovable(firstHeadlightBody);
@@ -138,6 +138,7 @@ const update = () => {
     skyboxRenderer.render();
     renderer.render(false);
     requestAnimationFrame(update);
+    scene.updatePhysics();
 }
 
 update();

@@ -19,7 +19,7 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     orangeMesh.setup_buffers(gl);
 
     const uncannyRotate = new UncannyRotatingMovement();
-    const hugeDorime = new Body3D(dorimeMesh);
+    const hugeDorime = new Body3D(dorimeMesh, true, false);
     hugeDorime.setScale([1, 1, 1]);
     hugeDorime.setPosition([3, 0, 10]);
     hugeDorime.setRotation(new Euler(0, -Math.PI / 3, 0));
@@ -44,7 +44,7 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     lanternBody.setPosition([-7, 7, 10]);
     lanternBody.setRotation(new Euler(0, -2 * Math.PI / 3, 0));
 
-    const hugeOrange = new Body3D(orangeMesh);
+    const hugeOrange = new Body3D(orangeMesh, true, false);
     hugeOrange.setScale([0.05, 0.05, 0.05]);
     hugeOrange.setPosition([-3, 0, 10]);
     hugeOrange.setRotation(new Euler(0, -Math.PI / 3, 0));
@@ -65,12 +65,12 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
         secondHeadlight
     );
 
-    scene.objects.push(
+    scene.addObjects([
         hugeDorime,
         lanternBody,
         hugeOrange,
         firstHeadlightBody,
-        secondHeadlightBody
+        secondHeadlightBody]
     );
 
     return {

@@ -3,7 +3,7 @@ import { ObjectGL } from "src/shared/mesh/objectGL";
 import { Camera } from "src/shared/scenery/camera";
 import { DirectionalLight, PointLight, SpotLight } from "src/shared/scenery/light/lightsource";
 import { BaseScene } from "src/shared/base/base-scene";
-import { Body3D } from "src/shared/base/body-3d";
+import { Body3D } from "./body-3d";
 
 
 export class BaseRenderer {

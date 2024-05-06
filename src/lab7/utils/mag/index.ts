@@ -9,7 +9,7 @@ export class Mag {
 
     bullets: Array<Body3D> = [];
 
-    constructor(readonly origin: Movable) {}
+    constructor(readonly origin: Movable) { }
 
     addBullet(
         mesh: BaseMesh,

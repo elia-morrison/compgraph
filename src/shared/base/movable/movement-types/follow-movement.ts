@@ -2,7 +2,7 @@ import { BaseMovement } from "./base-movement";
 import { Movable } from "../index";
 import { vec3 } from "gl-matrix";
 import { Euler } from "three";
-import { Body3D } from "src/shared/base/body-3d";
+import { Body3D } from "../../body-3d";
 import { ObjectGL } from "src/shared/mesh/objectGL";
 
 export class FollowMovement extends BaseMovement {
@@ -18,15 +18,18 @@ export class FollowMovement extends BaseMovement {
         super();
     }
 
-    setFollowerRotation(movable:  Movable | ObjectGL) {
+    setFollowerRotation(movable: Movable | ObjectGL) {
         movable.setRotation((new Euler).copy(this.target.rotation));
         // todo: come up with something better
         if (!(movable instanceof Body3D)) {
             movable.direction = vec3.clone(this.target.direction);
         }
+        // if (movable instanceof Body3D) {
+        //     (movable as Body3D).setRotationAroundOrigin(this.target._rotation, this.offsets);
+        // }
     }
 
-    setFollowerPosition(movable:  Movable | ObjectGL) {
+    setFollowerPosition(movable: Movable | ObjectGL) {
         const newPosition = vec3.clone(this.target.position);
         vec3.add(
             newPosition,

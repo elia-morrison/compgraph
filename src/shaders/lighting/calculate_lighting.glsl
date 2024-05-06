@@ -17,7 +17,7 @@ vec3 calculateLighting(Material material, vec2 textCoord,
     vec3 viewDir = normalize(viewPos - where);
 
     vec3 result = vec3(0, 0, 0);
-    // test
+
     for(int i = 0; i < NR_POINTLIGHTS; i++)
     {
         vec3 attenuation = pointLightCalculate(pointLights[i], material, norm, where, viewDir);    
