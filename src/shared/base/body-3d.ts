@@ -41,6 +41,7 @@ export class Body3D {
         if (this.collision) {
             this.bbox = this.mesh.calculateBoundingBox(this.scale, this.#kinematic);
             this.bbox.fixedRotation = true;
+            this.bbox.angularDamping = 0;
         }
     }
 
@@ -56,9 +57,9 @@ export class Body3D {
         let q = new Quaternion().setFromEuler(this._rotation);
         vec3.transformQuat(this.#front, worldConfig.FRONT, [q.x, q.y, q.z, q.w]);
         vec3.normalize(this.#front, this.#front);
-        this.#right = vec3.cross([0, 0, 0], this.#front, worldConfig.UP);
+        vec3.transformQuat(this.#right, worldConfig.RIGHT, [q.x, q.y, q.z, q.w]);
         vec3.normalize(this.#right, this.#right);
-        this.#up = vec3.cross(vec3.create(), this.#right, this.#front);
+        vec3.transformQuat(this.#up, worldConfig.UP, [q.x, q.y, q.z, q.w]);
         vec3.normalize(this.#up, this.#up);
     }
 
