@@ -13,7 +13,7 @@ vec3 pointLightCalculate(PointLight light, Material material, vec3 normal, vec3 
     float denom = d/light.radius;
     
     float attenuation = 1. / (pow(denom, falloff_power) + 1.);
-    attenuation = max(attenuation, 0.) * clamp(1. - light.intensity, 0., 1.);
+    attenuation = max(attenuation, 0.) * clamp(light.intensity, 0., 1.);
 
     return vec3(attenuation, attenuation, attenuation);
 }

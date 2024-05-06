@@ -20,6 +20,7 @@ vec3 phong(Material material,
     vec3 specular = lightColor * spec * material.specular;
     diffuse  *= attenuation;
     specular *= attenuation;
+    ambient  *= attenuation;
 
     return ambient + diffuse + specular;
 }

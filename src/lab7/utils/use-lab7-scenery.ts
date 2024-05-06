@@ -22,7 +22,7 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     const hugeDorime = new Body3D(dorimeMesh);
     hugeDorime.setScale([1, 1, 1]);
     hugeDorime.setPosition([3, 0, 10]);
-    hugeDorime.setRotation(new Euler(0,-Math.PI / 3,0));
+    hugeDorime.setRotation(new Euler(0, -Math.PI / 3, 0));
     uncannyRotate.attachToMovable(hugeDorime);
 
     // headlights begin
@@ -42,12 +42,12 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     const lanternBody = new Body3D(lanternMesh);
     lanternBody.setScale([1, 1, 1]);
     lanternBody.setPosition([-7, 7, 10]);
-    lanternBody.setRotation(new Euler(0,-2 * Math.PI / 3,0));
+    lanternBody.setRotation(new Euler(0, -2 * Math.PI / 3, 0));
 
     const hugeOrange = new Body3D(orangeMesh);
     hugeOrange.setScale([0.05, 0.05, 0.05]);
     hugeOrange.setPosition([-3, 0, 10]);
-    hugeOrange.setRotation(new Euler(0,-Math.PI / 3,0));
+    hugeOrange.setRotation(new Euler(0, -Math.PI / 3, 0));
     uncannyRotate.attachToMovable(hugeOrange);
 
     const sun = new PointLight();
@@ -60,7 +60,7 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     lanternLight.radius = 10;
 
     scene.lightsources.push(
-        sun,
+        // sun,
         lanternLight,
         firstHeadlight,
         secondHeadlight
