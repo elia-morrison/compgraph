@@ -51,7 +51,7 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     uncannyRotate.attachToMovable(hugeOrange);
 
     const sun = new DirectionalLight();
-    sun.direction = vec3.fromValues(-1, -1, 1);
+    sun.direction = vec3.fromValues(1, 1, 1);
 
     const lanternLight = new PointLight();
     const lanternLightPos = vec3.clone(lanternBody.position);
