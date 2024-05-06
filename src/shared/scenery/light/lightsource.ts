@@ -2,7 +2,7 @@ import { ReadonlyVec3, vec3 } from "gl-matrix";
 import { ObjectGL } from "src/shared/mesh/objectGL";
 
 export class Lightsource extends ObjectGL {
-    public intensity = 1;
+    public intensity: number = 1.;
     public color: ReadonlyVec3 = [1, 1, 1];
 }
 

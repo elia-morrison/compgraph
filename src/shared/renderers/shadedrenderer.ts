@@ -1,5 +1,5 @@
 
-import {  mat4, ReadonlyVec3 } from "gl-matrix";
+import { mat4, ReadonlyVec3 } from "gl-matrix";
 import { ObjectGL } from "src/shared/mesh/objectGL";
 import { Scene } from "src/shared/renderers/rendererGL";
 import { Camera } from "src/shared/scenery/camera";
@@ -203,6 +203,9 @@ export class ShadedRendererGL {
                 let color_loc = gl.getUniformLocation(this.program, 'pointLights[' + pointlight_i + '].color');
                 gl.uniform3fv(color_loc, ls.color);
 
+                let intensity_loc = gl.getUniformLocation(this.program, 'pointLights[' + pointlight_i + '].intensity');
+                gl.uniform1f(intensity_loc, ls.intensity);
+
                 let linear_loc = gl.getUniformLocation(this.program, 'pointLights[' + pointlight_i + '].radius');
                 gl.uniform1f(linear_loc, ls.radius);
 
@@ -228,6 +231,9 @@ export class ShadedRendererGL {
             else if (ls instanceof SpotLight) {
                 let color_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].color');
                 gl.uniform3fv(color_loc, ls.color);
+
+                let intensity_loc = gl.getUniformLocation(this.program, 'spotLight[' + pointlight_i + '].intensity');
+                gl.uniform1f(intensity_loc, ls.intensity);
 
                 let linear_loc = gl.getUniformLocation(this.program, 'spotLight[' + spotlight_i + '].radius');
                 gl.uniform1f(linear_loc, ls.radius);
@@ -310,7 +316,7 @@ export class ShadedRendererGL {
         gl.uniform1f(normal_bump_mix_loc, obj.material.normal_bump_mix);
     }
 
-    public render(clear=true) {
+    public render(clear = true) {
         let gl = this.gl;
 
         gl.useProgram(this.program);
