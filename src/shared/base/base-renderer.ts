@@ -1,4 +1,4 @@
-import {  mat4, ReadonlyVec3 } from "gl-matrix";
+import { mat4, ReadonlyVec3 } from "gl-matrix";
 import { ObjectGL } from "src/shared/mesh/objectGL";
 import { Camera } from "src/shared/scenery/camera";
 import { DirectionalLight, PointLight, SpotLight } from "src/shared/scenery/light/lightsource";
@@ -197,6 +197,9 @@ export class BaseRenderer {
                 let color_loc = gl.getUniformLocation(this.program, 'pointLights[' + pointlight_i + '].color');
                 gl.uniform3fv(color_loc, ls.color);
 
+                let intensity_loc = gl.getUniformLocation(this.program, 'pointLights[' + spotlight_i + '].intensity');
+                gl.uniform1f(intensity_loc, ls.intensity);
+
                 let linear_loc = gl.getUniformLocation(this.program, 'pointLights[' + pointlight_i + '].radius');
                 gl.uniform1f(linear_loc, ls.radius);
 
@@ -227,6 +230,10 @@ export class BaseRenderer {
                 let linear_loc = gl.getUniformLocation(this.program, 'spotLights[' + spotlight_i + '].radius');
                 if (linear_loc === null) throw new Error('linear_loc');
                 gl.uniform1f(linear_loc, ls.radius);
+
+                let intensity_loc = gl.getUniformLocation(this.program, 'spotLights[' + spotlight_i + '].intensity');
+                if (intensity_loc === null) throw new Error('intensity_loc');
+                gl.uniform1f(intensity_loc, ls.intensity);
 
                 let position_loc = gl.getUniformLocation(this.program, 'spotLights[' + spotlight_i + '].position');
                 if (position_loc === null) throw new Error('position_loc');
@@ -310,7 +317,7 @@ export class BaseRenderer {
         if (normal_bump_mix_loc !== null) gl.uniform1f(normal_bump_mix_loc, obj.mesh.material.normal_bump_mix);
     }
 
-    public render(clear=true) {
+    public render(clear = true) {
         let gl = this.gl;
 
         gl.useProgram(this.program);

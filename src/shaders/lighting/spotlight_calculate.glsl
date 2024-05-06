@@ -17,7 +17,7 @@ vec3 spotLightCalculate(SpotLight light, Material material, vec3 normal, vec3 fr
     // spotlight intensity
     float theta = dot(lightDir, normalize(-light.direction)); 
     float epsilon = light.cutOff - light.outerCutOff;
-    float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
+    float intensity = clamp((theta - light.outerCutOff) * light.intensity/ epsilon, 0.0, 1.0);
     attenuation = attenuation * (1. - intensity);
     return vec3(attenuation, attenuation, attenuation);
 }
