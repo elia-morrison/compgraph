@@ -68,7 +68,7 @@ secondHLMovement.attachToMovable(secondHeadlight);
 
 const camera = new Camera(gl);
 const renderer = new BaseRenderer(gl, vert_shader as string, frag_shader as string, scene, camera);
-const skybox = new Skybox(gl, 60, [
+const skybox = new Skybox(gl, 5, [
     document.getElementById("skybox-right"),
     document.getElementById("skybox-left"),
     document.getElementById("skybox-top"),
