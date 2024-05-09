@@ -21,7 +21,7 @@ export class KeyboardListener {
         document.addEventListener(
             'keydown',
             this.#listener,
-            false,
+            true,
         );
 
     }
