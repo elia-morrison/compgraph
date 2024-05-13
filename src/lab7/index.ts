@@ -70,6 +70,9 @@ secondHLMovement.attachToMovable(secondHeadlight);
 const camera = new Camera(gl);
 camera.setPosition([0, 0, -25]);
 camera.setRotation(new Euler(0, Math.PI, 0));
+
+const cameraMovement = new FollowMovement(player, vec3.fromValues(0, 4, -12));
+cameraMovement.attachToMovable(camera);
 const renderer = new BaseRenderer(gl, vert_shader as string, frag_shader as string, scene, camera);
 const skybox = new Skybox(gl, 10, [
     document.getElementById("skybox-right"),
@@ -129,11 +132,9 @@ timer.reset();
 const update = () => {
     timer.update();
 
-    camera.setPosition([camera.position[0], camera.position[1] + 0.001, camera.position[2]])
-    console.log(camera.position)
-
     firstHeadlight.move(timer);
     secondHeadlight.move(timer);
+    camera.move(timer);
 
     scene.objects.forEach((obj) => {
         obj.move(timer);
