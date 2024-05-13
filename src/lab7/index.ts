@@ -17,6 +17,7 @@ import { vec3 } from "gl-matrix";
 import { PlayerMovementManager } from "src/shared/ui/movement-managers/strafe-movement-manager";
 import { KeyboardListener } from "src/shared/ui/keyboard-listener";
 import { Lightsource } from "src/shared/scenery/light/lightsource";
+import { Euler } from "three";
 
 try {
     const audio = document.querySelector("#audio-player") as HTMLAudioElement;
@@ -67,6 +68,8 @@ secondHLMovement.attachToMovable(secondHeadlightBody);
 secondHLMovement.attachToMovable(secondHeadlight);
 
 const camera = new Camera(gl);
+camera.setPosition([0, 0, -25]);
+camera.setRotation(new Euler(0, Math.PI, 0));
 const renderer = new BaseRenderer(gl, vert_shader as string, frag_shader as string, scene, camera);
 const skybox = new Skybox(gl, 10, [
     document.getElementById("skybox-right"),
@@ -125,6 +128,9 @@ timer.reset();
 
 const update = () => {
     timer.update();
+
+    camera.setPosition([camera.position[0], camera.position[1] + 0.001, camera.position[2]])
+    console.log(camera.position)
 
     firstHeadlight.move(timer);
     secondHeadlight.move(timer);

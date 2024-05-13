@@ -1,9 +1,10 @@
-import { mat4, ReadonlyVec3 } from "gl-matrix";
+import { mat4, ReadonlyVec3, vec3 } from "gl-matrix";
 import { ObjectGL } from "src/shared/mesh/objectGL";
 import { Camera } from "src/shared/scenery/camera";
 import { DirectionalLight, PointLight, SpotLight } from "src/shared/scenery/light/lightsource";
 import { BaseScene } from "src/shared/base/base-scene";
 import { Body3D } from "./body-3d";
+import { worldConfig } from "../resources/worldConfig";
 
 
 export class BaseRenderer {
@@ -49,7 +50,6 @@ export class BaseRenderer {
             throw Error('wrong world uniform');
         }
 
-        this.camera.setPosition([0, 0, -50]);
         this.setup_view();
 
         this.positionAttribLocation = gl.getAttribLocation(this.program, 'vertPosition');
@@ -119,9 +119,12 @@ export class BaseRenderer {
         this._objects = objs;
     }
 
-    setup_view(eye: ReadonlyVec3 = [0, 5, -10]) {
+    setup_view() {
         let gl = this.gl;
-        mat4.lookAt(this.camera.viewMatrix, eye, [0, 3, 4], [0, 1, 0]);
+        // let camera_lookingat = vec3.fromValues(0, 0, 0);
+        // vec3.add(camera_lookingat, this.camera.position, this.camera.direction);
+        // mat4.lookAt(this.camera.viewMatrix, this.camera.position, camera_lookingat, worldConfig.UP);
+        this.camera.make_view()
         //this.camera.setPosition([0, 0, 50]);
         gl.enable(gl.DEPTH_TEST);
         gl.enable(gl.CULL_FACE);
@@ -326,6 +329,7 @@ export class BaseRenderer {
             this.clear();
         }
 
+        this.setup_view();
         this.setup_light();
         for (let obj of this.scene.objects) {
             if (obj.hidden) continue;
