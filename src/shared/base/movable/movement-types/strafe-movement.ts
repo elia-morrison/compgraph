@@ -3,7 +3,7 @@ import { Movable } from "../index";
 import { vec3 } from "gl-matrix";
 import { KeyboardListener } from "src/shared/ui/keyboard-listener";
 import { Timer } from "src/shared/runtime/timer";
-import { Euler } from "three";
+import { Euler, Quaternion, Vector3 } from "three";
 
 const initialOrientation = {
     yaw: Math.PI * 0.5,
@@ -14,7 +14,7 @@ const initialOrientation = {
 export class StrafeMovement extends BaseMovement {
     #keyboardListener = new KeyboardListener();
 
-    #velocity = 0.008;
+    #velocity = 0.02;
     #turnVelocity = 0.01;
     #velocityStep = 0.005;
     #turnVelocityStep = 0.005;
@@ -29,10 +29,10 @@ export class StrafeMovement extends BaseMovement {
     }
 
     constructor({
-            yaw= initialOrientation.yaw,
-            pitch= initialOrientation.pitch,
-            roll= initialOrientation.roll,
-        } = initialOrientation
+        yaw = initialOrientation.yaw,
+        pitch = initialOrientation.pitch,
+        roll = initialOrientation.roll,
+    } = initialOrientation
     ) {
         super();
         this.#yaw = yaw;
@@ -43,11 +43,11 @@ export class StrafeMovement extends BaseMovement {
     moveEntity(movable: Movable, timer: Timer) { }
 
     updatePlayerRotation(player: Movable) {
-        player.setPitchYawRoll(new Euler(this.#pitch, this.#yaw, this.#roll));
+        //player.setPitchYawRoll(new Euler(this.#pitch, this.#yaw, this.#roll));
     }
 
     moveAlongDirection(player: Movable, timer: Timer, forwards = true) {
-        const sign = forwards? 1.0 : - 1.0;
+        const sign = forwards ? 1.0 : - 1.0;
         const newPosition = vec3.add(
             vec3.create(),
             player.position,
@@ -59,26 +59,28 @@ export class StrafeMovement extends BaseMovement {
     }
 
     turnAroundX(player: Movable, timer: Timer, clockwise = true) {
-        const sign = clockwise? -1.0 : 1.0;
+        const sign = clockwise ? -1.0 : 1.0;
         this.#pitch += sign * this.#turnVelocity * timer.timeDelta;
         this.updatePlayerRotation(player);
     }
 
     turnAroundY(player: Movable, timer: Timer, clockwise = true) {
-        const sign = clockwise? -1.0 : 1.0;
-        this.#yaw += sign * this.#turnVelocity * timer.timeDelta;
-        this.updatePlayerRotation(player);
+        const sign = clockwise ? -1.0 : 1.0;
+        let rotation = new Quaternion().setFromEuler(player.rotation);
+        let angle = sign * this.#turnVelocity * timer.timeDelta;
+        let rotation_aroundY = new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), angle);
+        player.setRotation(rotation.multiply(rotation_aroundY));
     }
 
     incVelocity() {
-        this.#velocity +=  this.#velocityStep;
+        this.#velocity += this.#velocityStep;
         this.#turnVelocity += this.#turnVelocityStep;
     }
 
     decVelocity() {
         const newVelocity = this.#velocity - this.#velocityStep;
         const newTurnVelocity = this.#velocity - this.#turnVelocityStep;
-        if(newVelocity < 0 || newTurnVelocity < 0) return;
+        if (newVelocity < 0 || newTurnVelocity < 0) return;
         this.#velocity = newVelocity;
         this.#turnVelocity = newTurnVelocity;
     }
