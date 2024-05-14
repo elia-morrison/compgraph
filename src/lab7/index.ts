@@ -75,13 +75,13 @@ camera.setRotation(new Euler(0, Math.PI, 0));
 
 const objLoader = new MeshLoader();
 const tokyoMesh = objLoader.load(tokyoObj);
-tokyoMesh.setup_buffers(gl);
-tokyoMesh.material.diff_map_1 = document.getElementById("tokyo") as HTMLImageElement;
+tokyoMesh.material.diff_map_1 = document.getElementById("tokyo-texture") as HTMLImageElement;
 tokyoMesh.material.color_strength = 0;
 tokyoMesh.material.ambient = 0.2;
 tokyoMesh.material.diff_map_1_strength = 1.;
 tokyoMesh.material.shininess = 32;
 tokyoMesh.material.specular = 1;
+tokyoMesh.setup_buffers(gl);
 const background = new Body3D(tokyoMesh)
 scene.addObjects([background])
 
