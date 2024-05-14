@@ -17,7 +17,7 @@ import { vec3, mat4 } from "gl-matrix";
 import { PlayerMovementManager } from "src/shared/ui/movement-managers/strafe-movement-manager";
 import { KeyboardListener } from "src/shared/ui/keyboard-listener";
 import { Lightsource } from "src/shared/scenery/light/lightsource";
-import { Euler } from "three";
+import { Euler, LatheGeometry } from "three";
 import tokyoObj from "bundle-text:../../static/tokyo/tokyo.obj"
 import { MeshLoader } from "src/shared/resource-loaders/mesh-loader";
 import { worldConfig } from "../shared/resources/worldConfig";
@@ -53,7 +53,8 @@ const {
         lanternBody,
         hugeOrange,
         firstHeadlightBody,
-        secondHeadlightBody
+        secondHeadlightBody,
+        boat
     }
 } = useLab7Scenery(scene, gl);
 
@@ -69,6 +70,10 @@ firstHLMovement.attachToMovable(firstHeadlight);
 const secondHLMovement = new FollowMovement(player, vec3.fromValues(-0.4, 2.75, 0.75));
 secondHLMovement.attachToMovable(secondHeadlightBody);
 secondHLMovement.attachToMovable(secondHeadlight);
+
+const followBoatMovement = new FollowMovement(boat, vec3.fromValues(0, 2.75, -6.4));
+followBoatMovement.attachToMovable(lanternBody);
+followBoatMovement.attachToMovable(lanternLight);
 
 const camera = new Camera(gl, player);
 camera.setPosition([50, 50, 25]);
@@ -112,6 +117,9 @@ playerMovementManager.attachToMovable(player, timer);
 const magManager = new MagManager(player, orangeMesh);
 magManager.attachToKeyboard(scene);
 
+player.setPosition([0, 2, 0])
+player.setRotation(new Euler(0, Math.PI, 0))
+
 const toggleLight = (light: Lightsource, body?: Body3D) => {
     if (body) body.hidden = !body.hidden;
 
@@ -151,9 +159,15 @@ const update = () => {
 
     firstHeadlight.move(timer);
     secondHeadlight.move(timer);
+    lanternBody.move(timer);
+    lanternLight.move(timer);
     //camera.move(timer);
     //camera.viewMatrix = new Float32Array(16);
 
+    if (boat.position[2] < -80) {
+        boat.setPosition([40, 0, 40])
+    }
+    boat.setPosition([boat.position[0], boat.position[1], boat.position[2] - timer.timeDelta * 0.004])
 
     scene.objects.forEach((obj) => {
         obj.move(timer);

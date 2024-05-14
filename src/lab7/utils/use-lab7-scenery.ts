@@ -7,6 +7,8 @@ import { Euler } from "three";
 import { DirectionalLight, PointLight, SpotLight } from "src/shared/scenery/light/lightsource";
 import { vec3 } from "gl-matrix";
 import { useLanternModel } from "src/lab7/resources/lantern-body";
+import { MeshLoader } from "src/shared/resource-loaders/mesh-loader";
+import boatObj from "bundle-text:../../../static/boat/boat.obj"
 
 export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => {
     const dorimeMesh = useDorimeRatModel();
@@ -18,6 +20,20 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     const orangeMesh = useOrangeModel();
     orangeMesh.setup_buffers(gl);
 
+    const objLoader = new MeshLoader();
+    const boatMesh = objLoader.load(boatObj);
+    const boat = new Body3D(boatMesh);
+
+    boat.setScale([1.5, 1.5, 1.5]);
+    boat.setPosition([40, 0, 40]);
+    boat.setRotation(new Euler(0, Math.PI / 2, 0));
+    boatMesh.material.diff_map_1 = document.getElementById("boat") as HTMLImageElement;
+    boatMesh.material.color_strength = 0;
+    boatMesh.material.ambient = 0.2;
+    boatMesh.material.diff_map_1_strength = 1.;
+    boatMesh.material.shininess = 32;
+    boatMesh.material.specular = 1;
+    boatMesh.setup_buffers(gl);
     const uncannyRotate = new UncannyRotatingMovement();
     const hugeDorime = new Body3D(dorimeMesh, true, false);
     hugeDorime.setScale([1, 1, 1]);
@@ -40,7 +56,7 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     // end
 
     const lanternBody = new Body3D(lanternMesh);
-    lanternBody.setScale([1, 1, 1]);
+    lanternBody.setScale([0.6, 0.6, 0.6]);
     lanternBody.setPosition([-7, 7, 10]);
     lanternBody.setRotation(new Euler(0, -2 * Math.PI / 3, 0));
 
@@ -51,8 +67,8 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     uncannyRotate.attachToMovable(hugeOrange);
 
     const sun = new DirectionalLight();
-    sun.color = [0.5, 0.5, 1]
-    sun.intensity = 0.5
+    sun.color = [0.3, 0.3, 0.7]
+    sun.intensity = 1
     sun.direction = [-Math.PI / 2, 0, 0]
     sun.direction = vec3.fromValues(1, 1, 1);
 
@@ -60,6 +76,7 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     const lanternLightPos = vec3.clone(lanternBody.position);
     lanternLight.setPosition(lanternLightPos);
     lanternLight.radius = 10;
+    lanternLight.color = [1, 1, 0.5]
 
     const lantern1 = new SpotLight();
     lantern1.direction = [0, -Math.PI, 0]
@@ -82,6 +99,7 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
 
     scene.addObjects([
         hugeDorime,
+        boat,
         lanternBody,
         hugeOrange,
         firstHeadlightBody,
@@ -96,7 +114,7 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
             lanternLight, sun, firstHeadlight, secondHeadlight
         },
         bodies: {
-            hugeDorime, lanternBody, hugeOrange, firstHeadlightBody, secondHeadlightBody
+            hugeDorime, lanternBody, hugeOrange, firstHeadlightBody, secondHeadlightBody, boat
         }
     }
 }
