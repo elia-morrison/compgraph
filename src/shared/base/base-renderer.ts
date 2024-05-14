@@ -334,11 +334,16 @@ export class BaseRenderer {
         for (let obj of this.scene.objects) {
             if (obj.hidden) continue;
 
+            // let ext = gl.getExtension('OES_element_index_uint');
+            // if (!ext) {
+            //     console.error("Required extension OES_element_index_uint is not supported");
+            // }
+
             this.setup_materials(obj);
             this.setup_basic_buffers(obj)
             gl.uniformMatrix4fv(this.matWorldUniformLocation, false, obj.worldMatrix);
             gl.uniformMatrix4fv(this.matRotUniformLocation, false, obj.rotMatr);
-            gl.drawElements(gl.TRIANGLES, obj.mesh.faceIndices.length, gl.UNSIGNED_SHORT, 0);
+            gl.drawElements(gl.TRIANGLES, obj.mesh.faceIndices.length, gl.UNSIGNED_INT, 0);
 
             let errcode = gl.getError()
             if (errcode != 0) {

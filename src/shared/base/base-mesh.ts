@@ -32,9 +32,10 @@ export class BaseMesh {
 
         var boxIndexBufferObject = gl.createBuffer();
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, boxIndexBufferObject);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.faceIndices), gl.STATIC_DRAW);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(this.faceIndices), gl.STATIC_DRAW);
 
         this.indexbuffer = boxIndexBufferObject as WebGLBuffer;
+        console.log(this.indexbuffer)
 
         if (this.material.diff_map_1 != null) {
             this.texture1 = create_texture(gl, this.material.diff_map_1, 0);

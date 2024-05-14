@@ -18,6 +18,8 @@ import { PlayerMovementManager } from "src/shared/ui/movement-managers/strafe-mo
 import { KeyboardListener } from "src/shared/ui/keyboard-listener";
 import { Lightsource } from "src/shared/scenery/light/lightsource";
 import { Euler } from "three";
+import tokyoObj from "bundle-text:../../static/tokyo/tokyo.obj"
+import { MeshLoader } from "src/shared/resource-loaders/mesh-loader";
 
 try {
     const audio = document.querySelector("#audio-player") as HTMLAudioElement;
@@ -70,6 +72,18 @@ secondHLMovement.attachToMovable(secondHeadlight);
 const camera = new Camera(gl);
 camera.setPosition([0, 0, -25]);
 camera.setRotation(new Euler(0, Math.PI, 0));
+
+const objLoader = new MeshLoader();
+const tokyoMesh = objLoader.load(tokyoObj);
+tokyoMesh.setup_buffers(gl);
+tokyoMesh.material.diff_map_1 = document.getElementById("tokyo") as HTMLImageElement;
+tokyoMesh.material.color_strength = 0;
+tokyoMesh.material.ambient = 0.2;
+tokyoMesh.material.diff_map_1_strength = 1.;
+tokyoMesh.material.shininess = 32;
+tokyoMesh.material.specular = 1;
+const background = new Body3D(tokyoMesh)
+scene.addObjects([background])
 
 const cameraMovement = new FollowMovement(player, vec3.fromValues(0, 4, -12));
 cameraMovement.attachToMovable(camera);
