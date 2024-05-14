@@ -1,7 +1,6 @@
 import { BaseScene } from "src/shared/base/base-scene";
 import { useDorimeRatModel } from "src/lab7/resources/dorime-rat";
 import { useOrangeModel } from "src/lab7/resources/orange";
-import { UncannyRotatingMovement } from "src/shared/base/movable/movement-types/uncanny-rotating-movement";
 import { Body3D } from "src/shared/base/body-3d";
 import { Euler, Mesh } from "three";
 import { DirectionalLight, PointLight, SpotLight } from "src/shared/scenery/light/lightsource";
@@ -63,13 +62,6 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     utilityMesh.material.specular = 1;
     utilityMesh.setup_buffers(gl);
 
-    const uncannyRotate = new UncannyRotatingMovement();
-    const hugeDorime = new Body3D(dorimeMesh, true, false);
-    hugeDorime.setScale([1, 1, 1]);
-    hugeDorime.setPosition([3, 0, 10]);
-    hugeDorime.setRotation(new Euler(0, -Math.PI / 3, 0));
-    uncannyRotate.attachToMovable(hugeDorime);
-
     // headlights begin
     const firstHeadlightBody = new Body3D(lanternMesh);
     firstHeadlightBody.setScale([0.25, 0.25, 0.25]);
@@ -88,12 +80,6 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     lanternBody.setScale([0.6, 0.6, 0.6]);
     lanternBody.setPosition([-7, 7, 10]);
     lanternBody.setRotation(new Euler(0, -2 * Math.PI / 3, 0));
-
-    const hugeOrange = new Body3D(orangeMesh, true, false);
-    hugeOrange.setScale([0.05, 0.05, 0.05]);
-    hugeOrange.setPosition([-3, 0, 10]);
-    hugeOrange.setRotation(new Euler(0, -Math.PI / 3, 0));
-    uncannyRotate.attachToMovable(hugeOrange);
 
     const sun = new DirectionalLight();
     sun.color = [0.3, 0.3, 0.7]
@@ -127,11 +113,9 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     );
 
     scene.addObjects([
-        hugeDorime,
         boat,
         bench,
         lanternBody,
-        hugeOrange,
         firstHeadlightBody,
         secondHeadlightBody,
         utility]
@@ -151,7 +135,7 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
             lanternLight, sun, firstHeadlight, secondHeadlight
         },
         bodies: {
-            hugeDorime, lanternBody, hugeOrange, firstHeadlightBody, secondHeadlightBody, boat, bench
+            lanternBody, firstHeadlightBody, secondHeadlightBody, boat, bench
         }
     }
 }

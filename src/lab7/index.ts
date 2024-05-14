@@ -49,9 +49,7 @@ const {
         secondHeadlight
     },
     bodies: {
-        hugeDorime,
         lanternBody,
-        hugeOrange,
         firstHeadlightBody,
         secondHeadlightBody,
         boat,
