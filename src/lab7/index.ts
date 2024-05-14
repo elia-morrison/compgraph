@@ -13,13 +13,14 @@ import { Body3D } from "src/shared/base/body-3d";
 import { MagManager } from "src/lab7/utils/mag/mag-manager";
 import { useLab7Scenery } from "src/lab7/utils/use-lab7-scenery";
 import { FollowMovement } from "src/shared/base/movable/movement-types/follow-movement";
-import { vec3 } from "gl-matrix";
+import { vec3, mat4 } from "gl-matrix";
 import { PlayerMovementManager } from "src/shared/ui/movement-managers/strafe-movement-manager";
 import { KeyboardListener } from "src/shared/ui/keyboard-listener";
 import { Lightsource } from "src/shared/scenery/light/lightsource";
 import { Euler } from "three";
 import tokyoObj from "bundle-text:../../static/tokyo/tokyo.obj"
 import { MeshLoader } from "src/shared/resource-loaders/mesh-loader";
+import { worldConfig } from "../shared/resources/worldConfig";
 
 try {
     const audio = document.querySelector("#audio-player") as HTMLAudioElement;
@@ -69,9 +70,9 @@ const secondHLMovement = new FollowMovement(player, vec3.fromValues(-0.4, 2.75, 
 secondHLMovement.attachToMovable(secondHeadlightBody);
 secondHLMovement.attachToMovable(secondHeadlight);
 
-const camera = new Camera(gl);
-camera.setPosition([0, 0, -25]);
-camera.setRotation(new Euler(0, Math.PI, 0));
+const camera = new Camera(gl, player);
+camera.setPosition([50, 50, 25]);
+//camera.setRotation(new Euler(0, Math.PI, 0));
 
 const objLoader = new MeshLoader();
 const tokyoMesh = objLoader.load(tokyoObj);
@@ -83,10 +84,12 @@ tokyoMesh.material.shininess = 32;
 tokyoMesh.material.specular = 1;
 tokyoMesh.setup_buffers(gl);
 const background = new Body3D(tokyoMesh)
+background.setScale([5, 5, 5])
+background.setPosition([0, 0, -50])
 scene.addObjects([background])
 
-const cameraMovement = new FollowMovement(player, vec3.fromValues(0, 4, -12));
-cameraMovement.attachToMovable(camera);
+// const cameraMovement = new FollowMovement(player, vec3.fromValues(0, 4, -12));
+// cameraMovement.attachToMovable(camera);
 const renderer = new BaseRenderer(gl, vert_shader as string, frag_shader as string, scene, camera);
 const skybox = new Skybox(gl, 10, [
     document.getElementById("skybox-right"),
@@ -148,7 +151,9 @@ const update = () => {
 
     firstHeadlight.move(timer);
     secondHeadlight.move(timer);
-    camera.move(timer);
+    //camera.move(timer);
+    //camera.viewMatrix = new Float32Array(16);
+
 
     scene.objects.forEach((obj) => {
         obj.move(timer);

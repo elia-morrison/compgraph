@@ -30,13 +30,13 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     firstHeadlightBody.setScale([0.25, 0.25, 0.25]);
     const firstHeadlight = new SpotLight();
     firstHeadlight.color = [1, 0, 0];
-    firstHeadlight.radius = 1;
+    firstHeadlight.radius = 5;
 
     const secondHeadlightBody = new Body3D(lanternMesh);
     secondHeadlightBody.setScale([0.25, 0.25, 0.25]);
     const secondHeadlight = new SpotLight();
     secondHeadlight.color = [1, 0, 0];
-    firstHeadlight.radius = 1;
+    firstHeadlight.radius = 5;
     // end
 
     const lanternBody = new Body3D(lanternMesh);
@@ -51,6 +51,9 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     uncannyRotate.attachToMovable(hugeOrange);
 
     const sun = new DirectionalLight();
+    sun.color = [0.5, 0.5, 1]
+    sun.intensity = 0.5
+    sun.direction = [-Math.PI / 2, 0, 0]
     sun.direction = vec3.fromValues(1, 1, 1);
 
     const lanternLight = new PointLight();
@@ -58,11 +61,23 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     lanternLight.setPosition(lanternLightPos);
     lanternLight.radius = 10;
 
+    const lantern1 = new SpotLight();
+    lantern1.direction = [0, -Math.PI, 0]
+    lantern1.setPosition([20, 30, -20]);
+    lantern1.radius = 25
+
+    const lantern2 = new SpotLight();
+    lantern2.direction = [0, -Math.PI, 0]
+    lantern2.setPosition([20, 30, 10]);
+    lantern2.radius = 25
+
     scene.lightsources.push(
         sun,
         lanternLight,
         firstHeadlight,
-        secondHeadlight
+        secondHeadlight,
+        lantern1,
+        lantern2,
     );
 
     scene.addObjects([

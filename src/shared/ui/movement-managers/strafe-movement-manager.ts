@@ -41,13 +41,13 @@ export class PlayerMovementManager {
             {
                 keys: ['ArrowUp'],
                 callback: () => {
-                    this.#movement.turnAroundX(player, timer, false)
+                    this.#movement.moveVertically(player, timer, true)
                 }
             },
             {
                 keys: ['ArrowDown'],
                 callback: () => {
-                    this.#movement.turnAroundX(player, timer, true)
+                    this.#movement.moveVertically(player, timer, false)
                 }
             },
             {

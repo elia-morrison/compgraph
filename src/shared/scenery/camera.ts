@@ -8,11 +8,13 @@ import { worldConfig } from "../resources/worldConfig";
 export class Camera extends ObjectGL {
     public viewMatrix = new Float32Array(16);
     public projMatrix = new Float32Array(16);
+    public target: Body3D | null = null;
     gl: WebGL2RenderingContext;
 
-    constructor(gl: WebGL2RenderingContext) {
+    constructor(gl: WebGL2RenderingContext, target: Body3D | null = null) {
         super(); //new BaseMesh(), false
         this.gl = gl;
+        this.target = target;
         this.make_perspective();
     }
 
@@ -28,8 +30,14 @@ export class Camera extends ObjectGL {
         let eye = this.position;
         let center = vec3.create();
         vec3.add(center, eye, this.direction);
+        //mat4.lookAt(this.viewMatrix, eye, this.direction, worldConfig.UP);
+        if (this.target != null) {
+            mat4.lookAt(this.viewMatrix, eye, this.target._position, worldConfig.UP);
+        }
+        else {
+            mat4.lookAt(this.viewMatrix, eye, this.direction, worldConfig.UP);
+        }
 
-        mat4.lookAt(this.viewMatrix, eye, center, worldConfig.UP);
     }
 
     make_perspective() {

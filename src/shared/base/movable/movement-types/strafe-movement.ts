@@ -4,6 +4,7 @@ import { vec3 } from "gl-matrix";
 import { KeyboardListener } from "src/shared/ui/keyboard-listener";
 import { Timer } from "src/shared/runtime/timer";
 import { Euler, Quaternion, Vector3 } from "three";
+import { worldConfig } from "src/shared/resources/worldConfig";
 
 const initialOrientation = {
     yaw: Math.PI * 0.5,
@@ -14,7 +15,7 @@ const initialOrientation = {
 export class StrafeMovement extends BaseMovement {
     #keyboardListener = new KeyboardListener();
 
-    #velocity = 0.02;
+    #velocity = 0.05;
     #turnVelocity = 0.01;
     #velocityStep = 0.005;
     #turnVelocityStep = 0.005;
@@ -53,6 +54,18 @@ export class StrafeMovement extends BaseMovement {
             player.position,
             vec3.scale(
                 [0.0, 0.0, 0.0], player.direction, sign * this.#velocity * timer.timeDelta
+            )
+        );
+        player.setPosition(newPosition);
+    }
+
+    moveVertically(player: Movable, timer: Timer, up = true) {
+        const sign = up ? 1.0 : - 1.0;
+        const newPosition = vec3.add(
+            vec3.create(),
+            player.position,
+            vec3.scale(
+                [0.0, 0.0, 0.0], worldConfig.UP, sign * this.#velocity * timer.timeDelta
             )
         );
         player.setPosition(newPosition);
