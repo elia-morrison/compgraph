@@ -3,12 +3,14 @@ import { useDorimeRatModel } from "src/lab7/resources/dorime-rat";
 import { useOrangeModel } from "src/lab7/resources/orange";
 import { UncannyRotatingMovement } from "src/shared/base/movable/movement-types/uncanny-rotating-movement";
 import { Body3D } from "src/shared/base/body-3d";
-import { Euler } from "three";
+import { Euler, Mesh } from "three";
 import { DirectionalLight, PointLight, SpotLight } from "src/shared/scenery/light/lightsource";
 import { vec3 } from "gl-matrix";
 import { useLanternModel } from "src/lab7/resources/lantern-body";
 import { MeshLoader } from "src/shared/resource-loaders/mesh-loader";
 import boatObj from "bundle-text:../../../static/boat/boat.obj"
+import benchObj from "bundle-text:../../../static/bench/bench.obj"
+import utilityObj from "bundle-text:../../../static/utility/utility.obj"
 
 export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => {
     const dorimeMesh = useDorimeRatModel();
@@ -20,7 +22,7 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     const orangeMesh = useOrangeModel();
     orangeMesh.setup_buffers(gl);
 
-    const objLoader = new MeshLoader();
+    let objLoader = new MeshLoader();
     const boatMesh = objLoader.load(boatObj);
     const boat = new Body3D(boatMesh);
 
@@ -34,6 +36,33 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     boatMesh.material.shininess = 32;
     boatMesh.material.specular = 1;
     boatMesh.setup_buffers(gl);
+
+    objLoader = new MeshLoader();
+    const benchMesh = objLoader.load(benchObj);
+    const bench = new Body3D(benchMesh, true, false);
+    bench.setScale([3, 3, 3])
+
+    benchMesh.material.diff_map_1 = document.getElementById("bench") as HTMLImageElement;
+    benchMesh.material.color_strength = 0;
+    benchMesh.material.ambient = 0.2;
+    benchMesh.material.diff_map_1_strength = 1.;
+    benchMesh.material.shininess = 32;
+    benchMesh.material.specular = 1;
+    benchMesh.setup_buffers(gl);
+
+    const utilityMesh = objLoader.load(utilityObj);
+    const utility = new Body3D(utilityMesh, true, false);
+    utility.setScale([3, 3, 3])
+
+
+    utilityMesh.material.diff_map_1 = document.getElementById("utility") as HTMLImageElement;
+    utilityMesh.material.color_strength = 0;
+    utilityMesh.material.ambient = 0.2;
+    utilityMesh.material.diff_map_1_strength = 1.;
+    utilityMesh.material.shininess = 32;
+    utilityMesh.material.specular = 1;
+    utilityMesh.setup_buffers(gl);
+
     const uncannyRotate = new UncannyRotatingMovement();
     const hugeDorime = new Body3D(dorimeMesh, true, false);
     hugeDorime.setScale([1, 1, 1]);
@@ -100,11 +129,19 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
     scene.addObjects([
         hugeDorime,
         boat,
+        bench,
         lanternBody,
         hugeOrange,
         firstHeadlightBody,
-        secondHeadlightBody]
+        secondHeadlightBody,
+        utility]
     );
+
+    bench.setPosition([0, 0, -20])
+    bench.setRotation(new Euler(0, Math.PI - 0.1, 0))
+
+    utility.setRotation(new Euler(0, Math.PI / 2, 0))
+    utility.setPosition([-7, 0, -5])
 
     return {
         meshes: {
@@ -114,7 +151,7 @@ export const useLab7Scenery = (scene: BaseScene, gl: WebGL2RenderingContext) => 
             lanternLight, sun, firstHeadlight, secondHeadlight
         },
         bodies: {
-            hugeDorime, lanternBody, hugeOrange, firstHeadlightBody, secondHeadlightBody, boat
+            hugeDorime, lanternBody, hugeOrange, firstHeadlightBody, secondHeadlightBody, boat, bench
         }
     }
 }

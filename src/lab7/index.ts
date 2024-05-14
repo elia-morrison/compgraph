@@ -54,7 +54,8 @@ const {
         hugeOrange,
         firstHeadlightBody,
         secondHeadlightBody,
-        boat
+        boat,
+        bench
     }
 } = useLab7Scenery(scene, gl);
 
@@ -172,6 +173,8 @@ const update = () => {
     scene.objects.forEach((obj) => {
         obj.move(timer);
     });
+
+    //console.log(bench.position)
 
     gl.clearColor(0, 0, 0, 1.0);
     gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);

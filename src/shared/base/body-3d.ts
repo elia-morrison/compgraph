@@ -35,6 +35,10 @@ export class Body3D {
         this.setScale([1, 1, 1]);
         this.collision = collision;
         this.#kinematic = kinematic;
+
+        if (this.collision) {
+            this.initPhysics();
+        }
     }
 
     initPhysics() {

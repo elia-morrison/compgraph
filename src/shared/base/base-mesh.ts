@@ -89,7 +89,7 @@ export class BaseMesh {
         });
         boundingBoxBody.angularFactor = new CANNON.Vec3(0, 0, 0);
         boundingBoxBody.angularDamping = 1.;
-        boundingBoxBody.linearDamping = 0.9;
+        boundingBoxBody.linearDamping = 0.95;
         boundingBoxBody.position.x = originX;
         boundingBoxBody.position.y = originY;
         boundingBoxBody.position.z = originZ;
