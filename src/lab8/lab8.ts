@@ -1,15 +1,16 @@
-// import { resizeCanvas } from "../shared/ui/ui";
+import { resizeCanvas } from "../shared/ui/ui";
 // import { ParticleSystem } from "./particle-system";
 import particleRenderFrag from "./shaders/particle-render.frag";
 import particleRenderVert from "./shaders/particle-render.vert";
 import particleUpdateVert from "./shaders/particle-update.vert";
 import passthruFrag from "./shaders/passthru.frag";
+
 // import { Timer } from "../shared/runtime/timer";
 
-// let cv = document.querySelector("#main_canvas") as HTMLCanvasElement;
-// resizeCanvas(cv);
-// window.addEventListener('resize', function (event) { resizeCanvas(cv); }, true);
-// let gl = cv.getContext("webgl2") as WebGL2RenderingContext;
+let canvas_element = document.querySelector("#main_canvas") as HTMLCanvasElement;
+resizeCanvas(canvas_element);
+window.addEventListener('resize', function (event) { resizeCanvas(canvas_element); }, true);
+let webgl_context = canvas_element.getContext("webgl2") as WebGL2RenderingContext;
 // let particleSystem = new ParticleSystem(gl, fireFragShader, fireVertShader);
 
 // const timer = new Timer();
@@ -426,10 +427,6 @@ function render(gl, state, timestamp_millis) {
     window.requestAnimationFrame(function (ts) { render(gl, state, ts); });
 }
 
-var canvas_element = document.createElement("canvas");
-canvas_element.width = 800;
-canvas_element.height = 600;
-var webgl_context = canvas_element.getContext("webgl2");
 if (webgl_context != null) {
     document.body.appendChild(canvas_element);
     var part_img = new Image();
@@ -457,11 +454,11 @@ if (webgl_context != null) {
     document.write("WebGL2 is not supported by your browser");
 }
 
-// $('#term').terminal({
-//     sparkler: function (bumpiness: number) {
+$('#term').terminal({
+    sparkler: function (bumpiness: number) {
 
-//     },
-// }, {
-//     greetings: 'WebGL / Lab8',
-//     completion: ['sparkler'],
-// });
+    },
+}, {
+    greetings: 'WebGL / Lab8',
+    completion: ['sparkler'],
+});
