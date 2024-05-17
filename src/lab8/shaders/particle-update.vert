@@ -31,6 +31,7 @@ void main() {
         v_Age = 0.0;
         v_Life = i_Life;
         v_Velocity = vec3(x, y, 0.) * (u_MinSpeed + rand.g * (u_MaxSpeed - u_MinSpeed));
+        v_Velocity = v_Velocity + u_Gravity * u_TimeDelta; 
     } else {
         v_Position = i_Position + i_Velocity * u_TimeDelta;
         v_Age = i_Age + u_TimeDelta;
