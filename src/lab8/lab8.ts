@@ -90,9 +90,11 @@ function initialParticleData(num_parts, min_age, max_age) {
     for (var i = 0; i < num_parts; ++i) {
         data.push(0.0);
         data.push(0.0);
+        data.push(0.0);
         var life = min_age + Math.random() * (max_age - min_age);
         data.push(life + 1);
         data.push(life);
+        data.push(0.0);
         data.push(0.0);
         data.push(0.0);
     }
@@ -151,7 +153,6 @@ function init(
     if (min_speed > max_speed) {
         throw "Invalid min-max speed range.";
     }
-    console.log(particleUpdateVert)
     var update_program = createGLProgram(
         gl,
         [
@@ -174,7 +175,7 @@ function init(
     var update_attrib_locations = {
         i_Position: {
             location: gl.getAttribLocation(update_program, "i_Position"),
-            num_components: 2,
+            num_components: 3,
             type: gl.FLOAT
         },
         i_Age: {
@@ -189,14 +190,14 @@ function init(
         },
         i_Velocity: {
             location: gl.getAttribLocation(update_program, "i_Velocity"),
-            num_components: 2,
+            num_components: 3,
             type: gl.FLOAT
         }
     };
     var render_attrib_locations = {
         i_Position: {
             location: gl.getAttribLocation(render_program, "i_Position"),
-            num_components: 2,
+            num_components: 3,
             type: gl.FLOAT,
             divisor: 1
         },
@@ -225,27 +226,27 @@ function init(
     ];
     var sprite_vert_data =
         new Float32Array([
-            1, 1,
+            1, 1, 0,
             1, 1,
 
-            -1, 1,
+            -1, 1, 0,
             0, 1,
 
-            -1, -1,
+            -1, -1, 0,
             0, 0,
 
-            1, 1,
+            1, 1, 0,
             1, 1,
 
-            -1, -1,
+            -1, -1, 0,
             0, 0,
 
-            1, -1,
+            1, -1, 0,
             1, 0]);
     var sprite_attrib_locations = {
         i_Coord: {
             location: gl.getAttribLocation(render_program, "i_Coord"),
-            num_components: 2,
+            num_components: 3,
             type: gl.FLOAT,
         },
         i_TexCoord: {
@@ -262,7 +263,7 @@ function init(
             vao: vaos[0],
             buffers: [{
                 buffer_object: buffers[0],
-                stride: 4 * 6,
+                stride: 4 * 8,
                 attribs: update_attrib_locations
             }]
         },
@@ -270,7 +271,7 @@ function init(
             vao: vaos[1],
             buffers: [{
                 buffer_object: buffers[1],
-                stride: 4 * 6,
+                stride: 4 * 8,
                 attribs: update_attrib_locations
             }]
         },
@@ -278,12 +279,12 @@ function init(
             vao: vaos[2],
             buffers: [{
                 buffer_object: buffers[0],
-                stride: 4 * 6,
+                stride: 4 * 8,
                 attribs: render_attrib_locations
             },
             {
                 buffer_object: sprite_vert_buf,
-                stride: 4 * 4,
+                stride: 4 * 5,
                 attribs: sprite_attrib_locations
             }],
         },
@@ -291,12 +292,12 @@ function init(
             vao: vaos[3],
             buffers: [{
                 buffer_object: buffers[1],
-                stride: 4 * 6,
+                stride: 4 * 8,
                 attribs: render_attrib_locations
             },
             {
                 buffer_object: sprite_vert_buf,
-                stride: 4 * 4,
+                stride: 4 * 5,
                 attribs: sprite_attrib_locations
             }],
         },
@@ -341,14 +342,14 @@ function init(
         write: 1,
         particle_update_program: update_program,
         particle_render_program: render_program,
-        num_particles: initial_data.length / 6,
+        num_particles: initial_data.length / 8,
         old_timestamp: 0.0,
         rg_noise: rg_noise_texture,
         total_time: 0.0,
         born_particles: 0,
         birth_rate: particle_birth_rate,
         gravity: gravity,
-        origin: [0.0, 0.0],
+        origin: [0.0, 0.0, 0.0],
         min_theta: min_theta,
         max_theta: max_theta,
         min_speed: min_speed,
@@ -379,13 +380,14 @@ function render(gl, state, timestamp_millis) {
     gl.uniform1f(
         gl.getUniformLocation(state.particle_update_program, "u_TotalTime"),
         state.total_time);
-    gl.uniform2f(
+    gl.uniform3f(
         gl.getUniformLocation(state.particle_update_program, "u_Gravity"),
-        state.gravity[0], state.gravity[1]);
-    gl.uniform2f(
+        state.gravity[0], state.gravity[1], state.gravity[2]);
+    gl.uniform3f(
         gl.getUniformLocation(state.particle_update_program, "u_Origin"),
         state.origin[0],
-        state.origin[1]);
+        state.origin[1],
+        state.origin[2]);
     gl.uniform1f(
         gl.getUniformLocation(state.particle_update_program, "u_MinTheta"),
         state.min_theta);
@@ -440,12 +442,12 @@ if (webgl_context != null) {
                 0.8, 0.9,
                 -Math.PI, Math.PI,
                 0.1, 0.5,
-                [0.0, -0.0],
+                [0.0, -0.0, 0.0],
                 part_img);
         canvas_element.onmousemove = function (e) {
             var x = 2.0 * (e.pageX - this.offsetLeft) / this.width - 1.0;
             var y = -(2.0 * (e.pageY - this.offsetTop) / this.height - 1.0);
-            state.origin = [x, y];
+            state.origin = [x, y, 0.];
         };
         window.requestAnimationFrame(
             function (ts) { render(webgl_context, state, ts); });
@@ -455,7 +457,7 @@ if (webgl_context != null) {
 }
 
 $('#term').terminal({
-    sparkler: function (bumpiness: number) {
+    sparkler: function () {
 
     },
 }, {
