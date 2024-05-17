@@ -36,8 +36,8 @@ class ParticleSystem {
 
     constructor(gl: WebGL2RenderingContext, fragShader: string, vertexShader: string) {
         this.gl = gl;
-        this.vertexShader = this.createShader(gl.VERTEX_SHADER, fragShader);
-        this.fragShader = this.createShader(gl.FRAGMENT_SHADER, vertexShader);
+        this.vertexShader = this.createShader(gl.VERTEX_SHADER, vertexShader);
+        this.fragShader = this.createShader(gl.FRAGMENT_SHADER, fragShader);
         this.program = this.createProgram(this.vertexShader, this.fragShader);
         gl.useProgram(this.program);
         this.setupBuffers();
@@ -139,7 +139,7 @@ class ParticleSystem {
     }
 
     public initParticles() {
-        for (let i = 0; i < this.maxParticles; i++) {
+        for (let i = 0; i < 100; i++) {
             let startPosition = vec4.fromValues(Math.random(), Math.random(), Math.random(), 1);
             let speed = vec4.fromValues(Math.random() * 0.01 - 0.005, Math.random() * 0.01 - 0.005, 0, 0);
             let size = Math.random() * 10 + 5;
