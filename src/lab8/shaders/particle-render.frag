@@ -16,6 +16,6 @@ vec3 palette( in float t, in vec3 a, in vec3 b, in vec3 c, in vec3 d ) {
 
 void main() {
     float t =  v_Age/v_Life;
-    vec4 color = vec4(vec3(1.0, 0.8, 0.3), 1.0-(v_Age/v_Life));
+    vec4 color = vec4(vec3(1.0, 0.5, 0.1), 1.0-(v_Age/v_Life));
     o_FragColor = color * texture(u_Sprite, v_TexCoord);
 }

@@ -23,7 +23,7 @@ out vec3 v_Velocity;
 void main() {
     if (i_Age >= i_Life) {
         ivec2 noise_coord = ivec2(gl_VertexID % 512, gl_VertexID / 512);
-        vec2 rand = texelFetch(u_RgNoise, noise_coord, 0).rg;
+        vec3 rand = texelFetch(u_RgNoise, noise_coord, 0).rgb;
         float theta = u_MinTheta + rand.r*(u_MaxTheta - u_MinTheta);
         float x = cos(theta);
         float y = sin(theta);

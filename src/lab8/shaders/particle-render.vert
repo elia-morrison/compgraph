@@ -1,6 +1,11 @@
 #version 300 es
 precision mediump float;
 
+uniform mat4 mWorld;
+uniform mat4 mView;
+uniform mat4 rotMatr;
+uniform mat4 mProj;
+
 in vec3 i_Position;
 in float i_Age;
 in float i_Life;
@@ -16,5 +21,11 @@ void main() {
     v_Age = i_Age;
     v_Life = i_Life;
     v_TexCoord = i_TexCoord;
-    gl_Position = vec4(vert_coord, 1.0);
+    
+    // billboarding
+    vec4 camRight = vec4(mView[0][0], mView[1][0], mView[2][0], 0.0);
+    vec4 camUp = vec4(mView[0][1], mView[1][1], mView[2][1], 0.0);
+    vec4 worldPosition = mWorld * vec4(0.0, 0.0, 0.0, 1.0); // Center of billboard
+    vec4 world_homog = worldPosition + camRight * vert_coord.x + camUp * vert_coord.y;
+    gl_Position = mProj * mView * world_homog;
 }
