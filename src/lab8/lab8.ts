@@ -4,6 +4,7 @@ import { AttribInfo, GLManager, ShaderInfo, VAOInfo } from "./gl-manager";
 import { Timer } from "../shared/runtime/timer";
 import { Camera } from "src/shared/scenery/camera";
 import { FireParticleSystem } from "./fire";
+import { FireworksParticleSystem } from "./fireworks";
 import { Euler } from "three";
 
 let canvas_element = document.querySelector("#main_canvas") as HTMLCanvasElement;
@@ -16,7 +17,7 @@ camera.setPosition([0, 0, -3]);
 
 let glManager = new GLManager(webgl_context, camera);
 
-let fire = new FireParticleSystem(webgl_context, function () {
+let fire = new FireworksParticleSystem(webgl_context, function () {
     glManager.init(fire);
 
     let update = function (ts: number) {
