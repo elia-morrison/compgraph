@@ -1,7 +1,7 @@
 import { ParticleSystem } from "./particle-system";
 import particleRenderFrag from "./shaders/particle-render.frag";
 import particleRenderVert from "./shaders/particle-render.vert";
-import particleUpdateVert from "./shaders/particle-update.vert";
+import particleUpdateVert from "./shaders/fire-update.vert";
 import passthruFrag from "./shaders/passthru.frag";
 
 class FireParticleSystem extends ParticleSystem {
@@ -13,17 +13,24 @@ class FireParticleSystem extends ParticleSystem {
         this.particleUpdateVert = particleUpdateVert;
         this.passthruFrag = passthruFrag;
 
-        this.numParticles = 1000;
+        this.numParticles = 300;
         this.birthRatio = 0.5;
-        this.minAge = 0.8;
+        this.minAge = 0.6;
         this.maxAge = 0.9;
         this.minTheta = -Math.PI;
         this.maxTheta = Math.PI;
         this.minSpeed = 0.1;
-        this.maxSpeed = 0.5;
+        this.maxSpeed = 0.4;
+        this.maxVelocity = [1., 2., 1.];
         this.gravity = [0., 5., 0.];
         this.origin = [0., -0.5, 0.];
     }
+
+    // update(timeDelta: number): void {
+    //     this.gravity[0] += timeDelta * (Math.random() * 2 - 1);
+    //     this.gravity[1] += timeDelta * (Math.random() * 2 - 1);
+    //     this.gravity[2] += timeDelta * (Math.random() * 2 - 1);
+    // }
 }
 
 export { FireParticleSystem }

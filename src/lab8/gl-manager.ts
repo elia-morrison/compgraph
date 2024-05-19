@@ -376,6 +376,7 @@ class GLManager {
                 time_delta = 0.0;
             }
         }
+        pS.update(time_delta);
         if (this.bornParticles < pS.numParticles) {
             this.bornParticles = Math.min(pS.numParticles,
                 Math.floor(this.bornParticles + pS.birthRatio * time_delta));
@@ -397,6 +398,11 @@ class GLManager {
             pS.origin[0],
             pS.origin[1],
             pS.origin[2]);
+        gl.uniform3f(
+            gl.getUniformLocation(this.particleUpdateProgam, "u_MaxVelocity"),
+            pS.maxVelocity[0],
+            pS.maxVelocity[1],
+            pS.maxVelocity[2]);
         gl.uniform1f(
             gl.getUniformLocation(this.particleUpdateProgam, "u_MinTheta"),
             pS.minTheta);

@@ -9,6 +9,7 @@ uniform float u_MinTheta;
 uniform float u_MaxTheta;
 uniform float u_MinSpeed;
 uniform float u_MaxSpeed;
+uniform vec3 u_MaxVelocity;
 
 in vec3 i_Position;
 in float i_Age;
@@ -38,4 +39,5 @@ void main() {
         v_Life = i_Life;
         v_Velocity = i_Velocity + u_Gravity * u_TimeDelta;
     }
+    v_Velocity = min(v_Velocity, u_MaxVelocity);
 }

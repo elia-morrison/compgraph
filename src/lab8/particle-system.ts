@@ -21,6 +21,7 @@ class ParticleSystem extends ObjectGL {
     maxTheta: number
     minSpeed: number
     maxSpeed: number
+    maxVelocity: number[]
     gravity: number[]
     origin: number[]
 
@@ -48,6 +49,10 @@ class ParticleSystem extends ObjectGL {
             data.push(0.0);
         }
         return data;
+    }
+
+    update(timeDelta: number) {
+
     }
 }
 
