@@ -45,5 +45,5 @@ $('#term').terminal({
     }
 }, {
     greetings: 'WebGL / Lab8',
-    completion: ['sparkler', 'fireworks'],
+    completion: ['sparkler', 'fireworks', 'fire'],
 });
