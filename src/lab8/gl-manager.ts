@@ -103,6 +103,7 @@ class GLManager {
         for (var i = 0; i < size_x * size_y; ++i) {
             d.push(Math.random() * 255.0);
             d.push(Math.random() * 255.0);
+            d.push(Math.random() * 255.0);
         }
         return new Uint8Array(d);
     }
@@ -345,10 +346,10 @@ class GLManager {
         gl.bindTexture(gl.TEXTURE_2D, this.noiseTexture);
         gl.texImage2D(gl.TEXTURE_2D,
             0,
-            gl.RG8,
+            gl.RGB,
             512, 512,
             0,
-            gl.RG,
+            gl.RGB,
             gl.UNSIGNED_BYTE,
             this.randomRGData(512, 512));
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.MIRRORED_REPEAT);

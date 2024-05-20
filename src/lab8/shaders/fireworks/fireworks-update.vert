@@ -27,7 +27,7 @@ void main() {
         v_Position = u_Origin;
         v_Age = 0.0;
         v_Life = lifeSpan;
-        v_Velocity = vec3(0.0, 2.0, 0.0);  // Initial upward velocity boosted for effect
+        v_Velocity = vec3(0.0, 1.5, 0.0);
     } else {
         float halfLife = 0.5 * i_Life;
         if (i_Age < halfLife) {
@@ -40,16 +40,16 @@ void main() {
                 // Calculate explosion direction
                 ivec2 noise_coord = ivec2(gl_VertexID % 512, gl_VertexID / 512);
                 vec3 rand = texelFetch(u_RgNoise, noise_coord, 0).rgb;
-                float phi = 2.0 * 3.14159265 * rand.r; // Azimuthal angle
+                float phi = 2.0 * 3.14159265 * (rand.r); // Azimuthal angle
                 float theta = acos(2.0 * rand.g - 1.0); // Polar angle
+                float radius = rand.b * 0.1 + 0.9;
 
                 float x = sin(theta) * cos(phi);
                 float y = sin(theta) * sin(phi);
                 float z = cos(theta);
 
-                v_Velocity = vec3(x, y, z) * 5.0;
+                v_Velocity = vec3(x, y, z) * 5.0 * radius;
             }
-            // Update position based on new velocity
             v_Position = i_Position + v_Velocity * u_TimeDelta;
         }
         v_Age = i_Age + u_TimeDelta;

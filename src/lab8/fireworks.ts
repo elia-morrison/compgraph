@@ -16,14 +16,14 @@ class FireworksParticleSystem extends ParticleSystem {
         this.numParticles = 5000;
         this.birthRatio = 50;
         this.minAge = 0.;
-        this.maxAge = 1.;
+        this.maxAge = 1.5;
         this.minTheta = this.minAge;
         this.maxTheta = this.maxAge;
         this.minSpeed = 0.1;
         this.maxSpeed = 0.4;
         this.maxVelocity = [1000., 2000., 1000.];
         this.gravity = [0., 5., 0.];
-        this.origin = [0., -0.5, 0.];
+        this.origin = [0., -1, 0.];
     }
 
     // update(timeDelta: number): void {
