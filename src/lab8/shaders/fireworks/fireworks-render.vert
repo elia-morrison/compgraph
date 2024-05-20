@@ -20,9 +20,9 @@ void main() {
     float size = 1.0;
     float halfLife = 0.5 * i_Life;
     if (i_Age < halfLife) {
-        size = 0.02;
+        size = 0.01;
     } else { 
-        size = (0.75*(1.0-i_Age / i_Life) + 0.25) * 0.1;
+        size = (0.75*(1.0-i_Age / i_Life) + 0.25) * 0.05;
     }
     vec3 vert_coord = i_Position + size * i_Coord;
     v_Age = i_Age;

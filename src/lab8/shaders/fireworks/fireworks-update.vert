@@ -47,7 +47,7 @@ void main() {
                 float y = sin(theta) * sin(phi);
                 float z = cos(theta);
 
-                v_Velocity = vec3(x, y, z) * 30.0;
+                v_Velocity = vec3(x, y, z) * 5.0;
             }
             // Update position based on new velocity
             v_Position = i_Position + v_Velocity * u_TimeDelta;

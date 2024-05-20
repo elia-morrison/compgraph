@@ -1,7 +1,7 @@
 import { ParticleSystem } from "./particle-system";
-import particleRenderFrag from "./shaders/fireworks-render.frag";
-import particleRenderVert from "./shaders/fireworks-render.vert";
-import particleUpdateVert from "./shaders/fireworks-update.vert";
+import particleRenderFrag from "./shaders/fireworks/fireworks-render.frag";
+import particleRenderVert from "./shaders/fireworks/fireworks-render.vert";
+import particleUpdateVert from "./shaders/fireworks/fireworks-update.vert";
 import passthruFrag from "./shaders/passthru.frag";
 
 class FireworksParticleSystem extends ParticleSystem {
@@ -13,8 +13,8 @@ class FireworksParticleSystem extends ParticleSystem {
         this.particleUpdateVert = particleUpdateVert;
         this.passthruFrag = passthruFrag;
 
-        this.numParticles = 1000;
-        this.birthRatio = 10;
+        this.numParticles = 5000;
+        this.birthRatio = 50;
         this.minAge = 0.;
         this.maxAge = 1.;
         this.minTheta = this.minAge;
@@ -38,7 +38,7 @@ class FireworksParticleSystem extends ParticleSystem {
             data.push(0.0);
             data.push(0.0);
             data.push(0.0);
-            data.push(this.minAge);
+            data.push(this.maxAge);
             data.push(this.maxAge);
             data.push(0.0);
             data.push(0.0);

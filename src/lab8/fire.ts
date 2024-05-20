@@ -1,7 +1,7 @@
 import { ParticleSystem } from "./particle-system";
-import particleRenderFrag from "./shaders/fire-render.frag";
-import particleRenderVert from "./shaders/fire-render.vert";
-import particleUpdateVert from "./shaders/fire-update.vert";
+import particleRenderFrag from "./shaders/fire/fire-render.frag";
+import particleRenderVert from "./shaders/fire/fire-render.vert";
+import particleUpdateVert from "./shaders/fire/fire-update.vert";
 import passthruFrag from "./shaders/passthru.frag";
 
 class FireParticleSystem extends ParticleSystem {
