@@ -14,10 +14,10 @@ class SmokeParticleSystem extends ParticleSystem {
         this.particleUpdateVert = particleUpdateVert;
         this.passthruFrag = passthruFrag;
 
-        this.numParticles = 600;
+        this.numParticles = 800;
         this.birthRatio = 0.3;
         this.minAge = 0.;
-        this.maxAge = 5.;
+        this.maxAge = 6.;
         this.minTheta = this.minAge;
         this.maxTheta = this.maxAge;
         this.minSpeed = 0.1;
