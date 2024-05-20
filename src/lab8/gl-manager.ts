@@ -172,9 +172,7 @@ class GLManager {
         if (pS.maxAge < pS.minAge) {
             throw "Invalid min-max age range.";
         }
-        if (pS.maxTheta < pS.minTheta ||
-            pS.minTheta < -Math.PI ||
-            pS.maxTheta > Math.PI) {
+        if (pS.maxTheta < pS.minTheta) {
             throw "Invalid theta range.";
         }
         if (pS.minSpeed > pS.maxSpeed) {

@@ -35,7 +35,7 @@ void main() {
 
         // float x = radius * cos(angle);
         // float z = radius * sin(angle);
-        float y = 1. * u_TimeDelta; // Continuous upward movement
+        float y = 0.6 * u_TimeDelta; // Continuous upward movement
 
         v_Position = i_Position + vec3(0., y, 0.);
         v_Velocity = i_Velocity; // Maintain velocity
