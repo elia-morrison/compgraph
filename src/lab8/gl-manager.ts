@@ -57,10 +57,6 @@ class GLManager {
     setupView() {
         let gl = this.gl;
         this.camera.make_view();
-        gl.depthMask(false);
-        gl.enable(gl.DEPTH_TEST);
-        // gl.enable(gl.BLEND);
-        // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
         gl.enable(gl.CULL_FACE);
         gl.frontFace(gl.CCW);
@@ -356,12 +352,11 @@ class GLManager {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.MIRRORED_REPEAT);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-        gl.enable(gl.BLEND);
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+        this.pS.setupBlend();
 
         this.particleTexture = gl.createTexture()!;
         gl.bindTexture(gl.TEXTURE_2D, this.particleTexture);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, 32, 32, 0, gl.RGBA, gl.UNSIGNED_BYTE, pS.particleImage);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, pS.particleImage.width, pS.particleImage.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, pS.particleImage);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     }

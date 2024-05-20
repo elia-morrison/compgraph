@@ -54,6 +54,15 @@ class ParticleSystem extends ObjectGL {
     update(timeDelta: number) {
 
     }
+
+    setupBlend() {
+        let gl = this.gl;
+        gl.depthMask(false);
+        gl.enable(gl.DEPTH_TEST);
+        gl.enable(gl.BLEND);
+        gl.blendEquation(gl.FUNC_ADD);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+    }
 }
 
 

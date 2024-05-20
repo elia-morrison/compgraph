@@ -1,7 +1,17 @@
 {
-  "extends": ["@parcel/config-default"],
-  "reporters":  ["...", "parcel-reporter-static-files-copy"],
+  "extends": [
+    "@parcel/config-default"
+  ],
+  "reporters": [
+    "...",
+    "parcel-reporter-static-files-copy"
+  ],
   "transformers": {
-    "*obj": ["@parcel/transformer-raw"]
+    "*obj": [
+      "@parcel/transformer-raw"
+    ],
+    "*txt": [
+      "@parcel/transformer-raw"
+    ]
   }
 }

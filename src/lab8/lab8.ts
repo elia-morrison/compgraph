@@ -5,6 +5,7 @@ import { Timer } from "../shared/runtime/timer";
 import { Camera } from "src/shared/scenery/camera";
 import { FireParticleSystem } from "./fire";
 import { FireworksParticleSystem } from "./fireworks";
+import { SmokeParticleSystem } from "./smoke";
 import { Euler } from "three";
 
 let canvas_element = document.querySelector("#main_canvas") as HTMLCanvasElement;
@@ -42,8 +43,11 @@ $('#term').terminal({
     },
     fire: function () {
         initParticleSystem(FireParticleSystem);
+    },
+    smoke: function () {
+        initParticleSystem(SmokeParticleSystem);
     }
 }, {
     greetings: 'WebGL / Lab8',
-    completion: ['sparkler', 'fireworks', 'fire'],
+    completion: ['sparkler', 'fireworks', 'fire', 'smoke'],
 });
