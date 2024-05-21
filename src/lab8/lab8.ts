@@ -8,6 +8,7 @@ import { FireworksParticleSystem } from "./fireworks";
 import { SmokeParticleSystem } from "./smoke";
 import { Euler } from "three";
 import { SparklerParticleSystem } from "./sparkler";
+import { PortalParticleSystem } from "./portal";
 
 let canvas_element = document.querySelector("#main_canvas") as HTMLCanvasElement;
 resizeCanvas(canvas_element);
@@ -47,8 +48,11 @@ $('#term').terminal({
     },
     smoke: function () {
         initParticleSystem(SmokeParticleSystem);
+    },
+    portal: function () {
+        initParticleSystem(PortalParticleSystem);
     }
 }, {
     greetings: 'WebGL / Lab8',
-    completion: ['sparkler', 'fireworks', 'fire', 'smoke'],
+    completion: ['sparkler', 'fireworks', 'fire', 'smoke', 'portal'],
 });
