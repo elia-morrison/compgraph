@@ -57,6 +57,6 @@ void main() {
 
     // Combine the center direction and the spiral component
     float spiralStrength = inwardSpeed; // Adjust this value to control the strength of the spiral effect
-    v_Velocity = centerDirection + spiralStrength * spiralComponent;
+    v_Velocity = centerDirection * 1.5 / pow(inwardSpeed, 0.5) + spiralStrength * spiralComponent;
     v_Position = v_Position + v_Velocity * u_TimeDelta + randomVec3(v_Age) * 0.005;
 }

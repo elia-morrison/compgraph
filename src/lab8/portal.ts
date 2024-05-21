@@ -14,12 +14,12 @@ class PortalParticleSystem extends ParticleSystem {
         this.particleUpdateVert = particleUpdateVert;
         this.passthruFrag = passthruFrag;
 
-        this.numParticles = 40000;
-        this.birthRatio = 50;
+        this.numParticles = 1600;
+        this.birthRatio = 1.;
         this.minAge = 0.;
-        this.maxAge = 0.8;
+        this.maxAge = 1.2;
         this.minTheta = 0.6;
-        this.maxTheta = 1.0;
+        this.maxTheta = 1.2;
         this.minSpeed = 0.1;
         this.maxSpeed = 0.4;
         this.maxVelocity = [1000., 2000., 1000.];
