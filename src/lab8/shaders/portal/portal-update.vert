@@ -17,14 +17,22 @@ out float v_Age;
 out float v_Life;
 out vec3 v_Velocity;
 
+vec3 randomVec3(float seed) {
+    float x = fract(sin(seed * 12.9898 + 78.233) * 43758.5453);
+    float y = fract(sin(seed * 93.9898 + 54.233) * 13758.5453);
+    float z = fract(sin(seed * 42.9898 + 18.233) * 29758.5453);
+    return (vec3(x, y, z) - 0.5) * 2.;
+}
+
 void main() {
     float angle = 0.;
+    ivec2 noise_coord = ivec2(gl_VertexID % 512, gl_VertexID / 512);
+    vec3 rand = texelFetch(u_RgNoise, noise_coord, 0).rgb;
     if (i_Age >= i_Life) {
-        ivec2 noise_coord = ivec2(gl_VertexID % 512, gl_VertexID / 512);
-        vec3 rand = texelFetch(u_RgNoise, noise_coord, 0).rgb;
+        
         angle = 2.0 * 3.14159265 * rand.r; // Random angle
         float radius = (rand.g * 0.1) + 0.9;
-        float x = u_Origin.x + u_MaxTheta * radius * cos(angle);
+        float x = u_Origin.x + u_MaxTheta * radius * cos(angle) + (rand.b - 0.5) * 0.2;
         float y = u_Origin.y + u_MaxTheta * radius * sin(angle);
         float z = u_Origin.z;
 
@@ -50,5 +58,5 @@ void main() {
     // Combine the center direction and the spiral component
     float spiralStrength = inwardSpeed; // Adjust this value to control the strength of the spiral effect
     v_Velocity = centerDirection + spiralStrength * spiralComponent;
-    v_Position = v_Position + v_Velocity * u_TimeDelta;
+    v_Position = v_Position + v_Velocity * u_TimeDelta + randomVec3(v_Age) * 0.005;
 }

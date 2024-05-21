@@ -19,7 +19,7 @@ out vec2 v_TexCoord;
 void main() {
     float size = 0.02;
     float halfLife = i_Life / 2.;
-    size = size * (1.0 - abs(i_Age - halfLife) * 2. / i_Life);
+    size = size * max(0.8, (1.0 - abs(i_Age - halfLife) * 2. / i_Life));
     vec3 vert_coord = i_Position + size * i_Coord;
     v_Age = i_Age;
     v_Life = i_Life;

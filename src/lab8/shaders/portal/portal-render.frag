@@ -19,7 +19,7 @@ void main() {
     float halfLife = v_Life / 2.;
     vec3 mod_color = palette(t, vec3(0.5, 0.5, 0.5), vec3(0.5, 0.5, 0.5), vec3(1.0, 1.0, 1.0), vec3(0.00, 0.33, 0.67));
     mod_color = mix(vec3(0.1, 0.1, 1.0), vec3(0.6, 0.6, 0.8), t);
-    vec4 color = vec4(mod_color, 
-                        1.0);//1.0 - abs(v_Age - halfLife) * 2. / v_Life);
+    vec4 color = vec4(mod_color * 2., 
+                        1.0 - abs(v_Age - halfLife) * 2. / v_Life);
     o_FragColor = color * texture(u_Sprite, v_TexCoord);
 }
