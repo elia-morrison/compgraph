@@ -7,6 +7,7 @@ import { FireParticleSystem } from "./fire";
 import { FireworksParticleSystem } from "./fireworks";
 import { SmokeParticleSystem } from "./smoke";
 import { Euler } from "three";
+import { SparklerParticleSystem } from "./sparkler";
 
 let canvas_element = document.querySelector("#main_canvas") as HTMLCanvasElement;
 resizeCanvas(canvas_element);
@@ -36,7 +37,7 @@ initParticleSystem(FireParticleSystem);
 
 $('#term').terminal({
     sparkler: function () {
-
+        initParticleSystem(SparklerParticleSystem);
     },
     fireworks: function () {
         initParticleSystem(FireworksParticleSystem);
