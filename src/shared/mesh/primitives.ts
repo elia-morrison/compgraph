@@ -2,7 +2,7 @@ import { ReadonlyVec3, mat4, quat2 } from "gl-matrix";
 import { Euler } from "three";
 import { ObjectGL } from "./objectGL";
 
-export class Cube extends ObjectGL {
+class Cube extends ObjectGL {
     constructor(position: ReadonlyVec3, rotation: Euler) {
         super();
 
@@ -57,3 +57,29 @@ export class Cube extends ObjectGL {
         this.updateWorldMatrix();
     }
 }
+
+class Plane extends ObjectGL {
+    constructor(position: ReadonlyVec3, rotation: Euler) {
+        super();
+
+        this.setPosition(position);
+        this._rotation = rotation;
+
+        this.flat_vertices =
+            [
+                -1, -1, -1, 0, 0, -1, 1, 1,
+                1, -1, -1, 0, 0, -1, 0, 1,
+                1, 1, -1, 0, 0, -1, 0, 0,
+                -1, 1, -1, 0, 0, -1, 1, 0,
+            ];
+
+        this.faceIndices =
+            [
+                0, 1, 2, 0, 2, 3
+            ];
+
+        this.updateWorldMatrix();
+    }
+}
+
+export { Cube, Plane };

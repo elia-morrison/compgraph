@@ -42,6 +42,8 @@ export class Camera extends ObjectGL {
 
     make_perspective() {
         let gl = this.gl;
-        mat4.perspective(this.projMatrix, glMatrix.toRadian(45), gl.canvas.width / gl.canvas.height, 0.1, 1000.0);
+        let aspectRatio = gl.canvas.width / gl.canvas.height;
+        mat4.ortho(this.projMatrix, -5, 5, -5 / aspectRatio, 5 / aspectRatio, 0.1, 1000.0);
+        //mat4.perspective(this.projMatrix, glMatrix.toRadian(45), gl.canvas.width / gl.canvas.height, 0.1, 1000.0);
     }
 }

@@ -7,7 +7,8 @@
     "lab4_5": "(npx parcel ./src/lab4_5/index.html) & (npx parcel watch ./src/lab4_5/index.html)",
     "lab6": "(npx parcel ./src/lab6/index.html) & (npx parcel watch ./src/lab6/index.html)",
     "lab7": "parcel serve src/lab7/index.html",
-    "lab8": "parcel serve src/lab8/index.html"
+    "lab8": "parcel serve src/lab8/index.html",
+    "lab1_2": "parcel serve src/lab1_2/index.html"
   },
   "author": "",
   "license": "MIT",
