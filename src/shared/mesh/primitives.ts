@@ -82,4 +82,53 @@ class Plane extends ObjectGL {
     }
 }
 
-export { Cube, Plane };
+class Triangle extends ObjectGL {
+    constructor(position: ReadonlyVec3, rotation: Euler) {
+        super();
+
+        this.setPosition(position);
+        this._rotation = rotation;
+
+        this.flat_vertices =
+            [
+                -1, 0, 0, 1, 0, 0, 0, 0,
+                1, 0, 0, 0, 1, 0, 1, 0.5,
+                0, Math.sqrt(3), 0, 0, 0, 1, 0, 1
+            ];
+
+        this.faceIndices =
+            [
+                0, 1, 2
+            ];
+
+        this.updateWorldMatrix();
+    }
+}
+
+class Pentagon extends ObjectGL {
+    constructor(position: ReadonlyVec3, rotation: Euler) {
+        super();
+
+        this.setPosition(position);
+        this._rotation = rotation;
+
+        this.flat_vertices = [];
+
+        for (let i = 1; i <= 5; ++i) {
+            let y = Math.cos(i * 2 * Math.PI / 5);
+            let x = Math.sin(i * 2 * Math.PI / 5);
+            this.flat_vertices.push(x, y, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+        }
+
+        this.faceIndices =
+            [
+                0, 2, 1,
+                2, 4, 3,
+                2, 0, 4
+            ];
+
+        this.updateWorldMatrix();
+    }
+}
+
+export { Cube, Plane, Triangle, Pentagon };

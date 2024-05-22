@@ -1,9 +1,11 @@
 import { CullFaceBack, Euler } from "three";
-import { Cube } from "../shared/mesh/primitives";
+import { Cube, Pentagon, Triangle } from "../shared/mesh/primitives";
 import { Scene } from "../shared/renderers/rendererGL";
 import { ShadedRendererGL } from "../shared/renderers/shadedrenderer";
 import frag_shader from "../shaders/shaded.frag";
 import vert_shader from "../shaders/shaded.vert";
+import textureCoordFrag from "../shaders/texture_coords.frag";
+import normalCoordFrag from "../shaders/normal_coords.frag";
 import { ReadonlyVec3, vec3 } from "gl-matrix";
 import { PointLight } from "../shared/scenery/light/lightsource";
 import { resizeCanvas } from "../shared/ui/ui";
@@ -15,31 +17,48 @@ resizeCanvas(cv);
 window.addEventListener('resize', function (event) { resizeCanvas(cv); }, true);
 let gl = cv.getContext("webgl2") as WebGL2RenderingContext;
 
-let scene = new Scene();
+let renderer: null | ShadedRendererGL = null;
+function setupSquare() {
+    let scene = new Scene();
+    let plane = new Plane([0, 3.5, 0], new Euler(0, Math.PI, 0));
+    scene.objects.push(plane);
+    renderer = new ShadedRendererGL(gl, vert_shader, textureCoordFrag, scene);
+}
 
-let light1 = new PointLight();
-light1.setPosition([5, 10, -5]);
-light1.radius = 15;
-scene.lightsources.push(light1);
+function setupTriangle() {
+    let scene = new Scene();
+    let tri = new Triangle([0, 2.5, 0], new Euler(0, Math.PI, 0));
+    scene.objects.push(tri);
+    renderer = new ShadedRendererGL(gl, vert_shader, normalCoordFrag, scene);
+}
 
-let plane = new Plane([0, 4, 0], new Euler(0, Math.PI, 0));
-scene.objects.push(plane);
+function setupPentagon() {
+    let scene = new Scene();
+    let pent = new Pentagon([0, 3.5, 0], new Euler(0, Math.PI, 0));
+    scene.objects.push(pent);
+    renderer = new ShadedRendererGL(gl, vert_shader, normalCoordFrag, scene);
+}
 
-let renderer = new ShadedRendererGL(gl, vert_shader, frag_shader, scene);
+setupSquare();
 
-let time = 0.;
 function update() {
-    renderer.render();
+    renderer!.render();
     requestAnimationFrame(() => { update() });
 }
 
 $('#term').terminal({
     square: function () {
-
+        setupSquare();
     },
+    triangle: function () {
+        setupTriangle();
+    },
+    pentagon: function () {
+        setupPentagon();
+    }
 }, {
     greetings: 'WebGL / Labs 1_2',
-    completion: ['square'],
+    completion: ['square', 'triangle', 'pentagon'],
 });
 
 update();
